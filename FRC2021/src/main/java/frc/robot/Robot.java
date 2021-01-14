@@ -4,10 +4,37 @@
 
 package frc.robot;
 
+// Came with template
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+<<<<<<< Updated upstream
+=======
+// 2020 all random imports
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.shuffleboard.*;
+
+// 2020 motor imports
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+// Came with template
+//import edu.wpi.first.networktables.NetworkTableInstance;
+//import edu.wpi.first.networktables.NetworkTableEntry;
+
+
+>>>>>>> Stashed changes
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -19,6 +46,35 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+<<<<<<< Updated upstream
+=======
+  WPI_TalonSRX _leftFront = new WPI_TalonSRX(1);
+  WPI_TalonSRX _rghtFront = new WPI_TalonSRX(2);
+  WPI_TalonSRX _leftFollower = new WPI_TalonSRX(3);
+  WPI_TalonSRX _rghtFollower = new WPI_TalonSRX(4);
+  WPI_TalonSRX _frontIntakeBelt = new WPI_TalonSRX(5);
+  WPI_TalonSRX _wheelSpinner = new WPI_TalonSRX(6);
+  WPI_TalonSRX _bottomShooter = new WPI_TalonSRX(7);
+  WPI_TalonSRX _intakeWheel = new WPI_TalonSRX(8);
+
+  WPI_TalonFX _winchLeft = new WPI_TalonFX(9);
+  WPI_TalonFX _rearIntakeBelt = new WPI_TalonFX(10);
+
+  Solenoid _scissorLift = new Solenoid(11, 0);
+  Solenoid _scissorLiftPart2 = new Solenoid(11, 1);
+  Solenoid _intakePneumatics = new Solenoid(11, 2);
+  Solenoid _wheelSpinnerPneu = new Solenoid(11, 3);
+
+  DigitalInput _ballInputSensor = new DigitalInput(0);
+  DigitalInput _ballOutputSensor = new DigitalInput(1);
+  DigitalInput _stopWinchSensor = new DigitalInput(2);
+
+  Joystick _joystickL = new Joystick(1);
+  Joystick _joystickR = new Joystick(2);
+  Joystick _joystickM = new Joystick(3);
+
+
+>>>>>>> Stashed changes
   public Robot()
   {
     addPeriodic(() -> 

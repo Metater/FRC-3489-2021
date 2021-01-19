@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.Timer;
 * The state of the robot controller
 */
 public class ÉtatDuContrôleurDeRobot {
-    public boolean inputForward = false;
+    public boolean isInputForward = false;
     public double lastSwitch;
 
     public void switchFront()
     {
-        inputForward = !inputForward;
+        isInputForward = !isInputForward;
         lastSwitch = Timer.getFPGATimestamp();
     }
 }

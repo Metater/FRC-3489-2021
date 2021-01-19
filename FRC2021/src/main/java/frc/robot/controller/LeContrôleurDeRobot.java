@@ -41,7 +41,7 @@ public class LeContrôleurDeRobot {
         double forwardLeftDriveSpeed = robotInput.getLeftDriveSpeed();
         double forwardRightDriveSpeed = robotInput.getRightDriveSpeed();
 
-        if (robotControllerState.inputForward)
+        if (robotControllerState.isInputForward)
             differentialDrive.tankDrive(forwardLeftDriveSpeed, forwardRightDriveSpeed);
         else
             differentialDrive.tankDrive(forwardRightDriveSpeed * -1, forwardLeftDriveSpeed * -1);

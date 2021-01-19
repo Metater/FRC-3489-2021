@@ -6,9 +6,9 @@ import frc.robot.*;
 * This is used to get the RSS data 
 */
 public class EntréeDuRobot {
-    Joystick joystickLeftDrive = new Joystick(1);
-    Joystick joystickRightDrive = new Joystick(2);
-    Joystick joystickManipulator = new Joystick(3);
+    public Joystick joystickDriveLeft = new Joystick(1);
+    public Joystick joystickDriveRight = new Joystick(2);
+    public Joystick joystickManipulator = new Joystick(3);
 
     public EntréeDuRobot()
     {
@@ -21,14 +21,14 @@ public class EntréeDuRobot {
     }
     public double getRightDriveSpeed()
     {
-        double driveSpeed = joystickRightDrive.getY();
+        double driveSpeed = joystickDriveRight.getY();
         if (Math.abs(driveSpeed) < Constants.DRIVE_SPEED_CUTOFF)
             driveSpeed = 0;
         return driveSpeed;
     }
     public double getLeftDriveSpeed()
     {
-        double driveSpeed = joystickLeftDrive.getY();
+        double driveSpeed = joystickDriveLeft.getY();
         if (Math.abs(driveSpeed) < Constants.DRIVE_SPEED_CUTOFF)
             driveSpeed = 0;
         return driveSpeed;
@@ -36,14 +36,15 @@ public class EntréeDuRobot {
     public boolean getDriveButtonPressed(int button)
     {
         return getRightDriveButtonPressed(button) ||
-               getLeftDriveButtonPressed(button);
+            getLeftDriveButtonPressed(button);
     }
     public boolean getRightDriveButtonPressed(int button)
     {
-        return joystickRightDrive.getRawButtonPressed(button);
+        return joystickDriveRight.getRawButtonPressed(button);
     }
     public boolean getLeftDriveButtonPressed(int button)
     {
-        return joystickLeftDrive.getRawButtonPressed(button);
+        return joystickDriveLeft.getRawButtonPressed(button);
     }
+
 }

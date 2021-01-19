@@ -24,10 +24,6 @@ public class LeContrôleurDeRobot {
     public LeContrôleurDeRobot() {
         _leftFollower.follow(_leftFront);
         _rghtFollower.follow(_rghtFront);
-
-        if (robotInput.doScissorLift()) {
-            // do scissor lift lift stuff
-        }
     }
 
     public void init()
@@ -36,7 +32,7 @@ public class LeContrôleurDeRobot {
     }
 
     public void cycle() {
-        checkSwitchFront();
+        checkActions();
         drive();
     }
 
@@ -51,9 +47,22 @@ public class LeContrôleurDeRobot {
             differentialDrive.tankDrive(forwardRightDriveSpeed * -1, forwardLeftDriveSpeed * -1);
     }
 
+    private void checkActions()
+    {
+        checkSwitchFront();
+        checkScissorLift();
+    }
+
     private void checkSwitchFront()
     {
         if (robotInput.getLeftDriveButtonPressed(Constants.Buttons.SWITCH_FRONT))
             robotControllerState.switchFront();
+    }
+
+    private void checkScissorLift()
+    {
+        if (robotInput.doScissorLift()) {
+            // do scissor lift lift stuff
+        }
     }
 }

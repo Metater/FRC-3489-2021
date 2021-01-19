@@ -31,6 +31,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 //import edu.wpi.first.networktables.NetworkTableInstance;
 //import edu.wpi.first.networktables.NetworkTableEntry;
 
+// Custom classes
+import frc.robot.controller.*;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -42,12 +45,16 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private LeContrôleurDeRobot robotController;
+
   public Robot()
   {
+    /*
     addPeriodic(() -> 
     {
 
     }, 1, 2);
+    */
   }
 
   /**
@@ -59,6 +66,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    robotController = new LeContrôleurDeRobot();
+    robotController.init();
   }
 
   /**
@@ -112,7 +122,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    robotController.cycle();
+  }
 
   @Override
   public void testInit() {

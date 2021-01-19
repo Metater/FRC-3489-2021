@@ -30,6 +30,14 @@ public final class Constants {
     public static final int SPIN_COLOR_WHEEL = 12;
 
     public static final int SWITCH_FRONT = 7;
+
+    public static final int BLEH = 5;
+    }
+
+    public final class USB {
+        public static final int JOYSTICK_DRIVE_LEFT = 1;
+        public static final int JOYSTICK_DRIVE_RIGHT = 2;
+        public static final int JOYSTICK_MANIPULATOR = 3;
     }
 
 

@@ -1,6 +1,8 @@
 package frc.robot.general;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DigitalInput;
+
 import frc.robot.*;
 
 
@@ -13,6 +15,10 @@ public class RobotInputHandler {
     public Joystick joystickDriveLeft = new Joystick(Constants.USB.JOYSTICK_DRIVE_LEFT);
     public Joystick joystickDriveRight = new Joystick(Constants.USB.JOYSTICK_DRIVE_RIGHT);
     public Joystick joystickManipulator = new Joystick(Constants.USB.JOYSTICK_MANIPULATOR);
+
+    public DigitalInput _ballInputSensor = new DigitalInput(0);
+    public DigitalInput _ballOutputSensor = new DigitalInput(1);
+    public DigitalInput _stopWinchSensor = new DigitalInput(2);
 
     public enum JoystickType
     {

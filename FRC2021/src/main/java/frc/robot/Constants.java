@@ -52,13 +52,25 @@ public final class Constants {
         // Ball System Motors
         public static final int INTAKE_BELT_FRONT = 5; // TalonSRX
         public static final int INTAKE_BELT_REAR = 10; // TalonFX
-        public static final int INTAKE_WHEEL_SPINNER = 8; // TalonSRX
+        public static final int INTAKE_ROLLER = 8; // TalonSRX
 
         // Color Sensor System Motors
-        public static final int COLOR_WHEEL_SPINNER = 6; // TalonSRX
+        public static final int COLOR_WHEEL = 6; // TalonSRX
 
         // Winch Motor
-        public static final int WINCH = 9;
+        public static final int WINCH = 9; // TalonFX
+    }
+
+    public final class Solenoids
+    {
+        // The solenoid controller CAN ID that is used for all pnuematics
+        public static final int PCM_MODULE_NUMBER = 11;
+
+        // Pnuematic Control Module channels, and their uses
+        public static final int SCISSOR_LIFT_PART_1 = 0; // Dont know if right or left
+        public static final int SCISSOR_LIFT_PART_2 = 1; // Dont know if right or left
+        public static final int INTAKE_ROLLER = 2;
+        public static final int COLOR_WHEEL = 3;
     }
 
 

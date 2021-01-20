@@ -7,7 +7,7 @@ public class BallSystemHandler {
     
     private RobotHandler robotHandler;
 
-    Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_MODULE_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
+    Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
 
     public BallSystemHandler(RobotHandler robotHandler)
     {

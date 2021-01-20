@@ -63,12 +63,12 @@ public final class Constants {
 
     public final class Solenoids
     {
-        // The solenoid controller CAN ID that is used for all pnuematics
-        public static final int PCM_MODULE_NUMBER = 11;
+        // The PCM CAN ID that is used for all pnuematics
+        public static final int PCM_NUMBER = 11;
 
         // Pnuematic Control Module channels, and their uses
-        public static final int SCISSOR_LIFT_PART_1 = 0; // Dont know if right or left
-        public static final int SCISSOR_LIFT_PART_2 = 1; // Dont know if right or left
+        public static final int SCISSOR_LIFT_PART_1 = 0; // Dont know if right or left, prob left
+        public static final int SCISSOR_LIFT_PART_2 = 1; // Dont know if right or left, prob right
         public static final int INTAKE_ROLLER = 2;
         public static final int COLOR_WHEEL = 3;
     }

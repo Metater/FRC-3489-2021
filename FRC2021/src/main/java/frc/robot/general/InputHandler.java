@@ -11,6 +11,7 @@ import frc.robot.*;
 */
 public class InputHandler {
 
+    private RobotHandler robotHandler;
 
     public Joystick joystickDriveLeft = new Joystick(Constants.USB.JOYSTICK_DRIVE_LEFT);
     public Joystick joystickDriveRight = new Joystick(Constants.USB.JOYSTICK_DRIVE_RIGHT);
@@ -27,9 +28,9 @@ public class InputHandler {
         Manipulator
     }
 
-    public InputHandler()
+    public InputHandler(RobotHandler robotHandler)
     {
-        
+        this.robotHandler = robotHandler;
     }
 
     // SPECIFIC JOYSTICK BUTTON METHODS

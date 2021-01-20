@@ -11,9 +11,6 @@ import frc.robot.Constants;
 public class DriveHandler {
 
     private RobotHandler robotHandler;
-    
-    private StateHandler stateHandler = robotHandler.stateHandler;
-    private InputHandler inputHandler = robotHandler.inputHandler;
 
     public WPI_TalonSRX _leftFront = new WPI_TalonSRX(1);
     public WPI_TalonSRX _rghtFront = new WPI_TalonSRX(2);
@@ -51,11 +48,11 @@ public class DriveHandler {
     private void drive()
     {
         // Gets the spin speed of the left drive joystick, when in forward mode
-        double forwardLeftDriveSpeed = inputHandler.getLeftDriveSpeed();
+        double forwardLeftDriveSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
         // Gets the spin speed of the right drive joystick, when in forward mode
-        double forwardRightDriveSpeed = inputHandler.getRightDriveSpeed();
+        double forwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
         // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
-        if (stateHandler.isInputSideFront)
+        if (robotHandler.stateHandler.isInputSideFront)
             differentialDrive.tankDrive(forwardLeftDriveSpeed, forwardRightDriveSpeed);
         // Control is backwards, invert spin direction and right and left, and set drive train
         else
@@ -68,13 +65,13 @@ public class DriveHandler {
     */
     private void trySwitchFront()
     {
-        if (inputHandler.joystickDriveLeft.getRawButtonPressed(Constants.Buttons.SWITCH_FRONT))
+        if (robotHandler.inputHandler.joystickDriveLeft.getRawButtonPressed(Constants.Buttons.SWITCH_FRONT))
         {
-            stateHandler.switchFront();
+            robotHandler.stateHandler.switchFront();
 
-            // ------------------------------------------------------------------------------------------------------------
-            // PUT CAMERA SWITCH CODE HERE, GET CURRENT SWITCH DIRECTION FROM: robotControllerStateHandler.isInputSideFront
-            // ------------------------------------------------------------------------------------------------------------
+            // ----------------------------------------------------------------------------------------------------------
+            // PUT CAMERA SWITCH CODE HERE, GET CURRENT SWITCH DIRECTION FROM: robotHandler.stateHandler.isInputSideFront
+            // ----------------------------------------------------------------------------------------------------------
 
         }
     }
@@ -83,7 +80,7 @@ public class DriveHandler {
     */
     private void tryScissorLift()
     {
-        if (inputHandler.shouldScissorLift())
+        if (robotHandler.inputHandler.shouldScissorLift())
         {
 
             // --------------------------

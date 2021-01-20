@@ -1,18 +1,16 @@
 package frc.robot.general;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import frc.robot.Constants;
-import frc.robot.general.*;
 
 public class RobotControllerHandler {
 
-    public RobotControllerStateHandler robotControllerStateHandler;
-    public RobotInputHandler robotInputHandler;
+    public RobotControllerStateHandler robotControllerStateHandler = new RobotControllerStateHandler();
+    public RobotInputHandler robotInputHandler = new RobotInputHandler();
 
     public WPI_TalonSRX _leftFront = new WPI_TalonSRX(1);
     public WPI_TalonSRX _rghtFront = new WPI_TalonSRX(2);
@@ -21,23 +19,27 @@ public class RobotControllerHandler {
 
     public DifferentialDrive differentialDrive = new DifferentialDrive(_leftFront, _rghtFront);
 
+
     public RobotControllerHandler()
     {
-        _leftFollower.follow(_leftFront);
-        _rghtFollower.follow(_rghtFront);
         init();
     }
 
     private void init()
     {
-        
+        _leftFollower.follow(_leftFront);
+        _rghtFollower.follow(_rghtFront);
     }
 
+    /**
+    * Called every teleopPeriodic cycle
+    */
     public void cycle() {
         trySwitchFront();
         tryScissorLift();
         drive();
     }
+
     /**
     * Sets the drive train sides to their corresponding speed, the corresponding speed can be switched depending on which way is the "front"
     */

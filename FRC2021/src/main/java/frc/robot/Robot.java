@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private RobotControllerHandler robotControllerHandler;
+  private RobotHandler robotHandler;
 
   public Robot()
   {
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    robotControllerHandler = new RobotControllerHandler();
+    robotHandler = new RobotHandler();
 
   }
 
@@ -111,13 +111,16 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    robotHandler.initTeleop();
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
 
-    robotControllerHandler.cycle();
+    robotHandler.cycleTeleop();
 
   }
 

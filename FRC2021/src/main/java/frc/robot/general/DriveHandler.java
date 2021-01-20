@@ -5,12 +5,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+//import frc.robot.*;
 import frc.robot.Constants;
 
-public class RobotControllerHandler {
+public class DriveHandler {
 
-    public RobotControllerStateHandler robotControllerStateHandler = new RobotControllerStateHandler();
-    public RobotInputHandler robotInputHandler = new RobotInputHandler();
+    private RobotHandler robotHandler;
+    
+    private StateHandler stateHandler = robotHandler.stateHandler;
+    private InputHandler inputHandler = robotHandler.inputHandler;
 
     public WPI_TalonSRX _leftFront = new WPI_TalonSRX(1);
     public WPI_TalonSRX _rghtFront = new WPI_TalonSRX(2);
@@ -20,8 +23,10 @@ public class RobotControllerHandler {
     public DifferentialDrive differentialDrive = new DifferentialDrive(_leftFront, _rghtFront);
 
 
-    public RobotControllerHandler()
+    public DriveHandler(RobotHandler robotHandler)
     {
+        this.robotHandler = robotHandler;
+
         init();
     }
 
@@ -46,11 +51,11 @@ public class RobotControllerHandler {
     private void drive()
     {
         // Gets the spin speed of the left drive joystick, when in forward mode
-        double forwardLeftDriveSpeed = robotInputHandler.getLeftDriveSpeed();
+        double forwardLeftDriveSpeed = inputHandler.getLeftDriveSpeed();
         // Gets the spin speed of the right drive joystick, when in forward mode
-        double forwardRightDriveSpeed = robotInputHandler.getRightDriveSpeed();
+        double forwardRightDriveSpeed = inputHandler.getRightDriveSpeed();
         // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
-        if (robotControllerStateHandler.isInputSideFront)
+        if (stateHandler.isInputSideFront)
             differentialDrive.tankDrive(forwardLeftDriveSpeed, forwardRightDriveSpeed);
         // Control is backwards, invert spin direction and right and left, and set drive train
         else
@@ -63,9 +68,9 @@ public class RobotControllerHandler {
     */
     private void trySwitchFront()
     {
-        if (robotInputHandler.joystickDriveLeft.getRawButtonPressed(Constants.Buttons.SWITCH_FRONT))
+        if (inputHandler.joystickDriveLeft.getRawButtonPressed(Constants.Buttons.SWITCH_FRONT))
         {
-            robotControllerStateHandler.switchFront();
+            stateHandler.switchFront();
 
             // ------------------------------------------------------------------------------------------------------------
             // PUT CAMERA SWITCH CODE HERE, GET CURRENT SWITCH DIRECTION FROM: robotControllerStateHandler.isInputSideFront
@@ -78,10 +83,13 @@ public class RobotControllerHandler {
     */
     private void tryScissorLift()
     {
-        if (robotInputHandler.shouldScissorLift()) {
+        if (inputHandler.shouldScissorLift())
+        {
+
             // --------------------------
             // PUT SCISSOR LIFT CODE HERE
             // --------------------------
+
         }
     }
 }

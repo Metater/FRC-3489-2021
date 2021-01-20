@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Timer;
 /**
 * The state of the robot controller
 */
-public class RobotControllerStateHandler {
+public class StateHandler {
+    
     public boolean isInputSideFront = true;
     public double lastSwitchTime;
 

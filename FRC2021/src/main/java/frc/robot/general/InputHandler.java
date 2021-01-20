@@ -9,7 +9,7 @@ import frc.robot.*;
 /**
 * This is used to get the robot input, and different methods for checking weather an action should be started, or is happening
 */
-public class RobotInputHandler {
+public class InputHandler {
 
 
     public Joystick joystickDriveLeft = new Joystick(Constants.USB.JOYSTICK_DRIVE_LEFT);
@@ -27,7 +27,7 @@ public class RobotInputHandler {
         Manipulator
     }
 
-    public RobotInputHandler()
+    public InputHandler()
     {
         
     }
@@ -35,6 +35,7 @@ public class RobotInputHandler {
     // SPECIFIC JOYSTICK BUTTON METHODS
     public boolean shouldScissorLift()
     {
+        // May want to make trigger once on one button down, and another first pressed
         return joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) &&
                joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
     }

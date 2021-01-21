@@ -8,6 +8,8 @@ public class RobotHandler {
     public BallSystemHandler ballSystemHandler;
     public HookHandler hookHandler;
 
+    public TestHandler testHandler;
+
     public RobotHandler()
     {
         driveHandler = new DriveHandler(this);
@@ -15,6 +17,8 @@ public class RobotHandler {
         inputHandler = new InputHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
+
+        testHandler = new TestHandler(this);
     }
 
     public void initTeleop()
@@ -24,6 +28,7 @@ public class RobotHandler {
 
     public void cycleTeleop()
     {
-        driveHandler.cycle();
+        testHandler.cycle();
+        //driveHandler.cycle();
     }
 }

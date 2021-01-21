@@ -40,10 +40,6 @@ public class InputHandler {
         return joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) &&
                joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
     }
-    public boolean shouldBLEH()
-    {
-        return joystickManipulator.getRawButton(Constants.Buttons.BLEH);
-    }
 
 
     // SPECIFIC JOYSTICK STICK METHODS
@@ -60,6 +56,13 @@ public class InputHandler {
         if (Math.abs(driveSpeed) < Constants.DRIVE_SPEED_CUTOFF)
             driveSpeed = 0;
         return driveSpeed;
+    }
+    public double getManStickSpeed()
+    {
+        double manStickSpeed = joystickManipulator.getY();
+        if (Math.abs(manStickSpeed) < Constants.MAN_STICK_SPEED_CUTOFF)
+            manStickSpeed = 0;
+        return manStickSpeed;
     }
 
 

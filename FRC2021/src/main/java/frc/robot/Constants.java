@@ -73,5 +73,11 @@ public final class Constants {
         public static final int COLOR_WHEEL = 3;
     }
 
+    public final class MotorSpeeds
+    {
+        public static final double INTAKE_ROLLER_SPEED = -0.9;
+        public static final double INTAKE_ROLLER_SPEED_WHEN_STATOR_CURRENT_IS_MORE_THAN_3_5 = 0.5;
+    }
+
 
 }

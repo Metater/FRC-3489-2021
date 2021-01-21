@@ -22,12 +22,28 @@ public class BallSystemHandler {
         this.robotHandler = robotHandler;
     }
 
-    public void cycle()
+    public void teleopPeriodic()
     {
         
     }
     public void tryToggleIntake()
     {
-        //if (robotHandler.inputHandler.)
+        if (robotHandler.inputHandler.shouldToggleIntake())
+        {
+            robotHandler.stateHandler.toggleIntake();
+            if (robotHandler.stateHandler.isIntakeExtened) // Push intake out, and spin
+            {
+                intakeSolenoid.set(true); // Push intake pneumatics out
+                intakeRoller.set();
+            }
+            else // Pull intake in, and stop spin
+            {
+                intakeSolenoid.set(false); // Pull intake pneumatics in
+                intakeRoller.stopMotor(); // Stop intake roller
+            }
+        }
+        // May have to move pneumatics setting code out here, may start or stop in weird ways, if we do,
+        // get current state pneumatics are in with robotHandler.stateHandler.isIntakeExtened, and if true,
+        // extend pneumatics, else pull in, the code above only runs on toggle, that could be why
     }
 }

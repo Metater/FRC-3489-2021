@@ -21,14 +21,15 @@ public class RobotHandler {
         testHandler = new TestHandler(this);
     }
 
-    public void initTeleop()
+    public void teleopInit()
     {
 
     }
 
-    public void cycleTeleop()
+    public void teleopPeriodic()
     {
-        testHandler.cycle();
+        testHandler.teleopPeriodic();
         //driveHandler.cycle();
+        //ballSystemHandler.cycle();
     }
 }

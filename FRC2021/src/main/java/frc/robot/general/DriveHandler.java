@@ -36,7 +36,7 @@ public class DriveHandler {
     /**
     * Called every teleopPeriodic cycle
     */
-    public void cycle() {
+    public void teleopPeriodic() {
         trySwitchFront();
         tryScissorLift();
         drive();

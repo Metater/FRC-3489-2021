@@ -7,19 +7,18 @@ public class TestHandler {
     private RobotHandler robotHandler;
 
     WPI_TalonSRX testMotor8 = new WPI_TalonSRX(8);
-
-    WPI_TalonFX
+    final int testMotor8Button = 8;
 
     public TestHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
     }
 
-    public void cycle()
+    public void teleopPeriodic()
     {
-        if (robotHandler.inputHandler.joystickDriveLeft.getRawButton(8))
+        if (robotHandler.inputHandler.joystickDriveLeft.getRawButtonPressed(testMotor8Button))
             testMotor8.set(0.3);
-        else
+        if (robotHandler.inputHandler.joystickDriveLeft.getRawButtonReleased(testMotor8Button))
             testMotor8.stopMotor();
     }
 }

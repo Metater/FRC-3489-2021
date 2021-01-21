@@ -112,7 +112,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    robotHandler.initTeleop();
+    robotHandler.teleopInit();
     
   }
 
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    robotHandler.cycleTeleop();
+    robotHandler.teleopPeriodic();
 
   }
 

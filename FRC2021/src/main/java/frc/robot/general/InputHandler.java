@@ -40,6 +40,10 @@ public class InputHandler {
         return joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) &&
                joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
     }
+    public boolean shouldToggleIntake()
+    {
+        return joystickManipulator.getRawButtonPressed(Constants.Buttons.BALL_INTAKE);
+    }
 
 
     // SPECIFIC JOYSTICK STICK METHODS

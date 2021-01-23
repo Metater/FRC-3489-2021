@@ -55,6 +55,7 @@ public class ShuffleboardHandler {
                 return i;
         return -1;
     }
+    // This needs to be tested later
     private ArrayList<SimpleWidget> getSimpleWidgets()
     {
         System.out.println("Get simple widgets");
@@ -88,6 +89,9 @@ public class ShuffleboardHandler {
                     .collect(Collectors.toList()));
         */
     }
+    
+    
+    
     public double DoubleToPercent(double value)
     {
         return ((double)((int)(value*1000)))/10;

@@ -17,8 +17,8 @@ public class CameraHandler {
     {
         this.robotHandler = robotHandler;
 
-        rearCam = CameraServer.getInstance().startAutomaticCapture(1);
         frontCam = CameraServer.getInstance().startAutomaticCapture(0);
+        rearCam = CameraServer.getInstance().startAutomaticCapture(1);
         server = CameraServer.getInstance().getServer();
 
         frontCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);

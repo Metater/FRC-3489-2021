@@ -17,9 +17,16 @@ public class StateHandler {
     public boolean isIntakeExtened = false;
     public double lastIntakeToggleTime;
     public int ballCount = 0;
-    public int encoderOffset = 0;
+    public int encoderTarget = 0;
     public boolean isIndexingBall = false;
-
+    public IntakeIndexState intakeState = IntakeIndexState.Deactivated;
+    public enum IntakeIndexState
+    {
+        Deactivated,
+        Starting,
+        Indexing,
+        Stopping
+    }
 
 
     public boolean commitingToUnjam = false;
@@ -59,7 +66,6 @@ public class StateHandler {
         isIntakeExtened = false;
 
         ballCount = 0;
-        encoderOffset = 0;
 
         isIndexingBall = false;
 

@@ -59,8 +59,8 @@ public class DriveHandler {
             differentialDrive.tankDrive(forwardRightDriveSpeed * -1, forwardLeftDriveSpeed * -1); // May need to switch with above depending on which way is default "forward",
             // but then rename forwardLeftDriveSpeed and forwardRightDriveSpeed
 
-        robotHandler.shuffleboardHandler.PrintDoubleToTabTitle("LeftStick", forwardLeftDriveSpeed);
-        robotHandler.shuffleboardHandler.PrintDoubleToTabTitle("RightStick", forwardRightDriveSpeed);
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("LeftStick", forwardLeftDriveSpeed);
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("RightStick", forwardRightDriveSpeed);
 
         //System.out.println(_leftFront.getSelectedSensorPosition());
         //System.out.println(_rghtFront.getSelectedSensorPosition());

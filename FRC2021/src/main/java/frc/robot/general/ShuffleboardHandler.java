@@ -16,6 +16,8 @@ public class ShuffleboardHandler {
 
     ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
+    ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
+
     public ShuffleboardHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
@@ -28,11 +30,12 @@ public class ShuffleboardHandler {
         if (doesWidgetNameExist(name))
             getSimpleWidgets().get(indexOfName(name)).getEntry().setDouble(value);
         else
-            tab.add(name, 0).getEntry().setDouble(value);
+            tab.add(name, value).getEntry().setDouble(value);
     }
 
     private boolean doesWidgetNameExist(String name)
     {
+        System.out.println("Does widget name exist");
         for(SimpleWidget sw : getSimpleWidgets())
             if (sw.getTitle().equals(name))
                 return true;
@@ -40,6 +43,7 @@ public class ShuffleboardHandler {
     }
     private int indexOfName(String name)
     {
+        System.out.println("Index of name stuff");
         ArrayList<ShuffleboardComponent<?>> shuffleboardComponents = new ArrayList<>(tab.getComponents());
         for (int i = 0; i < shuffleboardComponents.size(); i++)
             if (shuffleboardComponents.get(i).getTitle().equals(name))
@@ -48,15 +52,23 @@ public class ShuffleboardHandler {
     }
     private ArrayList<SimpleWidget> getSimpleWidgets()
     {
+        System.out.println("Get simple widgets");
         ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
         for(ShuffleboardComponent<?> sc : tab.getComponents())
-            if (sc.getType().equals("SimpleWidget"))
+            if (sc.getClass().isInstance(SimpleWidget.class))
                 simpleWidgets.add((SimpleWidget)sc);
         return simpleWidgets;
 
         //https://first.wpi.edu/FRC/roborio/release/docs/java/edu/wpi/first/wpilibj/shuffleboard/ShuffleboardContainer.html
         //https://first.wpi.edu/FRC/roborio/release/docs/java/edu/wpi/first/wpilibj/shuffleboard/ShuffleboardComponent.html#getType()
         
+        /*
+        ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
+        for(ShuffleboardComponent<?> sc : tab.getComponents())
+            if (sc.getType().equals("SimpleWidget"))
+                simpleWidgets.add((SimpleWidget)sc);
+        return simpleWidgets;
+        */
         /*
         ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
         for(ShuffleboardComponent<?> sc : tab.getComponents())

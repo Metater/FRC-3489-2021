@@ -17,6 +17,8 @@ public class ShuffleboardHandler {
         this.robotHandler = robotHandler;
     }
 
+    //https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/shuffleboard/layouts-with-code/sending-data.html
+
     public void PrintDoubleToTabTitle(String title, double value)
     {
         NetworkTableEntry tabWithTitle = tab.add(title, value).getEntry();

@@ -1,6 +1,7 @@
 package frc.robot.general;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.*;
@@ -43,6 +44,13 @@ public class InputHandler {
     public boolean shouldToggleIntake()
     {
         return joystickManipulator.getRawButtonPressed(Constants.Buttons.BALL_INTAKE);
+    }
+
+    public boolean shouldSwitchFront()
+    {
+        if (robotHandler.stateHandler.lastSwitchTime + 1 < Timer.getFPGATimestamp())
+            return isEitherOrDriveJoystickButtonPressed(Constants.Buttons.SWITCH_FRONT);
+        return false;
     }
 
 

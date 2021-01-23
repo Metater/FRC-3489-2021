@@ -7,6 +7,8 @@ public class RobotHandler {
     public InputHandler inputHandler;
     public BallSystemHandler ballSystemHandler;
     public HookHandler hookHandler;
+    public ShuffleboardHandler shuffleboardHandler;
+    public CameraHandler cameraHandler;
 
     public TestHandler testHandler;
 
@@ -17,6 +19,8 @@ public class RobotHandler {
         inputHandler = new InputHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
+        shuffleboardHandler = new ShuffleboardHandler(this);
+        cameraHandler = new CameraHandler(this);
 
         testHandler = new TestHandler(this);
     }
@@ -28,8 +32,8 @@ public class RobotHandler {
 
     public void teleopPeriodic()
     {
-        testHandler.teleopPeriodic();
-        //driveHandler.cycle();
+        //testHandler.teleopPeriodic();
+        driveHandler.teleopPeriodic();
         //ballSystemHandler.cycle();
     }
 }

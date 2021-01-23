@@ -34,7 +34,7 @@ public class BallSystemHandler {
             if (robotHandler.stateHandler.isIntakeExtened) // Push intake out, and spin
             {
                 intakeSolenoid.set(true); // Push intake pneumatics out
-                intakeRoller.set();
+                //intakeRoller.set();
             }
             else // Pull intake in, and stop spin
             {

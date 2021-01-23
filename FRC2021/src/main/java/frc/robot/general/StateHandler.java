@@ -9,7 +9,7 @@ public class StateHandler {
 
     private RobotHandler robotHandler;
 
-    public boolean isInputSideFront = true;
+    public boolean isIntakeSideFront = true;
     public double lastSwitchTime;
 
     public boolean isIntakeExtened = false;
@@ -22,7 +22,7 @@ public class StateHandler {
 
     public void switchFront()
     {
-        isInputSideFront = !isInputSideFront;
+        isIntakeSideFront = !isIntakeSideFront;
         lastSwitchTime = Timer.getFPGATimestamp();
     }
 

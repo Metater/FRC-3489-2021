@@ -53,14 +53,21 @@ public class DriveHandler {
         double forwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
         // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
         if (robotHandler.stateHandler.isIntakeSideFront)
+        {
             differentialDrive.tankDrive(forwardLeftDriveSpeed, forwardRightDriveSpeed);
+
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent(forwardLeftDriveSpeed));
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent(forwardRightDriveSpeed));
+        }
         // Control is backwards, invert spin direction and right and left, and set drive train
         else
+        {
             differentialDrive.tankDrive(forwardRightDriveSpeed * -1, forwardLeftDriveSpeed * -1); // May need to switch with above depending on which way is default "forward",
             // but then rename forwardLeftDriveSpeed and forwardRightDriveSpeed
 
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("LeftStick", forwardLeftDriveSpeed);
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("RightStick", forwardRightDriveSpeed);
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent(forwardLeftDriveSpeed * -1));
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent(forwardRightDriveSpeed * -1));
+        }
 
         //System.out.println(_leftFront.getSelectedSensorPosition());
         //System.out.println(_rghtFront.getSelectedSensorPosition());

@@ -9,11 +9,21 @@ public class StateHandler {
 
     private RobotHandler robotHandler;
 
+    // Switching Front Stuff
     public boolean isIntakeSideFront = true;
     public double lastSwitchTime;
 
+    // Ball System Stuff
     public boolean isIntakeExtened = false;
     public double lastIntakeToggleTime;
+    public int ballCount = 0;
+
+
+
+
+    public boolean commitingToUnjam = false;
+    public double lastCommitToUnjamTime;
+
 
     public StateHandler(RobotHandler robotHandler)
     {
@@ -30,5 +40,21 @@ public class StateHandler {
     {
         isIntakeExtened = !isIntakeExtened;
         lastIntakeToggleTime = Timer.getFPGATimestamp();
+    }
+
+    public void commitToUnjam()
+    {
+        commitingToUnjam = true;
+        lastCommitToUnjamTime = Timer.getFPGATimestamp();
+    }
+    public void uncommitToUnjam()
+    {
+        commitingToUnjam = false;
+    }
+
+    public void reset()
+    {
+        isIntakeSideFront = true;
+        isIntakeExtened = false;
     }
 }

@@ -43,7 +43,9 @@ public class InputHandler {
     }
     public boolean shouldToggleIntake()
     {
-        return joystickManipulator.getRawButtonPressed(Constants.Buttons.BALL_INTAKE);
+        if (robotHandler.stateHandler.lastIntakeToggleTime + 1 < Timer.getFPGATimestamp())
+            return joystickManipulator.getRawButtonPressed(Constants.Buttons.BALL_INTAKE_ROLLER_TOGGLE);
+        return false;
     }
 
     public boolean shouldSwitchFront()

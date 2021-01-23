@@ -14,7 +14,7 @@ public class RobotHandler {
 
     public RobotHandler()
     {
-        driveHandler = new DriveHandler(this);
+        //driveHandler = new DriveHandler(this);
         stateHandler = new StateHandler(this);
         inputHandler = new InputHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
@@ -22,18 +22,18 @@ public class RobotHandler {
         shuffleboardHandler = new ShuffleboardHandler(this);
         cameraHandler = new CameraHandler(this);
 
-        testHandler = new TestHandler(this);
+        //testHandler = new TestHandler(this);
     }
 
     public void teleopInit()
     {
-
+        //stateHandler.reset();
     }
 
     public void teleopPeriodic()
     {
         //testHandler.teleopPeriodic();
-        driveHandler.teleopPeriodic();
-        //ballSystemHandler.cycle();
+        //driveHandler.teleopPeriodic();
+        ballSystemHandler.teleopPeriodic();
     }
 }

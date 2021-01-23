@@ -28,15 +28,21 @@ public class ShuffleboardHandler {
     public void PrintDoubleToWidget(String name, double value)
     {
         if (doesWidgetNameExist(name))
-            getSimpleWidgets().get(indexOfName(name)).getEntry().setDouble(value);
+        {
+            simpleWidgets.get(indexOfName(name)).getEntry().setDouble(value);
+        }
         else
-            tab.add(name, value).getEntry().setDouble(value);
+        {
+            SimpleWidget sw = tab.add(name, value);
+            sw.getEntry().setDouble(value);
+            simpleWidgets.add(sw);
+        }
     }
 
     private boolean doesWidgetNameExist(String name)
     {
         System.out.println("Does widget name exist");
-        for(SimpleWidget sw : getSimpleWidgets())
+        for(SimpleWidget sw : simpleWidgets)
             if (sw.getTitle().equals(name))
                 return true;
         return false;
@@ -44,9 +50,8 @@ public class ShuffleboardHandler {
     private int indexOfName(String name)
     {
         System.out.println("Index of name stuff");
-        ArrayList<ShuffleboardComponent<?>> shuffleboardComponents = new ArrayList<>(tab.getComponents());
-        for (int i = 0; i < shuffleboardComponents.size(); i++)
-            if (shuffleboardComponents.get(i).getTitle().equals(name))
+        for (int i = 0; i < simpleWidgets.size(); i++)
+            if (simpleWidgets.get(i).getTitle().equals(name))
                 return i;
         return -1;
     }
@@ -82,5 +87,9 @@ public class ShuffleboardHandler {
                     .map(SimpleWidget.class::cast)
                     .collect(Collectors.toList()));
         */
+    }
+    public double DoubleToPercent(double value)
+    {
+        return ((double)((int)(value*1000)))/10;
     }
 }

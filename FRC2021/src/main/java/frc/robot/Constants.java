@@ -18,14 +18,19 @@ public final class Constants {
     public static final int ON = 1;
 
     public static final double DRIVE_SPEED_CUTOFF = 0.1;
-    public static final double MAN_STICK_SPEED_CUTOFF = 0.1;
+    public static final double MAN_STICK_SPEED_CUTOFF = 0.35;
+
+    public static final double ZUCC_SPEED = -0.9;
+    public static final double ZUCC_JAM_SPEED = 0.16;
+
+    public static final double ZUCC_JAM_CURRENT = 19;
 
     public final class Buttons
     {
         public static final int SCISSOR_LIFT_LEFT = 6;
         public static final int SCISSOR_LIFT_RIGHT = 8;
 
-        public static final int BALL_INTAKE = 1;
+        public static final int BALL_INTAKE_ROLLER_TOGGLE = 1; // Man Stick
 
         public static final int LIFT_COLOR_WHEEL = 4;
         public static final int SPIN_COLOR_WHEEL = 12;

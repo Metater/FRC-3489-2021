@@ -21,9 +21,13 @@ public final class Constants {
     public static final double MAN_STICK_SPEED_CUTOFF = 0.35;
 
     public static final double ZUCC_SPEED = -0.9;
+    //public static final double ZUCC_SPEED = -0.25;
     public static final double ZUCC_JAM_SPEED = 0.16;
 
     public static final double ZUCC_JAM_CURRENT = 19;
+
+    public static final double INTAKE_BELT_FRONT_SPEED = 0.6; // Speed of belt going into the robot
+    public static final double INTAKE_BELT_REAR_SPEED = -0.21; // Speed of belt going into the robot
 
     public final class Buttons
     {
@@ -83,6 +87,16 @@ public final class Constants {
         public static final double INTAKE_ROLLER_SPEED = -0.9;
         public static final double INTAKE_ROLLER_SPEED_WHEN_STATOR_CURRENT_IS_MORE_THAN_3_5 = 0.5;
     }
+
+    public final class DigitalInputs
+    {
+        public static final int INTAKE_BELT_BOTTOM_SENSOR = 0;
+    }
+
+    // DigitalInput _ballInputSensor = new DigitalInput(0);
+   //DigitalInput _ballOutputSensor = new DigitalInput(1);
+  //DigitalInput _stopWinchSensor = new DigitalInput(2);
+
 
 
 }

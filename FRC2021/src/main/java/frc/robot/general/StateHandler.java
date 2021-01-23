@@ -17,7 +17,8 @@ public class StateHandler {
     public boolean isIntakeExtened = false;
     public double lastIntakeToggleTime;
     public int ballCount = 0;
-
+    public int encoderOffset = 0;
+    public boolean isIndexingBall = false;
 
 
 
@@ -56,5 +57,12 @@ public class StateHandler {
     {
         isIntakeSideFront = true;
         isIntakeExtened = false;
+
+        ballCount = 0;
+        encoderOffset = 0;
+
+        isIndexingBall = false;
+
+        commitingToUnjam = false;
     }
 }

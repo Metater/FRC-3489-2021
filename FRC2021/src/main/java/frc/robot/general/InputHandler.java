@@ -18,10 +18,12 @@ public class InputHandler {
     public Joystick joystickDriveRight = new Joystick(Constants.USB.JOYSTICK_DRIVE_RIGHT);
     public Joystick joystickManipulator = new Joystick(Constants.USB.JOYSTICK_MANIPULATOR);
 
+    /*
     public DigitalInput _ballInputSensor = new DigitalInput(0);
     public DigitalInput _ballOutputSensor = new DigitalInput(1);
     public DigitalInput _stopWinchSensor = new DigitalInput(2);
-
+    */
+    
     public enum JoystickType
     {
         DriveLeft,

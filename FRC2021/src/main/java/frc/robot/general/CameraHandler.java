@@ -17,23 +17,21 @@ public class CameraHandler {
     {
         this.robotHandler = robotHandler;
 
-        //rearCam = CameraServer.getInstance().startAutomaticCapture(0);
-        //frontCam = CameraServer.getInstance().startAutomaticCapture(1);
-        //server = CameraServer.getInstance().getServer();
+        rearCam = CameraServer.getInstance().startAutomaticCapture(1);
+        frontCam = CameraServer.getInstance().startAutomaticCapture(0);
+        server = CameraServer.getInstance().getServer();
 
-        //frontCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-        //rearCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        frontCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        rearCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-        //robotHandler.shuffleboardHandler.tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
+        robotHandler.shuffleboardHandler.tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
     }
 
     public void UpdateCameraDirection()
     {
-        /*
         if (robotHandler.stateHandler.isIntakeSideFront)
             server.setSource(frontCam);
         else
             server.setSource(rearCam);
-        */
     }
 }

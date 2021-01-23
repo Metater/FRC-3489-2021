@@ -13,9 +13,9 @@ public class DriveHandler {
     private RobotHandler robotHandler;
 
     public WPI_TalonSRX _leftFront = new WPI_TalonSRX(1);
-    public WPI_TalonSRX _rghtFront = new WPI_TalonSRX(8);
-    //public WPI_TalonSRX _leftFollower = new WPI_TalonSRX(3);
-    //public WPI_TalonSRX _rghtFollower = new WPI_TalonSRX(4);
+    public WPI_TalonSRX _rghtFront = new WPI_TalonSRX(2);
+    public WPI_TalonSRX _leftFollower = new WPI_TalonSRX(3);
+    public WPI_TalonSRX _rghtFollower = new WPI_TalonSRX(4);
 
     public DifferentialDrive differentialDrive = new DifferentialDrive(_leftFront, _rghtFront);
 
@@ -27,10 +27,10 @@ public class DriveHandler {
         init();
     }
 
-    private void init()
+    private void /*tommy*/init()
     {
-        //_leftFollower.follow(_leftFront);
-        //_rghtFollower.follow(_rghtFront);
+        _leftFollower.follow(_leftFront);
+        _rghtFollower.follow(_rghtFront);
     }
 
     /**

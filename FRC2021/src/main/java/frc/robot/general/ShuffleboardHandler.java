@@ -39,6 +39,20 @@ public class ShuffleboardHandler {
         }
     }
 
+    public void PrintStringToWidget(String name, String value)
+    {
+        if (doesWidgetNameExist(name))
+        {
+            simpleWidgets.get(indexOfName(name)).getEntry().setString(value);
+        }
+        else
+        {
+            SimpleWidget sw = tab.add(name, value);
+            sw.getEntry().setString(value);
+            simpleWidgets.add(sw);
+        }
+    }
+
     private boolean doesWidgetNameExist(String name)
     {
         System.out.println("Does widget name exist");
@@ -92,8 +106,12 @@ public class ShuffleboardHandler {
     
     
     
-    public double DoubleToPercent(double value)
+    public double DoubleToPercent1Dec(double value)
     {
         return ((double)((int)(value*1000)))/10;
+    }
+    public double DoubleToPercent2Dec(double value)
+    {
+        return ((double)((int)(value*10000)))/100;
     }
 }

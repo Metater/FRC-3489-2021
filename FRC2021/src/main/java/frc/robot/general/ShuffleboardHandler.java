@@ -52,10 +52,22 @@ public class ShuffleboardHandler {
             simpleWidgets.add(sw);
         }
     }
+    public void PrintBooleanToWidget(String name, Boolean value)
+    {
+        if (doesWidgetNameExist(name))
+        {
+            simpleWidgets.get(indexOfName(name)).getEntry().setBoolean(value);
+        }
+        else
+        {
+            SimpleWidget sw = tab.add(name, value);
+            sw.getEntry().setBoolean(value);
+            simpleWidgets.add(sw);
+        }
+    }
 
     private boolean doesWidgetNameExist(String name)
     {
-        System.out.println("Does widget name exist");
         for(SimpleWidget sw : simpleWidgets)
             if (sw.getTitle().equals(name))
                 return true;
@@ -63,7 +75,6 @@ public class ShuffleboardHandler {
     }
     private int indexOfName(String name)
     {
-        System.out.println("Index of name stuff");
         for (int i = 0; i < simpleWidgets.size(); i++)
             if (simpleWidgets.get(i).getTitle().equals(name))
                 return i;
@@ -72,7 +83,6 @@ public class ShuffleboardHandler {
     // This needs to be tested later
     private ArrayList<SimpleWidget> getSimpleWidgets()
     {
-        System.out.println("Get simple widgets");
         ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
         for(ShuffleboardComponent<?> sc : tab.getComponents())
             if (sc.getClass().isInstance(SimpleWidget.class))

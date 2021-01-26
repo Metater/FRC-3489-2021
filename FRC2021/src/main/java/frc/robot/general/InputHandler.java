@@ -45,7 +45,7 @@ public class InputHandler {
     }
     public boolean shouldToggleIntake()
     {
-        if (robotHandler.stateHandler.lastIntakeToggleTime + 1 < Timer.getFPGATimestamp())
+        if (robotHandler.ballSystemHandler.lastIntakeToggleTime + 1 < Timer.getFPGATimestamp())
             return joystickManipulator.getRawButtonPressed(Constants.Buttons.BALL_INTAKE_ROLLER_TOGGLE);
         return false;
     }

@@ -14,7 +14,7 @@ public class BallSystemHandler {
 
     //digital inputs section!!
     DigitalInput ballInputSensor = new DigitalInput(Constants.DigitalInputs.INTAKE_BELT_BOTTOM_SENSOR);
-   
+    // Could use output sensor for seeing if all balls are out out
 
     WPI_TalonSRX intakeBeltFront = new WPI_TalonSRX(Constants.Motors.INTAKE_BELT_FRONT);
     WPI_TalonFX intakeBeltRear = new WPI_TalonFX(Constants.Motors.INTAKE_BELT_REAR);
@@ -22,6 +22,21 @@ public class BallSystemHandler {
     WPI_TalonSRX intakeRoller = new WPI_TalonSRX(Constants.Motors.INTAKE_ROLLER);
 
     Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
+
+    public IntakeState intakeState = IntakeState.IntakeDeactivated;
+    public enum IntakeState
+    {
+        IntakeManual,
+        IntakeDeactivated,
+        IntakeWaiting,
+        IntakeIndexing,
+        IntakeFull
+    }
+    public int ballCount = 0;
+    public boolean isIntakeExtended = false;
+    public double lastIntakeToggleTime;
+    public double encoderTarget = 0;
+    public double waitImDumbThoseAreEncoderClicks = 20000; // clicksPerIndex
 
     public BallSystemHandler(RobotHandler robotHandler)
     {
@@ -32,17 +47,98 @@ public class BallSystemHandler {
     {
         tryToggleIntake();
         tryMoveBallBeltManually();
-        printEncoderClicks();
-        tryIndexBall();
+
+        updateShuffleboard();
+
+        handleIntakeState();
     }
-    private void printEncoderClicks()
+    private void updateShuffleboard()
     {
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Front Clicks: ", intakeBeltFront.getSelectedSensorPosition());
+        System.out.println(ballCount);
+
+        robotHandler.shuffleboardHandler.PrintStringToWidget("Intake State", intakeState.toString());
+        //if (ballCount == 5)
+            //robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", true);
+        //else
+            //robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", false);
+
+        //robotHandler.shuffleboardHandler.PrintDoubleToWidget("Front Clicks: ", intakeBeltFront.getSelectedSensorPosition());
         robotHandler.shuffleboardHandler.PrintDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
     }
-    private void tryIndexBall()
+    private void handleIntakeState()
     {
-        if (!robotHandler.stateHandler.isIntakeExtened)
+        switch(intakeState)
+        {
+            case IntakeManual:
+                break;
+            case IntakeDeactivated:
+                intakeDeactivated();
+                break;
+            case IntakeWaiting:
+                intakeWaiting();
+                break;
+            case IntakeIndexing:
+                intakeIndexing();
+                break;
+            case IntakeFull:
+                intakeFull();
+                break;
+        }
+    }
+    private void intakeDeactivated()
+    {
+        intakeBeltFront.stopMotor();
+        intakeBeltRear.stopMotor();
+        if (isIntakeExtended) intakeState = IntakeState.IntakeWaiting;
+
+    }
+    private void intakeWaiting()
+    {
+        boolean ballInSensor = !ballInputSensor.get();
+        if (ballCount == 4 && ballInSensor)
+        {
+            ballCount++;
+            intakeState = IntakeState.IntakeFull;
+        }
+        else if(ballInSensor)
+        {
+
+            intakeState = IntakeState.IntakeIndexing;
+            encoderTarget = Math.abs(intakeBeltRear.getSelectedSensorPosition()) + waitImDumbThoseAreEncoderClicks;
+        }
+        else
+        {
+            intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
+        }
+        intakeBeltRear.stopMotor();
+    }
+    private void intakeIndexing()
+    {
+        System.out.println(intakeBeltRear.getSelectedSensorPosition() + ":::::" + encoderTarget);
+        if (Math.abs(intakeBeltRear.getSelectedSensorPosition()) >= encoderTarget)
+        {
+            ballCount++;
+            intakeState = IntakeState.IntakeWaiting;
+        }
+        else
+        {
+            intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
+            intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
+        }
+
+
+    }
+    private void intakeFull()
+    {
+        intakeSolenoid.set(false);
+        isIntakeExtended = false;
+        intakeBeltFront.stopMotor();
+        intakeBeltRear.stopMotor();
+        intakeRoller.stopMotor();
+    }
+
+    /*
+            if (!isIntakeExtened)
             return;
 
 
@@ -53,24 +149,26 @@ public class BallSystemHandler {
         {
             intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED); //set small belt to 0.4
             intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
-            robotHandler.stateHandler.isIndexingBall = true;  
+            isIndexingBall = true;  
         }
-        if (ballInputSensor.get() && robotHandler.stateHandler.isIndexingBall) //if ball sensor is empty and is done indexing ball
+        if (ballInputSensor.get() && isIndexingBall) //if ball sensor is empty and is done indexing ball
         {
-            robotHandler.stateHandler.isIndexingBall = false; //then index big belt
+            isIndexingBall = false; //then index big belt
         }
-    }
+    */
     private void tryToggleIntake()
     {
         if (robotHandler.inputHandler.shouldToggleIntake())
         {
             robotHandler.stateHandler.toggleIntake();
-            if (robotHandler.stateHandler.isIntakeExtened) // Push intake out
+            if (isIntakeExtended) // Push intake out
                 intakeSolenoid.set(true); // Push intake pneumatics out
             else // Pull intake in
                 intakeSolenoid.set(false); // Pull intake pneumatics in
+
+            intakeState = IntakeState.IntakeDeactivated;
         }
-        if (robotHandler.stateHandler.isIntakeExtened) // Push intake out, and spin
+        if (isIntakeExtended) // Push intake out, and spin
         {
             double statorCurrent = intakeRoller.getStatorCurrent();
             if ((Math.abs(statorCurrent) < Constants.ZUCC_JAM_CURRENT) && !robotHandler.stateHandler.commitingToUnjam)
@@ -98,10 +196,6 @@ public class BallSystemHandler {
                     robotHandler.stateHandler.uncommitToUnjam();
             }
         }
-        else
-        {
-            intakeRoller.stopMotor();
-        }
         // May have to move pneumatics setting code out here, may start or stop in weird ways, if we do,
         // get current state pneumatics are in with robotHandler.stateHandler.isIntakeExtened, and if true,
         // extend pneumatics, else pull in, the code above only runs on toggle, that could be why
@@ -110,10 +204,12 @@ public class BallSystemHandler {
     private void tryMoveBallBeltManually()
     {
         double manStickSpeed = robotHandler.inputHandler.getManStickSpeed();
-        intakeBeltFront.set(manStickSpeed * -1);
-        intakeBeltRear.set(manStickSpeed);
-        System.out.println(manStickSpeed);
-        robotHandler.stateHandler.ballCount = 0;
+        if (Math.abs(manStickSpeed) > Constants.MAN_STICK_SPEED_CUTOFF - 0.1)
+        {
+            intakeBeltFront.set(manStickSpeed * -1);
+            intakeBeltRear.set(manStickSpeed);
+            ballCount = 0;
+        }
     }
     //-----------------------------------------------------------------------------------------------
     // MAKE ANOTHER BUTTON TO PRESS WHILE THE BLEH, FOR UNJAMMING STUFF, IT WONT RESET THE BALL COUNT

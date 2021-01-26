@@ -93,10 +93,10 @@ public final class Constants {
         public static final int INTAKE_BELT_BOTTOM_SENSOR = 0;
     }
 
-    // DigitalInput _ballInputSensor = new DigitalInput(0);
-   //DigitalInput _ballOutputSensor = new DigitalInput(1);
-  //DigitalInput _stopWinchSensor = new DigitalInput(2);
-
+    public final class Clicks
+    {
+        public static final double BALL_SYSTEM_CLICKS_PER_INDEX = 20000;
+    }
 
 
 }

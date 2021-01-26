@@ -12,18 +12,23 @@ public class BallSystemHandler {
     
     private RobotHandler robotHandler;
 
-    //digital inputs section!!
-    DigitalInput ballInputSensor = new DigitalInput(Constants.DigitalInputs.INTAKE_BELT_BOTTOM_SENSOR);
-    // Could use output sensor for seeing if all balls are out out
-
+    // Devices
+    DigitalInput ballInputSensor = new DigitalInput(Constants.DigitalInputs.INTAKE_BELT_BOTTOM_SENSOR); // Could use output sensor for seeing if all balls are out out
     WPI_TalonSRX intakeBeltFront = new WPI_TalonSRX(Constants.Motors.INTAKE_BELT_FRONT);
     WPI_TalonFX intakeBeltRear = new WPI_TalonFX(Constants.Motors.INTAKE_BELT_REAR);
-
     WPI_TalonSRX intakeRoller = new WPI_TalonSRX(Constants.Motors.INTAKE_ROLLER);
-
     Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
 
+    //-----------------------------------------------------------------------------------------------
+    // MAKE ANOTHER BUTTON TO PRESS WHILE THE BLEH, FOR UNJAMMING STUFF, IT WONT RESET THE BALL COUNT
+    //-----------------------------------------------------------------------------------------------
+
+    // STATE VARIABLES
     public IntakeState intakeState = IntakeState.IntakeDeactivated;
+    public int ballCount = 0;
+    public double lastIntakeToggleTime;
+    public double encoderTarget = 0;
+
     public enum IntakeState
     {
         IntakeManual,
@@ -32,11 +37,8 @@ public class BallSystemHandler {
         IntakeIndexing,
         IntakeFull
     }
-    public int ballCount = 0;
-    public boolean isIntakeExtended = false;
-    public double lastIntakeToggleTime;
-    public double encoderTarget = 0;
-    public double waitImDumbThoseAreEncoderClicks = 20000; // clicksPerIndex
+
+
 
     public BallSystemHandler(RobotHandler robotHandler)
     {
@@ -46,9 +48,12 @@ public class BallSystemHandler {
     public void teleopPeriodic()
     {
         tryToggleIntake();
-        tryMoveBallBeltManually();
 
         updateShuffleboard();
+
+        // Have method here for detecting intake roller jam, and account for in handleIntakeState, possibly by not calling it if jamming
+
+        trySwitchToIntakeManualState();
 
         handleIntakeState();
     }
@@ -70,6 +75,7 @@ public class BallSystemHandler {
         switch(intakeState)
         {
             case IntakeManual:
+                intakeManual();
                 break;
             case IntakeDeactivated:
                 intakeDeactivated();
@@ -85,133 +91,124 @@ public class BallSystemHandler {
                 break;
         }
     }
+    private void intakeManual()
+    {
+        double manStickSpeed = robotHandler.inputHandler.getManStickSpeed();
+        intakeBeltFront.set(manStickSpeed * -1);
+        intakeBeltRear.set(manStickSpeed);
+
+        ballCount = 0;
+
+        if (manStickSpeed == 0) // If in manual mode, and stick isn't being touched, switch state
+        {
+            if (isIntakeExtended()) // If intake is extended, switch to IntakeWaiting mode
+                intakeState = IntakeState.IntakeWaiting;
+            else // If intake ins't extended, switch to IntakeDeactivated mode
+                intakeState = IntakeState.IntakeDeactivated;
+        }
+    }
     private void intakeDeactivated()
     {
-        intakeBeltFront.stopMotor();
-        intakeBeltRear.stopMotor();
-        if (isIntakeExtended) intakeState = IntakeState.IntakeWaiting;
-
+        if (isIntakeExtended()) // Intake was deactivated, see if it has been extended, if so, switch to IntakeWaiting
+            intakeState = IntakeState.IntakeWaiting;
+        tryStopIntakeBeltFront();
+        tryStopIntakeBeltRear();
+        tryStopIntakeRoller();
     }
     private void intakeWaiting()
     {
         boolean ballInSensor = !ballInputSensor.get();
-        if (ballCount == 4 && ballInSensor)
+        if (ballCount == 4 && ballInSensor) // Index was waiting, but final ball hit sensor, switch to IntakeFull, and increment ball count, dont index
         {
-            ballCount++;
             intakeState = IntakeState.IntakeFull;
+            ballCount++;
         }
-        else if(ballInSensor)
+        else if(ballInSensor) // Intake was waiting, but ball hit sensor, switch to IntakeIndexing, and calculate the encoderTarget for that index
         {
-
             intakeState = IntakeState.IntakeIndexing;
-            encoderTarget = Math.abs(intakeBeltRear.getSelectedSensorPosition()) + waitImDumbThoseAreEncoderClicks;
+            encoderTarget = Math.abs(intakeBeltRear.getSelectedSensorPosition()) + Constants.Clicks.BALL_SYSTEM_CLICKS_PER_INDEX;
         }
-        else
+        else // Intake is still waiting
         {
             intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
         }
-        intakeBeltRear.stopMotor();
+        tryStopIntakeBeltRear();
     }
     private void intakeIndexing()
     {
-        System.out.println(intakeBeltRear.getSelectedSensorPosition() + ":::::" + encoderTarget);
-        if (Math.abs(intakeBeltRear.getSelectedSensorPosition()) >= encoderTarget)
+        if (Math.abs(intakeBeltRear.getSelectedSensorPosition()) >= encoderTarget) // If the indexing intake hit it's encoder target, index ball count, and switch to IntakeWaiting
         {
             ballCount++;
             intakeState = IntakeState.IntakeWaiting;
+            tryStopIntakeBeltRear();
         }
-        else
+        else // Intake hasn't hit encoder targer, keep indexing
         {
             intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
             intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
         }
-
-
     }
     private void intakeFull()
     {
-        intakeSolenoid.set(false);
-        isIntakeExtended = false;
-        intakeBeltFront.stopMotor();
-        intakeBeltRear.stopMotor();
-        intakeRoller.stopMotor();
+        tryStopIntakeBeltFront();
+        tryStopIntakeBeltRear();
+        tryStopIntakeRoller();
+        tryCloseIntakeSolenoid();
     }
-
-    /*
-            if (!isIntakeExtened)
-            return;
-
-
-        //if (robotHandler.stateHandler.ballCount <= 4) //if count is less than or = to 4
-
-
-        if (!ballInputSensor.get()) //if theres a ball in the sensor
-        {
-            intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED); //set small belt to 0.4
-            intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
-            isIndexingBall = true;  
-        }
-        if (ballInputSensor.get() && isIndexingBall) //if ball sensor is empty and is done indexing ball
-        {
-            isIndexingBall = false; //then index big belt
-        }
-    */
     private void tryToggleIntake()
     {
         if (robotHandler.inputHandler.shouldToggleIntake())
         {
-            robotHandler.stateHandler.toggleIntake();
-            if (isIntakeExtended) // Push intake out
-                intakeSolenoid.set(true); // Push intake pneumatics out
-            else // Pull intake in
-                intakeSolenoid.set(false); // Pull intake pneumatics in
-
-            intakeState = IntakeState.IntakeDeactivated;
+            intakeSolenoid.toggle();
+            lastIntakeToggleTime = Timer.getFPGATimestamp();
         }
-        if (isIntakeExtended) // Push intake out, and spin
-        {
-            double statorCurrent = intakeRoller.getStatorCurrent();
-            if ((Math.abs(statorCurrent) < Constants.ZUCC_JAM_CURRENT) && !robotHandler.stateHandler.commitingToUnjam)
-            {
-                // Tune current late for antijam
-                intakeRoller.set(Constants.ZUCC_SPEED);
-
-
-                
-                // ---------------------------------------------------------------
-                // Worry about this line, and account for it when 4 balls are held
-                // ---------------------------------------------------------------
-                intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
-            }
-            else if (!robotHandler.stateHandler.commitingToUnjam)
-            {
-                robotHandler.stateHandler.commitToUnjam();
-                intakeRoller.set(Constants.ZUCC_JAM_SPEED);
-            }
-            else // If already commited to unjam
-            {
-                if (robotHandler.stateHandler.lastCommitToUnjamTime + 1 > Timer.getFPGATimestamp())
-                    intakeRoller.set(Constants.ZUCC_JAM_SPEED);
-                else
-                    robotHandler.stateHandler.uncommitToUnjam();
-            }
-        }
-        // May have to move pneumatics setting code out here, may start or stop in weird ways, if we do,
-        // get current state pneumatics are in with robotHandler.stateHandler.isIntakeExtened, and if true,
-        // extend pneumatics, else pull in, the code above only runs on toggle, that could be why
+        if (isIntakeExtended()) // Spin intake roller
+            intakeRoller.set(Constants.MotorSpeeds.INTAKE_ROLLER_SPEED);
+        else // Stop intake roller if on
+            tryStopIntakeRoller();
     }
-
-    private void tryMoveBallBeltManually()
+    private void trySwitchToIntakeManualState()
     {
-        double manStickSpeed = robotHandler.inputHandler.getManStickSpeed();
-        if (Math.abs(manStickSpeed) > Constants.MAN_STICK_SPEED_CUTOFF - 0.1)
-        {
-            intakeBeltFront.set(manStickSpeed * -1);
-            intakeBeltRear.set(manStickSpeed);
-            ballCount = 0;
-        }
+        if ((robotHandler.inputHandler.getManStickSpeed() != 0) && intakeState != IntakeState.IntakeManual)
+            intakeState = IntakeState.IntakeManual;
     }
-    //-----------------------------------------------------------------------------------------------
-    // MAKE ANOTHER BUTTON TO PRESS WHILE THE BLEH, FOR UNJAMMING STUFF, IT WONT RESET THE BALL COUNT
-    //-----------------------------------------------------------------------------------------------
+
+    private void tryStopIntakeBeltFront()
+    {
+        if (intakeBeltFront.get() != 0)
+            intakeBeltFront.stopMotor();
+    }
+    private void tryStopIntakeBeltRear()
+    {
+        if (intakeBeltRear.get() != 0)
+            intakeBeltRear.stopMotor();
+    }
+    private void tryStopIntakeRoller()
+    {
+        if (intakeRoller.get() != 0)
+            intakeRoller.stopMotor();
+    }
+    private void tryCloseIntakeSolenoid()
+    {
+        if (intakeSolenoid.get())
+            intakeSolenoid.set(false);
+    }
+
+    public boolean isIntakeExtended()
+    {
+        return intakeSolenoid.get();
+    }
+    public void reset()
+    {
+        ballCount = 0;
+        intakeState = IntakeState.IntakeDeactivated;
+        // Test if solonoids get turned off when disabled, without what is below
+        tryCloseIntakeSolenoid();
+    }
+
+    public void disabledInit()
+    {
+        reset();
+    }
+
 }

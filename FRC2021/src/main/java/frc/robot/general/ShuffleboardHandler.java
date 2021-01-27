@@ -1,7 +1,10 @@
 package frc.robot.general;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -16,7 +19,8 @@ public class ShuffleboardHandler {
 
     ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
-    ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
+    //ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
+    Map<String, SimpleWidget> simpleWidgets = new HashMap<String, SimpleWidget>();
 
     public ShuffleboardHandler(RobotHandler robotHandler)
     {
@@ -27,91 +31,43 @@ public class ShuffleboardHandler {
 
     public void PrintDoubleToWidget(String name, double value)
     {
-        if (doesWidgetNameExist(name))
+        if (simpleWidgets.containsKey(name))
         {
-            simpleWidgets.get(indexOfName(name)).getEntry().setDouble(value);
+            simpleWidgets.get(name).getEntry().setDouble(value);
         }
         else
         {
             SimpleWidget sw = tab.add(name, value);
             sw.getEntry().setDouble(value);
-            simpleWidgets.add(sw);
+            simpleWidgets.put(name, sw);
         }
     }
 
     public void PrintStringToWidget(String name, String value)
     {
-        if (doesWidgetNameExist(name))
+        if (simpleWidgets.containsKey(name))
         {
-            simpleWidgets.get(indexOfName(name)).getEntry().setString(value);
+            simpleWidgets.get(name).getEntry().setString(value);
         }
         else
         {
             SimpleWidget sw = tab.add(name, value);
             sw.getEntry().setString(value);
-            simpleWidgets.add(sw);
+            simpleWidgets.put(name, sw);
         }
     }
     public void PrintBooleanToWidget(String name, Boolean value)
     {
-        if (doesWidgetNameExist(name))
+        if (simpleWidgets.containsKey(name))
         {
-            simpleWidgets.get(indexOfName(name)).getEntry().setBoolean(value);
+            simpleWidgets.get(name).getEntry().setBoolean(value);
         }
         else
         {
             SimpleWidget sw = tab.add(name, value);
             sw.getEntry().setBoolean(value);
-            simpleWidgets.add(sw);
+            simpleWidgets.put(name, sw);
         }
-    }
-
-    private boolean doesWidgetNameExist(String name)
-    {
-        for(SimpleWidget sw : simpleWidgets)
-            if (sw.getTitle().equals(name))
-                return true;
-        return false;
-    }
-    private int indexOfName(String name)
-    {
-        for (int i = 0; i < simpleWidgets.size(); i++)
-            if (simpleWidgets.get(i).getTitle().equals(name))
-                return i;
-        return -1;
-    }
-    // This needs to be tested later
-    private ArrayList<SimpleWidget> getSimpleWidgets()
-    {
-        ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
-        for(ShuffleboardComponent<?> sc : tab.getComponents())
-            if (sc.getClass().isInstance(SimpleWidget.class))
-                simpleWidgets.add((SimpleWidget)sc);
-        return simpleWidgets;
-
-        //https://first.wpi.edu/FRC/roborio/release/docs/java/edu/wpi/first/wpilibj/shuffleboard/ShuffleboardContainer.html
-        //https://first.wpi.edu/FRC/roborio/release/docs/java/edu/wpi/first/wpilibj/shuffleboard/ShuffleboardComponent.html#getType()
-        
-        /*
-        ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
-        for(ShuffleboardComponent<?> sc : tab.getComponents())
-            if (sc.getType().equals("SimpleWidget"))
-                simpleWidgets.add((SimpleWidget)sc);
-        return simpleWidgets;
-        */
-        /*
-        ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
-        for(ShuffleboardComponent<?> sc : tab.getComponents())
-            if (sc.getClass().isInstance(SimpleWidget.class))
-                simpleWidgets.add((SimpleWidget)sc);
-        return simpleWidgets;
-        */
-
-        /*
-        return new ArrayList<SimpleWidget>(tab.getComponents().stream().filter(SimpleWidget.class::isInstance)
-                    .map(SimpleWidget.class::cast)
-                    .collect(Collectors.toList()));
-        */
     }
     
     

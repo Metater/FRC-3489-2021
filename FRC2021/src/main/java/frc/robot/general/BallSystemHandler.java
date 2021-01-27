@@ -62,10 +62,10 @@ public class BallSystemHandler {
         System.out.println(ballCount);
 
         robotHandler.shuffleboardHandler.PrintStringToWidget("Intake State", intakeState.toString());
-        //if (ballCount == 5)
-            //robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", true);
-        //else
-            //robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", false);
+        if (ballCount == 5)
+            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", true);
+        else
+            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", false);
 
         //robotHandler.shuffleboardHandler.PrintDoubleToWidget("Front Clicks: ", intakeBeltFront.getSelectedSensorPosition());
         robotHandler.shuffleboardHandler.PrintDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
@@ -117,6 +117,12 @@ public class BallSystemHandler {
     }
     private void intakeWaiting()
     {
+        if (!isIntakeExtended())
+        {
+            intakeState = IntakeState.IntakeDeactivated;
+            return;
+        }
+
         boolean ballInSensor = !ballInputSensor.get();
         if (ballCount == 4 && ballInSensor) // Index was waiting, but final ball hit sensor, switch to IntakeFull, and increment ball count, dont index
         {

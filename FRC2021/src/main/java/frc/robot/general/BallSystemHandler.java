@@ -206,9 +206,4 @@ public class BallSystemHandler {
         tryCloseIntakeSolenoid();
     }
 
-    public void disabledInit()
-    {
-        reset();
-    }
-
 }

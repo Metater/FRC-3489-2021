@@ -25,7 +25,12 @@ public class RobotHandler {
         //testHandler = new TestHandler(this);
     }
 
-    public void teleopInit()
+    public void disabledInit() // Disabled isn't it?
+    {
+        ballSystemHandler.reset();
+    }
+
+    public void teleopInit() // Teleop isn't it?
     {
         stateHandler.reset();
     }

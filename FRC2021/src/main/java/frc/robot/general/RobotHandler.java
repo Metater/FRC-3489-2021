@@ -10,6 +10,8 @@ public class RobotHandler {
     public ShuffleboardHandler shuffleboardHandler;
     public CameraHandler cameraHandler;
 
+    public AutoHandler autoHandler;
+
     public TestHandler testHandler;
 
     public RobotHandler()
@@ -19,15 +21,17 @@ public class RobotHandler {
         inputHandler = new InputHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
-        shuffleboardHandler = new ShuffleboardHandler(this);
+        //shuffleboardHandler = new ShuffleboardHandler(this);
         cameraHandler = new CameraHandler(this);
+
+        autoHandler = new AutoHandler(this);
 
         //testHandler = new TestHandler(this);
     }
 
     public void disabledInit() // Disabled isn't it?
     {
-        ballSystemHandler.reset();
+        //ballSystemHandler.reset();
     }
 
     public void teleopInit() // Teleop isn't it?
@@ -40,5 +44,15 @@ public class RobotHandler {
         //testHandler.teleopPeriodic();
         driveHandler.teleopPeriodic();
         ballSystemHandler.teleopPeriodic();
+    }
+
+    public void autonomousInit()
+    {
+        autoHandler.autonomousInit();
+    }
+
+    public void autonomousPeriodic()
+    {
+        autoHandler.autonomousPeriodic();
     }
 }

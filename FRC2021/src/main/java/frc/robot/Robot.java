@@ -98,11 +98,17 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+
+
+    robotHandler.autonomousInit();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {} // 50Hz
+  public void autonomousPeriodic() {
+    robotHandler.autonomousPeriodic();
+  } // 50Hz
 
   @Override
   public void teleopInit() {

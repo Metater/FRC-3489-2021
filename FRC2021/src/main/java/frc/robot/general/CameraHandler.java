@@ -5,6 +5,8 @@ import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class CameraHandler {
     private RobotHandler robotHandler;
@@ -12,6 +14,9 @@ public class CameraHandler {
     UsbCamera frontCam;
     UsbCamera rearCam;
     VideoSink server;
+
+    
+    ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
     public CameraHandler(RobotHandler robotHandler)
     {
@@ -24,7 +29,8 @@ public class CameraHandler {
         frontCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         rearCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-        robotHandler.shuffleboardHandler.tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
+        //robotHandler.shuffleboardHandler.tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
+        tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
     }
 
     public void UpdateCameraDirection()

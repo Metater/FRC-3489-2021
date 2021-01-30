@@ -4,18 +4,15 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class AutoInstruction {
 
-    public double targetTime;
-    public double runTime;
-
-    public void run()
+   // public Instruction
+    public enum InstructionType
     {
-        // Override this
+        Wait,
+        Drive,
+        TurnLeft,
+        TurnRight
     }
-
-    public boolean isFinished()
+    public AutoInstruction(int a, int b)
     {
-        if (targetTime <= Timer.getFPGATimestamp())
-            return true;
-        return false;
     }
 }

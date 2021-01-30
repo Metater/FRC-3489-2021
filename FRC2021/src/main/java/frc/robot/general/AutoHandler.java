@@ -13,6 +13,15 @@ public class AutoHandler {
 
     private int step = 0;
 
+    /*
+    private ArrayList<AutoInstruction> slalom =v
+    {
+        new AutoInstruction(),
+        new AutoInstruction(),
+        new AutoInstruction()
+    };
+    */
+
     public AutoHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
@@ -29,24 +38,62 @@ public class AutoHandler {
 
         switch (step) {
             case 0:
+
+            //drive straight
+
                 tankDriveTime(0.5, 0.5, 1);
                 break;
+
             case 1:
+
+            //turn left 45
+
                 tankDriveTime(-0.5, 0.5, 0.9);
                 break;
+
             case 2:
+
+            //drive straight
+
                 tankDriveTime(0.5, 0.5, 2);
                 break;
+
             case 3:
+
+            //turn right 45
+
                 tankDriveTime(0.5, -0.5, 0.9);
                 break;
+
             case 4:
-                tankDriveTime(0.5, 0.5, 2.5);
+
+            //drive straight
+
+                tankDriveTime(0.7, 0.7, 3.0);
                 break;
+
             case 5:
-                stopTankDrive();
+
+            //turn right 45
+
+            tankDriveTime(0.5, -0.5, 0.9);
                 break;
+
             case 6:
+
+                //drive straight
+
+                tankDriveTime(0.5, 0.5, 1);
+                break;
+
+            case 7:
+
+                 //stop motor
+
+                 stopTankDrive();
+                 break; 
+
+            case 8:
                 break;
         }
     }

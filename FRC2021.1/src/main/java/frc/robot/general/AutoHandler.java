@@ -1,15 +1,17 @@
 package frc.robot.general;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.auto.*;
 
 public class AutoHandler {
 
     private RobotHandler robotHandler;
 
-    private double stopTime = 0;
+    private double startClicks = 0;
+    private double stopClicks = 0;
 
-    private boolean hasSetTime = false;
+    private boolean hasSetClicks = false;
 
     private int step = 0;
 
@@ -38,62 +40,11 @@ public class AutoHandler {
 
         switch (step) {
             case 0:
-
-            //drive straight
-
-                tankDriveTime(0.5, 0.5, 1);
+                tankDriveClicks(0.5, 0.5, 20);
                 break;
 
             case 1:
-
-            //turn left 45
-
-                tankDriveTime(-0.5, 0.5, 0.9);
-                break;
-
-            case 2:
-
-            //drive straight
-
-                tankDriveTime(0.5, 0.5, 2);
-                break;
-
-            case 3:
-
-            //turn right 45
-
-                tankDriveTime(0.5, -0.5, 1.1);
-                break;
-
-            case 4:
-
-            //drive straight
-
-                tankDriveTime(0.6, 0.6, 3.5);
-                break;
-
-            case 5:
-
-            //turn right 45
-
-            tankDriveTime(0.5, -0.5, 1);
-                break;
-
-            case 6:
-
-                //drive straight
-
-                tankDriveTime(0.5, 0.5, 1);
-                break;
-
-            case 7:
-
-                 //stop motor
-
-                 stopTankDrive();
-                 break; 
-
-            case 8:
+                stopTankDrive();
                 break;
         }
     }
@@ -104,15 +55,16 @@ public class AutoHandler {
         step++;
     }
 
-    public void tankDriveTime(double leftSpeed, double rightSpeed, double runTime)
+    public void tankDriveClicks(double leftSpeed, double rightSpeed, double clicks)
     {
-        if (!hasSetTime)
+        if (!hasSetClicks)
         {
-            setStopTime(runTime);
+            startClicks = robotHandler.driveHandler._leftFront.getSelectedSensorPosition();
+            stopClicks = robotHandler.driveHandler._leftFront.getSelectedSensorPosition() + clicks; // Collides low to high number
+            hasSetClicks = true;
             System.out.println("Set stop time");
         }
-        
-        if (stopTime >= Timer.getFPGATimestamp())
+        if (robotHandler.driveHandler._leftFront.getSelectedSensorPosition() <= stopClicks)
         {
             robotHandler.driveHandler.differentialDrive.tankDrive(leftSpeed, rightSpeed);
             System.out.println("Driving, on step: " + step);
@@ -120,14 +72,8 @@ public class AutoHandler {
         else
         {
             step++;
-            hasSetTime = false;
+            hasSetClicks = false;
             System.out.println("Finished, increment step");
         }
-    }
-
-    public void setStopTime(double runTime)
-    {
-        stopTime = Timer.getFPGATimestamp() + runTime;
-        hasSetTime = true;
     }
 }

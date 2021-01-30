@@ -21,7 +21,7 @@ public class RobotHandler {
         inputHandler = new InputHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
-        //shuffleboardHandler = new ShuffleboardHandler(this);
+        //shuffleboardHandler moved to teleopInit
         cameraHandler = new CameraHandler(this);
 
         autoHandler = new AutoHandler(this);
@@ -36,6 +36,7 @@ public class RobotHandler {
 
     public void teleopInit() // Teleop isn't it?
     {
+        shuffleboardHandler = new ShuffleboardHandler(this);
         stateHandler.reset();
     }
 

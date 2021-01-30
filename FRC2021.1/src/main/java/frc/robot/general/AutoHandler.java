@@ -62,21 +62,21 @@ public class AutoHandler {
 
             //turn right 45
 
-                tankDriveTime(0.5, -0.5, 0.9);
+                tankDriveTime(0.5, -0.5, 1.1);
                 break;
 
             case 4:
 
             //drive straight
 
-                tankDriveTime(0.7, 0.7, 3.0);
+                tankDriveTime(0.6, 0.6, 3.5);
                 break;
 
             case 5:
 
             //turn right 45
 
-            tankDriveTime(0.5, -0.5, 0.9);
+            tankDriveTime(0.5, -0.5, 1);
                 break;
 
             case 6:

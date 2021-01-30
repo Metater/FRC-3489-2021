@@ -4,9 +4,28 @@
 
 package frc.robot;
 
+// Came with template
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.general.*;
+// 2020 all random imports
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.shuffleboard.*;
+
+// 2020 motor imports
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +38,18 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private RobotHandler robotHandler;
+
+  public Robot()
+  {
+    /*
+    addPeriodic(() -> 
+    {
+
+    }, 1, 2);
+    */
+  }
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,6 +59,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    robotHandler = new RobotHandler();
+
   }
 
   /**
@@ -48,7 +82,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    robotHandler.disabledInit();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -62,11 +98,17 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+
+
+    robotHandler.autonomousInit();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    robotHandler.autonomousPeriodic();
+  } // 50Hz
 
   @Override
   public void teleopInit() {
@@ -77,11 +119,18 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    robotHandler.teleopInit();
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    robotHandler.teleopPeriodic();
+
+  }
 
   @Override
   public void testInit() {
@@ -93,3 +142,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 }
+//hi
+//hello
+//kjfsdjkldsfjklsdflkjdsfjkdsfslkj
+//test test

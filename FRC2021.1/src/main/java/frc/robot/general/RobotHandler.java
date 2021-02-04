@@ -49,11 +49,11 @@ public class RobotHandler {
 
     public void autonomousInit()
     {
-        autoHandler.autonomousInit();
+        //autoHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
-        autoHandler.autonomousPeriodic();
+        //autoHandler.autonomousPeriodic();
     }
 }

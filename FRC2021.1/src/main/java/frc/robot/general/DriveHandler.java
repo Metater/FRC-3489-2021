@@ -40,6 +40,9 @@ public class DriveHandler {
         trySwitchFront();
         tryScissorLift();
         drive();
+
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Velocity Left", _leftFront.getSelectedSensorVelocity());
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Velocity Right", _rghtFront.getSelectedSensorVelocity());
     }
 
     /**
@@ -47,27 +50,27 @@ public class DriveHandler {
     */
     private void drive()
     {
-        // Gets the spin speed of the left drive joystick, when in forward mode
-        double forwardLeftDriveSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
-        // Gets the spin speed of the right drive joystick, when in forward mode
-        double forwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
+        double backwardLeftDriveSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
+        double backwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
+        
         // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
-        if (robotHandler.stateHandler.isIntakeSideFront)
+        if (robotHandler.stateHandler.isOutakeSideFront)
         {
-            differentialDrive.tankDrive(forwardLeftDriveSpeed, forwardRightDriveSpeed);
+            differentialDrive.tankDrive(backwardRightDriveSpeed, backwardLeftDriveSpeed);
 
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(forwardLeftDriveSpeed));
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(forwardRightDriveSpeed));
+            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", false);
         }
         // Control is backwards, invert spin direction and right and left, and set drive train
         else
         {
-            differentialDrive.tankDrive(forwardRightDriveSpeed * -1, forwardLeftDriveSpeed * -1); // May need to switch with above depending on which way is default "forward",
+            differentialDrive.tankDrive(backwardLeftDriveSpeed * -1, backwardRightDriveSpeed * -1); // May need to switch with above depending on which way is default "forward",
             // but then rename forwardLeftDriveSpeed and forwardRightDriveSpeed
 
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(forwardLeftDriveSpeed * -1));
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(forwardRightDriveSpeed * -1));
+            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", true);
         }
+
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(backwardLeftDriveSpeed));
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(backwardRightDriveSpeed));
 
         //System.out.println(_leftFront.getSelectedSensorPosition());
         //System.out.println(_rghtFront.getSelectedSensorPosition());

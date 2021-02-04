@@ -15,17 +15,17 @@ public class StateHandler {
     }
 
     // Switching Front Stuff
-    public boolean isIntakeSideFront = true;
+    public boolean isOutakeSideFront = false;
     public double lastSwitchTime;
 
     public void switchFront()
     {
-        isIntakeSideFront = !isIntakeSideFront;
+        isOutakeSideFront = !isOutakeSideFront;
         lastSwitchTime = Timer.getFPGATimestamp();
     }
     
     public void reset()
     {
-        isIntakeSideFront = true;
+        isOutakeSideFront = true;
     }
 }

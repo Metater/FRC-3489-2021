@@ -1,5 +1,7 @@
 package frc.robot.general;
 
+import frc.robot.general.AutoHandler.AutoType;
+
 public class RobotHandler {
 
     public DriveHandler driveHandler;
@@ -24,7 +26,7 @@ public class RobotHandler {
         //shuffleboardHandler moved to teleopInit
         cameraHandler = new CameraHandler(this);
 
-        autoHandler = new AutoHandler(this);
+        autoHandler = new AutoHandler(this, AutoType.Slalom); // Set the auto type with shuffleboard or something
 
         //testHandler = new TestHandler(this);
     }
@@ -33,6 +35,7 @@ public class RobotHandler {
     {
         //ballSystemHandler.reset();
     }
+    // UNCOMMENTSDOIJASOIHOIHSODHAOHIHO SOMETIME
 
     public void teleopInit() // Teleop isn't it?
     {

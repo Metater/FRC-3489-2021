@@ -64,35 +64,6 @@ public class AutoHandler {
         waitFor(1),
         drive(0.9, 10000),  //  ------> make this number bigger ( like 0.9, 20000 ) <------
       //experimental from here on out ---------------------------------------------------------------
-        waitFor(1),
-        turnRight(0.8, 1950),
-        waitFor(0.3),
-        drive(0.8, 6000),
-        waitFor(0.3),
-        turnLeft(0.6, 510),
-        waitFor(0.3),
-        drive(0.8, 3000),
-        waitFor(0.3),
-        turnLeft(0.6, 510),
-        waitFor(0.3),
-        drive(0.8, 3000),
-        waitFor(0.3),
-        /*     turnLeft(0.6, 510),
-        waitFor(0.3),
-        drive(0.8, 6000),
-        waitFor(0.3),
-        turnRight(0.8, 1950),
-        waitFor(0.3),
-        drive(0.9, 10000),  //  ------> make this number bigger ( like 0.9, 20000 ) <------
-        waitFor(0.3),
-        turnRight(0.8, 1950),
-        waitFor(0.3),
-        drive(0.8, 3000),
-        waitFor(0.3),
-        turnLeft(0.6, 510),
-        waitFor(0.3),
-        drive(0.8, 3000),
-        waitFor(0.3),      */
         stop()
       //---------------------------------------------------------------------------------------------
     };

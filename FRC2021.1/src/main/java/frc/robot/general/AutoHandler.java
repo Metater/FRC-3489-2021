@@ -13,7 +13,8 @@ public class AutoHandler {
     
     private AutoInstruction[] auto1 = {
         waitFor(2),
-        drive(0.6, 500)
+        drive(0.6, 500),
+        stop()
     };
     
     public AutoHandler(RobotHandler robotHandler)
@@ -29,34 +30,38 @@ public class AutoHandler {
     public void autonomousPeriodic()
     {
         if (auto1[currentStep].isFinished) currentStep++;
-        if (auto1.length < currentStep)
+        if (auto1.length > currentStep)
             auto1[currentStep].cycle();
     }
 
 
-    private static AutoInstruction waitFor(double waitTime)
+    private AutoInstruction waitFor(double waitTime)
     {
         double[] values = {waitTime};
-        return new AutoInstruction(InstructionType.Wait, values);
+        return new AutoInstruction(InstructionType.Wait, values, robotHandler);
     }
-    private static AutoInstruction drive(double driveSpeed, double clicks)
-    {
-        double[] values = {driveSpeed, clicks};
-        return new AutoInstruction(InstructionType.Drive, values);
-    }
-    private static AutoInstruction tank(double tankSpeedLeft, double tankSpeedRight, double clicks)
+    private AutoInstruction tank(double tankSpeedLeft, double tankSpeedRight, double clicks)
     {
         double[] values = {tankSpeedLeft, tankSpeedRight, clicks};
-        return new AutoInstruction(InstructionType.Tank, values);
+        return new AutoInstruction(InstructionType.Tank, values, robotHandler);
     }
-    private static AutoInstruction turnLeft(double turnSpeed, double clicks)
+    private AutoInstruction drive(double driveSpeed, double clicks)
+    {
+        double[] values = {driveSpeed, clicks};
+        return new AutoInstruction(InstructionType.Drive, values, robotHandler);
+    }
+    private AutoInstruction turnLeft(double turnSpeed, double clicks)
     {
         double[] values = {turnSpeed};
-        return new AutoInstruction(InstructionType.TurnLeft, values);
+        return new AutoInstruction(InstructionType.TurnLeft, values, robotHandler);
     }
-    private static AutoInstruction turnRight(double turnSpeed, double clicks)
+    private AutoInstruction turnRight(double turnSpeed, double clicks)
     {
         double[] values = {turnSpeed};
-        return new AutoInstruction(InstructionType.TurnRight, values);
+        return new AutoInstruction(InstructionType.TurnRight, values, robotHandler);
+    }
+    private AutoInstruction stop()
+    {
+        return waitFor(0);
     }
 }

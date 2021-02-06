@@ -1,16 +1,26 @@
 package frc.robot.auto;
 
+import java.util.function.Function;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.general.AutoHandler;
+import frc.robot.general.RobotHandler;
 
 public class AutoInstruction {
+
+    private RobotHandler robotHandler;
 
     public InstructionType instructionType;
     public double[] values;
     public boolean isFinished = false;
 
+    private WPI_TalonSRX clicksReference;
+
     public double finishTime;
+
+    private boolean isFirstCycle = true;
 
     public enum InstructionType
     {
@@ -21,10 +31,13 @@ public class AutoInstruction {
         Tank
     }
 
-    public AutoInstruction(InstructionType instructionType, double[] values)
+    public AutoInstruction(InstructionType instructionType, double[] values, RobotHandler robotHandler)
     {
         this.instructionType = instructionType;
         this.values = values;
+        this.robotHandler = robotHandler;
+
+        clicksReference = robotHandler.driveHandler._leftFront;
     }
 
     public void cycle()
@@ -35,65 +48,84 @@ public class AutoInstruction {
                 waitInstruction(values[0]);
                 break;
             case Drive:
-                driveInstruction(values[0], values[1], new WPI_TalonSRX(0));
+                driveInstruction(values[0], values[1]);
                 break;
             case TurnLeft:
-                turnLeftInstruction(values[0]);
+                turnLeftInstruction(values[0], values[1]);
                 break;
             case TurnRight:
-                turnRightInstruction(values[0]);
+                turnRightInstruction(values[0], values[1]);
                 break;
             case Tank:
-                tankInstruction(values[0]);
+                tankInstruction(values[0], values[1], values[2]);
                 break;
             default:
                 break;
         }
     }
-    private boolean isWaitInit = false;
     public void waitInstruction(double waitTime)
     {
-        if (!isWaitInit)
+        if (isFirstCycle())
         {
-            isWaitInit = true;
             finishTime = Timer.getFPGATimestamp() + waitTime;
+            robotHandler.driveHandler.differentialDrive.stopMotor();
         }
+
         if (finishTime <= Timer.getFPGATimestamp())
-        {
             isFinished = true;
-        }
     }
-    public void driveInstruction(double driveSpeedLeft, double driveSpeedRight, WPI_TalonSRX clicksReference)
+
+    public void driveInstruction(double driveSpeed, double driveClicks) {
+        tankInstruction(driveSpeed, driveSpeed, driveClicks);
+    }
+    public void turnLeftInstruction(double turnSpeed, double turnClicks) {
+        tankInstruction(turnSpeed * -1, turnSpeed, turnClicks);
+    }
+    public void turnRightInstruction(double turnSpeed, double turnClicks) {
+        tankInstruction(turnSpeed, turnSpeed * -1, turnClicks);
+    }
+
+    private double tankStartClicks = 0;
+    public void tankInstruction(double tankSpeedLeft, double tankSpeedRight, double tankClicks)
     {
-        //if (clicksReference.getSelectedSensorPosition())
+        if (isFirstCycle()) tankStartClicks = clicksReference.getSelectedSensorPosition();
+
+        if (Math.abs(tankStartClicks - clicksReference.getSelectedSensorPosition()) < tankClicks)
+            tankDrive(tankSpeedLeft, tankSpeedRight);
+        else
+            isFinished = true;
     }
-    public void turnLeftInstruction(double turnSpeed)
+
+    private boolean isFirstCycle()
     {
-
+        if (isFirstCycle)
+            return true;
+        isFirstCycle = false;
+        return false;
     }
-    public void turnRightInstruction(double turnSpeed)
+
+    private void tankDrive(double tankSpeedLeft, double tankSpeedRight)
     {
-
-    }
-    public void tankInstruction(double tankSpeed)
-    {
-
+        robotHandler.driveHandler.differentialDrive.tankDrive(tankSpeedLeft, tankSpeedRight);
     }
 
-
-    public void driveWhileCorrectingInstruction(WPI_TalonSRX encoderProvider)
+    /*
+    double previousVelocity = 0;
+    public void driveWhileCorrectingVelocityInstruction(WPI_TalonSRX encoder)
     {
         double velocityThreshold = 10;
+        double velocity = Math.abs(encoder.getSelectedSensorVelocity());
 
-        double velocity = Math.abs(encoderProvider.getSelectedSensorVelocity());
 
-        if (velocity < velocityThreshold) velocity = 0;
-
-        // Use a circular fifo queue, or write something similar to get acceleration, or jerk
-        // Have thresholds for each of those, and use those values changing as expected, or not expected
-        //to adjust the speed over time
-        // Use acceleration to smooth out occilations
-        // Remember to wipe, the queues for calculating accel, or jerk whenever the speed is set differently
-        // Instead of wiping the queues, it could also be predicted
+        if (Math.abs(velocity) < velocityThreshold) velocity = 0;
+        previousVelocity = velocity;
     }
+    */
+
+    // Use a circular fifo queue, or write something similar to get acceleration, or jerk
+    // Have thresholds for each of those, and use those values changing as expected, or not expected
+    //to adjust the speed over time
+    // Use acceleration to smooth out occilations
+    // Remember to wipe, the queues for calculating accel, or jerk whenever the speed is set differently
+    // Instead of wiping the queues, it could also be predicted
 }

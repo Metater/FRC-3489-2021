@@ -25,23 +25,20 @@ public class AutoInstruction {
     // Left off on reordering enums and methods, in both autohandler and here
     // ------------------------------------------------------------------
 
-    private RobotHandler robotHandler;
+    private AutoHandler autoHandler;
 
     public InstructionType instructionType;
     public double[] values;
     public boolean isFinished = false;
 
-    private WPI_TalonSRX clicksReference;
     private double finishTime;
     private boolean isFirstCycle = true;
 
-    public AutoInstruction(InstructionType instructionType, double[] values, RobotHandler robotHandler)
+    public AutoInstruction(InstructionType instructionType, double[] values, AutoHandler autoHandler)
     {
+        this.autoHandler = autoHandler;
         this.instructionType = instructionType;
         this.values = values;
-        this.robotHandler = robotHandler;
-
-        clicksReference = robotHandler.driveHandler._leftFront;
     }
 
     public void cycle()
@@ -75,18 +72,24 @@ public class AutoInstruction {
     }
     private void waitInstruction(double waitTime)
     {
-        if (isFirstCycle())
+        if (isFirstCycle)
         {
+            isFirstCycle = false;
             finishTime = Timer.getFPGATimestamp() + waitTime;
-            robotHandler.driveHandler.differentialDrive.stopMotor();
+            autoHandler.getDriveHandler().differentialDrive.stopMotor();
+            System.out.println("Set finish time");
         }
 
         if (finishTime <= Timer.getFPGATimestamp())
             isFinished = true;
+
+        System.out.println("Waiting, time left: " + (finishTime - Timer.getFPGATimestamp()));
     }
 
     private void driveInstruction(double speed, double clicks) {
         tankInstruction(speed, speed, clicks);
+
+        System.out.println("Driving, clicks left: " + (Math.abs(startClicks - getClicksReference().getSelectedSensorPosition())));
     }
     private void turnLeftInstruction(double speed, double clicks) {
         tankInstruction(speed * -1, speed, clicks);
@@ -104,25 +107,26 @@ public class AutoInstruction {
     private double startClicks = 0;
     private void tankInstruction(double speedLeft, double speedRight, double clicks)
     {
-        if (isFirstCycle()) startClicks = clicksReference.getSelectedSensorPosition();
+        if (isFirstCycle)
+        {
+            isFirstCycle = false;
+            startClicks = getClicksReference().getSelectedSensorPosition();
+        }
 
-        if (Math.abs(startClicks - clicksReference.getSelectedSensorPosition()) < clicks)
+        if (Math.abs(startClicks - getClicksReference().getSelectedSensorPosition()) < clicks)
             tankDrive(speedLeft, speedRight);
         else
             isFinished = true;
     }
 
-    private boolean isFirstCycle()
-    {
-        if (isFirstCycle)
-            return true;
-        isFirstCycle = false;
-        return false;
-    }
-
     private void tankDrive(double speedLeft, double speedRight)
     {
-        robotHandler.driveHandler.differentialDrive.tankDrive(speedLeft, speedRight);
+        autoHandler.getDriveHandler().differentialDrive.tankDrive(speedLeft, speedRight);
+    }
+
+    private WPI_TalonSRX getClicksReference()
+    {
+        return autoHandler.getDriveHandler()._leftFront;
     }
 
     /*

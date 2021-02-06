@@ -39,9 +39,8 @@ public class InputHandler {
     // SPECIFIC JOYSTICK BUTTON METHODS
     public boolean shouldScissorLift()
     {
-        // May want to make trigger once on one button down, and another first pressed
-        return joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) &&
-               joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
+        boolean bothButtonsPressed = joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) && joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
+        return bothButtonsPressed;
     }
     public boolean shouldToggleIntake()
     {
@@ -52,7 +51,7 @@ public class InputHandler {
 
     public boolean shouldSwitchFront()
     {
-        if (robotHandler.stateHandler.lastSwitchTime + 1 < Timer.getFPGATimestamp())
+        if (robotHandler.stateHandler.lastSwitchFrontTime + 1 < Timer.getFPGATimestamp())
             return isEitherOrDriveJoystickButtonPressed(Constants.Buttons.SWITCH_FRONT);
         return false;
     }

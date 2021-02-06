@@ -16,12 +16,12 @@ public class StateHandler {
 
     // Switching Front Stuff
     public boolean isOutakeSideFront = false;
-    public double lastSwitchTime;
+    public double lastSwitchFrontTime;
 
     public void switchFront()
     {
         isOutakeSideFront = !isOutakeSideFront;
-        lastSwitchTime = Timer.getFPGATimestamp();
+        lastSwitchFrontTime = Timer.getFPGATimestamp();
     }
     
     public void reset()

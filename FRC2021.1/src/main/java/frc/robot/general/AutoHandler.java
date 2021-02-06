@@ -15,7 +15,9 @@ public class AutoHandler {
 
     public enum AutoType
     {
-        Slalom
+        Joe,
+        Slalom,
+        TheChugLife
     }
 
     private RobotHandler robotHandler;
@@ -26,15 +28,80 @@ public class AutoHandler {
     private AutoInstruction[] selectedAuto;
     private Map<AutoType, AutoInstruction[]> autos = new HashMap<AutoType, AutoInstruction[]>();
 
-    private AutoInstruction[] auto1 = {
+    private AutoInstruction[] autoJoe = {
         waitFor(2),
-        drive(0.6, 500),
+        drive(0.8, 1000),
+        waitFor(1),
+        turnLeft(0.6, 3000),
+        waitFor(1),
+        turnRight(0.6, 3000),
+        waitFor(1),
+        drive(-0.6, 1000),
+        waitFor(2),
+        drive(0.6, 1000),
+        waitFor(1),
+        turnLeft(0.6, 3000),
+        waitFor(1),
+        turnRight(0.6, 3000),
+        waitFor(1),
+        drive(-0.6, 1000),
         stop()
+    };
+    private AutoInstruction[] autoTheChugLife = {
+        waitFor(4),
+        tank(1.0, 0.4, 750),
+        waitFor(1),
+        tank(0.4, 1.0, 750),
+        stop()
+    };
+    private AutoInstruction[] autoSlalom = {
+        drive(0.8, 3000),
+        waitFor(0.3),
+        turnLeft(0.6, 510),
+        drive(0.8, 3000),
+        waitFor(0.3),
+        turnRight(0.8, 1950),
+        waitFor(1),
+        drive(0.9, 10000),  //  ------> make this number bigger ( like 0.9, 20000 ) <------
+      //experimental from here on out ---------------------------------------------------------------
+        waitFor(1),
+        turnRight(0.8, 1950),
+        waitFor(0.3),
+        drive(0.8, 6000),
+        waitFor(0.3),
+        turnLeft(0.6, 510),
+        waitFor(0.3),
+        drive(0.8, 3000),
+        waitFor(0.3),
+        turnLeft(0.6, 510),
+        waitFor(0.3),
+        drive(0.8, 3000),
+        waitFor(0.3),
+        /*     turnLeft(0.6, 510),
+        waitFor(0.3),
+        drive(0.8, 6000),
+        waitFor(0.3),
+        turnRight(0.8, 1950),
+        waitFor(0.3),
+        drive(0.9, 10000),  //  ------> make this number bigger ( like 0.9, 20000 ) <------
+        waitFor(0.3),
+        turnRight(0.8, 1950),
+        waitFor(0.3),
+        drive(0.8, 3000),
+        waitFor(0.3),
+        turnLeft(0.6, 510),
+        waitFor(0.3),
+        drive(0.8, 3000),
+        waitFor(0.3),      */
+        stop()
+      //---------------------------------------------------------------------------------------------
     };
 
     private void populateAutoList()
     {
-        autos.put(AutoType.Slalom, auto1);
+        autos.put(AutoType.Slalom, autoSlalom);
+        autos.put(AutoType.Joe, autoJoe);
+        autos.put(AutoType.TheChugLife, autoTheChugLife);
     }
     
     public AutoHandler(RobotHandler robotHandler, AutoType autoType)
@@ -43,6 +110,8 @@ public class AutoHandler {
         this.autoType = autoType;
         populateAutoList();
         selectedAuto = autos.get(autoType); // May not work the way i think, research hashmaps
+
+        robotHandler.driveHandler.differentialDrive.setSafetyEnabled(false);
     }
 
     public void autonomousInit()
@@ -52,35 +121,37 @@ public class AutoHandler {
 
     public void autonomousPeriodic()
     {
-        if (selectedAuto[currentStep].isFinished) currentStep++;
-        if (selectedAuto.length > currentStep)
+        if (selectedAuto.length-1 > currentStep)
+        {
+            if (selectedAuto[currentStep].isFinished) currentStep++;
             selectedAuto[currentStep].cycle();
+        }
     }
 
 
     private AutoInstruction waitFor(double waitTime) {
-        return new AutoInstruction(InstructionType.Wait, group1(waitTime), robotHandler);
+        return new AutoInstruction(InstructionType.Wait, group1(waitTime), this);
     }
     private AutoInstruction stop() {
         return waitFor(0);
     }
     private AutoInstruction tank(double speedLeft, double speedRight, double clicks) {
-        return new AutoInstruction(InstructionType.Tank, group3(speedLeft, speedRight, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.Tank, group3(speedLeft, speedRight, clicks), this);
     }
     private AutoInstruction drive(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.Drive, group2(speed, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.Drive, group2(speed, clicks), this);
     }
     private AutoInstruction turnLeft(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TurnLeft, group2(speed, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.TurnLeft, group2(speed, clicks), this);
     }
     private AutoInstruction turnRight(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TurnRight, group2(speed, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.TurnRight, group2(speed, clicks), this);
     }
     private AutoInstruction trainLeft(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TrainLeft, group2(speed, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.TrainLeft, group2(speed, clicks), this);
     }
     private AutoInstruction trainRight(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TrainRight, group2(speed, clicks), robotHandler);
+        return new AutoInstruction(InstructionType.TrainRight, group2(speed, clicks), this);
     }
 
 
@@ -99,5 +170,11 @@ public class AutoHandler {
     {
         double[] values = {a, b, c};
         return values;
+    }
+
+
+    public DriveHandler getDriveHandler()
+    {
+        return robotHandler.driveHandler;
     }
 }

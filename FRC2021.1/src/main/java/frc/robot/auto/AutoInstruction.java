@@ -58,7 +58,7 @@ public class AutoInstruction {
                 turnRightInstruction(values[0], values[1]);
                 break;
             case Tank:
-                tankInstruction(values[0], values[1], values[2]);
+                tankInstructionLeftClicks(values[0], values[1], values[2]);
                 break;
             case TrainLeft:
                 trainLeftInstruction(values[0], values[1]);
@@ -87,33 +87,46 @@ public class AutoInstruction {
     }
 
     private void driveInstruction(double speed, double clicks) {
-        tankInstruction(speed, speed, clicks);
+        tankInstructionLeftClicks(speed, speed, clicks);
 
-        System.out.println("Driving, clicks left: " + (Math.abs(startClicks - getClicksReference().getSelectedSensorPosition())));
+        System.out.println("Driving, clicks left: " + (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition())));
     }
     private void turnLeftInstruction(double speed, double clicks) {
-        tankInstruction(speed * -1, speed, clicks);
+        tankInstructionLeftClicks(speed * -1, speed, clicks);
     }
     private void turnRightInstruction(double speed, double clicks) {
-        tankInstruction(speed, speed * -1, clicks);
+        tankInstructionLeftClicks(speed, speed * -1, clicks);
     }
     private void trainLeftInstruction(double speed, double clicks) {
-        tankInstruction(speed, 0, clicks);
+        tankInstructionLeftClicks(speed, 0, clicks);
     }
     private void trainRightInstruction(double speed, double clicks) {
-        tankInstruction(0, speed, clicks);
+        tankInstructionRightClicks(0, speed, clicks);
     }
 
     private double startClicks = 0;
-    private void tankInstruction(double speedLeft, double speedRight, double clicks)
+    private void tankInstructionLeftClicks(double speedLeft, double speedRight, double clicks)
     {
         if (isFirstCycle)
         {
             isFirstCycle = false;
-            startClicks = getClicksReference().getSelectedSensorPosition();
+            startClicks = getLeftClicksReference().getSelectedSensorPosition();
         }
 
-        if (Math.abs(startClicks - getClicksReference().getSelectedSensorPosition()) < clicks)
+        if (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition()) < clicks)
+            tankDrive(speedLeft, speedRight);
+        else
+            isFinished = true;
+    }
+    private void tankInstructionRightClicks(double speedLeft, double speedRight, double clicks)
+    {
+        if (isFirstCycle)
+        {
+            isFirstCycle = false;
+            startClicks = getRightClicksReference().getSelectedSensorPosition();
+        }
+
+        if (Math.abs(startClicks - getRightClicksReference().getSelectedSensorPosition()) < clicks)
             tankDrive(speedLeft, speedRight);
         else
             isFinished = true;
@@ -124,9 +137,13 @@ public class AutoInstruction {
         autoHandler.getDriveHandler().differentialDrive.tankDrive(speedLeft, speedRight);
     }
 
-    private WPI_TalonSRX getClicksReference()
+    private WPI_TalonSRX getLeftClicksReference()
     {
         return autoHandler.getDriveHandler()._leftFront;
+    }
+    private WPI_TalonSRX getRightClicksReference()
+    {
+        return autoHandler.getDriveHandler()._rghtFront;
     }
 
     /*

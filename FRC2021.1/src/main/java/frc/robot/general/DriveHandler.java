@@ -2,6 +2,7 @@ package frc.robot.general;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -18,6 +19,8 @@ public class DriveHandler {
     public WPI_TalonSRX _rghtFollower = new WPI_TalonSRX(4);
 
     public DifferentialDrive differentialDrive = new DifferentialDrive(_leftFront, _rghtFront);
+
+    public PIDController pidController;
 
 
     public DriveHandler(RobotHandler robotHandler)

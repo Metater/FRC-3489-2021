@@ -49,7 +49,7 @@ public class AutoDriveTrainCorrector {
             if (velocityDifference > 0)
                 speed += correction;
             else
-                speed -= correction;
+                speed -= correction; // May want to make asymptote thingy
         }
         return speed;
     }

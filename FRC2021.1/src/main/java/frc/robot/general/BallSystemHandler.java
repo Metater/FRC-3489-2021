@@ -13,11 +13,11 @@ public class BallSystemHandler {
     private RobotHandler robotHandler;
 
     // Devices
-    DigitalInput ballInputSensor = new DigitalInput(Constants.DigitalInputs.INTAKE_BELT_BOTTOM_SENSOR); // Could use output sensor for seeing if all balls are out out
-    WPI_TalonSRX intakeBeltFront = new WPI_TalonSRX(Constants.Motors.INTAKE_BELT_FRONT);
-    WPI_TalonFX intakeBeltRear = new WPI_TalonFX(Constants.Motors.INTAKE_BELT_REAR);
-    WPI_TalonSRX intakeRoller = new WPI_TalonSRX(Constants.Motors.INTAKE_ROLLER);
-    Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
+    public DigitalInput ballInputSensor = new DigitalInput(Constants.DigitalInputs.INTAKE_BELT_BOTTOM_SENSOR); // Could use output sensor for seeing if all balls are out out
+    public WPI_TalonSRX intakeBeltFront = new WPI_TalonSRX(Constants.Motors.INTAKE_BELT_FRONT);
+    public WPI_TalonFX intakeBeltRear = new WPI_TalonFX(Constants.Motors.INTAKE_BELT_REAR);
+    public WPI_TalonSRX intakeRoller = new WPI_TalonSRX(Constants.Motors.INTAKE_ROLLER);
+    public Solenoid intakeSolenoid = new Solenoid(Constants.Solenoids.PCM_NUMBER, Constants.Solenoids.INTAKE_ROLLER);
 
     //-----------------------------------------------------------------------------------------------
     // MAKE ANOTHER BUTTON TO PRESS WHILE THE BLEH, FOR UNJAMMING STUFF, IT WONT RESET THE BALL COUNT
@@ -43,6 +43,7 @@ public class BallSystemHandler {
     public BallSystemHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
+        intakeRoller.setSafetyEnabled(false);
     }
 
     public void teleopPeriodic()
@@ -179,22 +180,22 @@ public class BallSystemHandler {
             intakeState = IntakeState.IntakeManual;
     }
 
-    private void tryStopIntakeBeltFront()
+    public void tryStopIntakeBeltFront()
     {
         if (intakeBeltFront.get() != 0)
             intakeBeltFront.stopMotor();
     }
-    private void tryStopIntakeBeltRear()
+    public void tryStopIntakeBeltRear()
     {
         if (intakeBeltRear.get() != 0)
             intakeBeltRear.stopMotor();
     }
-    private void tryStopIntakeRoller()
+    public void tryStopIntakeRoller()
     {
         if (intakeRoller.get() != 0)
             intakeRoller.stopMotor();
     }
-    private void tryCloseIntakeSolenoid()
+    public void tryCloseIntakeSolenoid()
     {
         if (intakeSolenoid.get())
             intakeSolenoid.set(false);

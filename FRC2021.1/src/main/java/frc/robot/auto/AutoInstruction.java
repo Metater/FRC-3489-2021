@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.general.AutoHandler;
+import frc.robot.general.BallSystemHandler;
 import frc.robot.general.RobotHandler;
 
 public class AutoInstruction {
@@ -13,6 +14,8 @@ public class AutoInstruction {
     public enum InstructionType
     {
         Wait,
+        ZuccAndTank,
+        IndexAndTank,
         Drive,
         TurnLeft,
         TurnRight,
@@ -47,6 +50,12 @@ public class AutoInstruction {
         {
             case Wait:
                 waitInstruction(values[0]);
+                break;
+            case ZuccAndTank:
+                
+                break;
+            case IndexAndTank:
+
                 break;
             case Drive:
                 driveInstruction(values[0], values[1]);
@@ -84,6 +93,35 @@ public class AutoInstruction {
             isFinished = true;
 
         System.out.println("Waiting, time left: " + (finishTime - Timer.getFPGATimestamp()));
+    }
+
+    private void zuccAndTankInstruction(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks){
+    {
+        BallSystemHandler ballSystemHandler = autoHandler.getBallSystemHandler();
+
+        if (isFirstCycle)
+        {
+            isFirstCycle = false;
+            startClicks = getLeftClicksReference().getSelectedSensorPosition();
+        }
+        if (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition()) < tankClicks)
+        {
+            if (ballSystemHandler.ballInputSensor.get())
+                zucc(zuccRollerSpeed, zuccFrontBeltSpeed);
+            else
+            {
+                ballSystemHandler.tryCloseIntakeSolenoid();
+                ballSystemHandler.tryStopIntakeBeltFront();
+            }
+            tankDrive(tankSpeedLeft, tankSpeedRight);
+        }
+        else
+        {
+            isFinished = true;
+        }
+    }
+    private void indexAndTankInstruction(double speed, double clicks){
+
     }
 
     private void driveInstruction(double speed, double clicks) {
@@ -135,6 +173,17 @@ public class AutoInstruction {
     private void tankDrive(double speedLeft, double speedRight)
     {
         autoHandler.getDriveHandler().differentialDrive.tankDrive(speedLeft, speedRight);
+    }
+
+    private void zucc(double rollerSpeed, double frontBeltSpeed)
+    {
+        BallSystemHandler ballSystemHandler = autoHandler.getBallSystemHandler();
+        ballSystemHandler.intakeRoller.set(rollerSpeed);
+        ballSystemHandler.intakeBeltFront.set(frontBeltSpeed);
+        if (!ballSystemHandler.isIntakeExtended())
+        {
+            ballSystemHandler.intakeSolenoid.set(true);
+        }
     }
 
     private WPI_TalonSRX getLeftClicksReference()

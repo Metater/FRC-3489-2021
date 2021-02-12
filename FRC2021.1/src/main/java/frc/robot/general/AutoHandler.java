@@ -164,8 +164,10 @@ public class AutoHandler {
     }
 
 
-    public DriveHandler getDriveHandler()
-    {
+    public DriveHandler getDriveHandler() {
         return robotHandler.driveHandler;
+    }
+    public BallSystemHandler getBallSystemHandler() {
+        return robotHandler.ballSystemHandler;
     }
 }

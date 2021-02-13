@@ -15,7 +15,7 @@ public class AutoInstruction {
     {
         Wait,
         ZuccAndTank,
-        IndexAndTank,
+        Index,
         Drive,
         TurnLeft,
         TurnRight,
@@ -23,6 +23,9 @@ public class AutoInstruction {
         TrainLeft,
         TrainRight
     }
+
+    // Add tank left and right encoder clicks
+    //8yiusdugdsagsdygsadygygdwiuggiugsdugidsagiudsauigsdugiugisdagiu
 
     // ------------------------------------------------------------------
     // Left off on reordering enums and methods, in both autohandler and here
@@ -52,9 +55,9 @@ public class AutoInstruction {
                 waitInstruction(values[0]);
                 break;
             case ZuccAndTank:
-                
+                zuccAndTankInstruction(values[0], values[1], values[2], values[3], values[4]);
                 break;
-            case IndexAndTank:
+            case Index:
 
                 break;
             case Drive:
@@ -95,7 +98,7 @@ public class AutoInstruction {
         System.out.println("Waiting, time left: " + (finishTime - Timer.getFPGATimestamp()));
     }
 
-    private void zuccAndTankInstruction(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks){
+    private void zuccAndTankInstruction(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks)
     {
         BallSystemHandler ballSystemHandler = autoHandler.getBallSystemHandler();
 
@@ -106,11 +109,14 @@ public class AutoInstruction {
         }
         if (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition()) < tankClicks)
         {
-            if (ballSystemHandler.ballInputSensor.get())
+            if (ballSystemHandler.ballInputSensor.get()) // If ball not in sensor, zucc
+            {
                 zucc(zuccRollerSpeed, zuccFrontBeltSpeed);
-            else
+            }
+            else // If ball in sensor, stop zucc, retract roller and stop roller
             {
                 ballSystemHandler.tryCloseIntakeSolenoid();
+                ballSystemHandler.tryStopIntakeRoller();
                 ballSystemHandler.tryStopIntakeBeltFront();
             }
             tankDrive(tankSpeedLeft, tankSpeedRight);
@@ -120,8 +126,9 @@ public class AutoInstruction {
             isFinished = true;
         }
     }
-    private void indexAndTankInstruction(double speed, double clicks){
-
+    
+    private void indexInstruction() {
+        
     }
 
     private void driveInstruction(double speed, double clicks) {

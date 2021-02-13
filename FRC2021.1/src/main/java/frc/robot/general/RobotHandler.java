@@ -1,6 +1,6 @@
 package frc.robot.general;
 
-import frc.robot.general.AutoHandler.AutoType;
+import frc.robot.auto.AutosHandler.AutoType;
 
 public class RobotHandler {
 

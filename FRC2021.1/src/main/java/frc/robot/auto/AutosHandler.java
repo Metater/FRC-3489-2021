@@ -1,12 +1,42 @@
 package frc.robot.auto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import frc.robot.general.AutoHandler;
 
 public class AutosHandler extends AutoMaker {
+
+    public enum AutoType
+    {
+        Joe,
+        Slalom,
+        TheChugLife,
+        Bounce,
+        Barrel,
+        HyperPathA,
+        HyperPathB
+    }
+
+    private AutoHandler autoHandler;
+    public Map<AutoType, AutoInstruction[]> autos = new HashMap<AutoType, AutoInstruction[]>();
     
     public AutosHandler(AutoHandler autoHandler)
     {
+        this.autoHandler = autoHandler;
         loadAutoMaker(autoHandler);
+        populateAutoList();
+    }
+
+    private void populateAutoList()
+    {
+        autos.put(AutoType.Slalom, autoSlalom);
+        autos.put(AutoType.Joe, autoJoe);
+        autos.put(AutoType.TheChugLife, autoTheChugLife);
+        autos.put(AutoType.Bounce, autoBounce);
+        autos.put(AutoType.Barrel, autoBarrel);
+        autos.put(AutoType.HyperPathA, autoHyperPathA);
+        autos.put(AutoType.HyperPathB, autoHyperPathB);
     }
 
     public AutoInstruction[] autoSlalom = {

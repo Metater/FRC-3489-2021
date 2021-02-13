@@ -10,47 +10,23 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.auto.*;
 import frc.robot.auto.AutoInstruction.InstructionType;
+import frc.robot.auto.AutosHandler.AutoType;
 
 public class AutoHandler {
 
-    public enum AutoType
-    {
-        Joe,
-        Slalom,
-        TheChugLife,
-        Bounce,
-        Barrel,
-        HyperPathA,
-        HyperPathB
-    }
-
     private RobotHandler robotHandler;
 
-    public AutoType autoType;
+    private AutosHandler autosHandler;
+
     public int currentStep = 0;
 
     private AutoInstruction[] selectedAuto;
-    private Map<AutoType, AutoInstruction[]> autos = new HashMap<AutoType, AutoInstruction[]>();
-
-    private void populateAutoList()
-    {
-        AutosHandler autosHandler = new AutosHandler(this);
-
-        autos.put(AutoType.Slalom, autosHandler.autoSlalom);
-        autos.put(AutoType.Joe, autosHandler.autoJoe);
-        autos.put(AutoType.TheChugLife, autosHandler.autoTheChugLife);
-        autos.put(AutoType.Bounce, autosHandler.autoBounce);
-        autos.put(AutoType.Barrel, autosHandler.autoBarrel);
-        autos.put(AutoType.HyperPathA, autosHandler.autoHyperPathA);
-        autos.put(AutoType.HyperPathB, autosHandler.autoHyperPathB);
-    }
     
     public AutoHandler(RobotHandler robotHandler, AutoType autoType)
     {
         this.robotHandler = robotHandler;
-        this.autoType = autoType;
-        populateAutoList();
-        selectedAuto = autos.get(autoType);
+        autosHandler = new AutosHandler(this);
+        selectedAuto = autosHandler.autos.get(autoType);
     }
 
     public void autonomousInit()

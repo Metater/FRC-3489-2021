@@ -27,7 +27,7 @@ public class RobotHandler {
         cameraHandler = new CameraHandler(this);
 
         driveHandler.differentialDrive.setSafetyEnabled(false);
-        autoHandler = new AutoHandler(this, AutoType.TestAuto); // Set the auto type with shuffleboard or something
+        autoHandler = new AutoHandler(this, AutoType.TestAuto); // Set the auto type with suffleboard or something
 
         //testHandler = new TestHandler(this);
     }
@@ -42,6 +42,7 @@ public class RobotHandler {
     {
         shuffleboardHandler = new ShuffleboardHandler(this);
         stateHandler.reset();
+        
     }
 
     public void teleopPeriodic()

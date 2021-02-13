@@ -1,6 +1,6 @@
 package frc.robot.general;
 
-import frc.robot.auto.AutosHandler.AutoType;
+import frc.robot.general.AutoHandler.AutoType;
 
 public class RobotHandler {
 
@@ -27,7 +27,7 @@ public class RobotHandler {
         cameraHandler = new CameraHandler(this);
 
         driveHandler.differentialDrive.setSafetyEnabled(false);
-        autoHandler = new AutoHandler(this, AutoType.Slalom); // Set the auto type with shuffleboard or something
+        autoHandler = new AutoHandler(this, AutoType.TestAuto); // Set the auto type with shuffleboard or something
 
         //testHandler = new TestHandler(this);
     }

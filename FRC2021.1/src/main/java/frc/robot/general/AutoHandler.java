@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.auto.*;
 import frc.robot.auto.AutoInstruction.InstructionType;
-import frc.robot.auto.AutosHandler.AutoType;
 
 public class AutoHandler {
 
@@ -66,15 +65,15 @@ public class AutoHandler {
 
     public void autonomousPeriodic()
     {
-        if (selectedAuto.length-1 > currentStep)
+        if (selectedAuto.length-1 >= currentStep)
         {
             if (selectedAuto[currentStep].isFinished) currentStep++;
             selectedAuto[currentStep].cycle();
-            System.out.println("Running");
+            System.out.println("Running: " + currentStep);
         }
         else
         {
-            System.out.println("Stopped");
+            System.out.println("Stopped: " + currentStep);
         }
     }
 
@@ -236,7 +235,9 @@ public class AutoHandler {
     };
 
     public AutoInstruction[] autoTestAuto = {
-        drive(0.6, 1000)
+        zuccWithTank(-0.6, 0.6, 0, 0, 200),
+        waitFor(2),
+        index()
     };
 
 
@@ -251,35 +252,42 @@ public class AutoHandler {
 
 
     public AutoInstruction waitFor(double waitTime) {
-        return new AutoInstruction(InstructionType.Wait, group1(waitTime), autoHandler);
+        return new AutoInstruction(InstructionType.Wait, group1(waitTime), this);
     }
     public AutoInstruction stop() {
         return waitFor(0);
     }
     public AutoInstruction tank(double speedLeft, double speedRight, double clicks) {
-        return new AutoInstruction(InstructionType.Tank, group3(speedLeft, speedRight, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.Tank, group3(speedLeft, speedRight, clicks), this);
     }
     public AutoInstruction drive(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.Drive, group2(speed, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.Drive, group2(speed, clicks), this);
     }
     public AutoInstruction turnLeft(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TurnLeft, group2(speed, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.TurnLeft, group2(speed, clicks), this);
     }
     public AutoInstruction turnRight(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TurnRight, group2(speed, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.TurnRight, group2(speed, clicks), this);
     }
     public AutoInstruction trainLeft(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TrainLeft, group2(speed, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.TrainLeft, group2(speed, clicks), this);
     }
     public AutoInstruction trainRight(double speed, double clicks) {
-        return new AutoInstruction(InstructionType.TrainRight, group2(speed, clicks), autoHandler);
+        return new AutoInstruction(InstructionType.TrainRight, group2(speed, clicks), this);
     }
     public AutoInstruction zuccWithTank(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks) {
-        return new AutoInstruction(InstructionType.ZuccAndTank, group5(zuccRollerSpeed, zuccFrontBeltSpeed, tankSpeedLeft, tankSpeedRight, tankClicks), autoHandler);
+        return new AutoInstruction(InstructionType.ZuccAndTank, group5(zuccRollerSpeed, zuccFrontBeltSpeed, tankSpeedLeft, tankSpeedRight, tankClicks), this);
+    }
+    public AutoInstruction index() {
+        return new AutoInstruction(InstructionType.Index, group0(), this);
     }
 
 
-
+    private double[] group0()
+    {
+        double[] values = new double[0];
+        return values;
+    }
     private double[] group1(double a)
     {
         double[] values = {a};

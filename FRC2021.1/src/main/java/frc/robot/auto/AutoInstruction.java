@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
 import frc.robot.general.AutoHandler;
 import frc.robot.general.BallSystemHandler;
 import frc.robot.general.RobotHandler;
@@ -58,7 +59,7 @@ public class AutoInstruction {
                 zuccAndTankInstruction(values[0], values[1], values[2], values[3], values[4]);
                 break;
             case Index:
-
+                indexInstruction();
                 break;
             case Drive:
                 driveInstruction(values[0], values[1]);
@@ -126,9 +127,25 @@ public class AutoInstruction {
             isFinished = true;
         }
     }
-    
+    double encoderTarget;
     private void indexInstruction() {
-        
+        BallSystemHandler ballSystemHandler = autoHandler.getBallSystemHandler();
+        if (isFirstCycle)
+        {
+            isFirstCycle = false;
+            encoderTarget = Math.abs(ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) + Constants.Clicks.BALL_SYSTEM_CLICKS_PER_INDEX;
+        }
+        if (encoderTarget > ballSystemHandler.intakeBeltRear.getSelectedSensorPosition())
+        {
+            ballSystemHandler.intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
+            ballSystemHandler.intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
+        }
+        else
+        {
+            ballSystemHandler.tryStopIntakeBeltFront();
+            ballSystemHandler.tryStopIntakeBeltRear();
+            isFinished = true;
+        }
     }
 
     private void driveInstruction(double speed, double clicks) {

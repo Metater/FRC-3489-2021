@@ -19,7 +19,9 @@ public class AutoHandler {
         Slalom,
         TheChugLife,
         Bounce,
-        Barrel
+        Barrel,
+        HyperPathA,
+        HyperPathB
     }
 
     private RobotHandler robotHandler;
@@ -130,7 +132,52 @@ public class AutoHandler {
         waitFor(1),
         drive(0.6, 250),
         drive(0.8, 500),
+        drive(1.0, 20000),
         stop()
+    };
+
+    private AutoInstruction[] autoHyperPathA = {
+        drive(0.6, 3000),
+        //add zucc and tank here
+        waitFor(1),
+        turnRight(0.6, 2000),
+        waitFor(1),
+        drive(0.6, 2000),
+        //add zucc and tank here
+        waitFor(1),
+        turnLeft(0.6, 5000),
+        waitFor(1),
+        drive(0.8, 4000),
+        //add zucc and tank here
+        waitFor(1),
+        turnRight(0.6, 2000),
+        waitFor(1),
+        drive(0.6, 250),
+        drive(0.8, 500),
+        drive(1, 8000),
+
+    };
+
+    private AutoInstruction[] autoHyperPathB = {
+        drive(0.6, 3000),
+        //add zucc and tank here
+        waitFor(1),
+        turnRight(0.6, 2000),
+        waitFor(1),
+        drive(0.6, 2000),
+        //add zucc and tank here
+        waitFor(1),
+        turnLeft(0.6, 5000),
+        waitFor(1),
+        drive(0.8, 4000),
+        //add zucc and tank here
+        waitFor(1),
+        turnRight(0.6, 2000),
+        waitFor(1),
+        drive(0.6, 250),
+        drive(0.8, 500),
+        drive(1, 8000),
+        
     };
 
     private void populateAutoList()
@@ -140,6 +187,8 @@ public class AutoHandler {
         autos.put(AutoType.TheChugLife, autoTheChugLife);
         autos.put(AutoType.Bounce, autoBounce);
         autos.put(AutoType.Barrel, autoBarrel);
+        autos.put(AutoType.HyperPathA, autoHyperPathA);
+        autos.put(AutoType.HyperPathB, autoHyperPathB);
     }
     
     public AutoHandler(RobotHandler robotHandler, AutoType autoType)

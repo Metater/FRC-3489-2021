@@ -18,7 +18,8 @@ public class AutoHandler {
         Joe,
         Slalom,
         TheChugLife,
-        Bounce
+        Bounce,
+        Barrel
     }
 
     private RobotHandler robotHandler;
@@ -108,12 +109,37 @@ public class AutoHandler {
 
     };
 
+    private AutoInstruction[] autoBarrel = {
+        drive(0.8, 10000),
+        waitFor(1),
+        tank(0.8, 0.3, 10000),
+        waitFor(1),
+        drive(0.8, 5000),
+        waitFor(1),
+        tank(0.8, 0.3, 3000),
+        waitFor(1),
+        drive(0.8, 10000),
+        waitFor(1),
+        tank(0.3, 0.8, 10000),
+        waitFor(1),
+        drive(0.8, 5000),
+        waitFor(1),
+        drive(0.8, 5000),
+        waitFor(1),
+        tank(0.8, 0.3, 5000),
+        waitFor(1),
+        drive(0.6, 250),
+        drive(0.8, 500),
+        stop()
+    };
+
     private void populateAutoList()
     {
         autos.put(AutoType.Slalom, autoSlalom);
         autos.put(AutoType.Joe, autoJoe);
         autos.put(AutoType.TheChugLife, autoTheChugLife);
         autos.put(AutoType.Bounce, autoBounce);
+        autos.put(AutoType.Barrel, autoBarrel);
     }
     
     public AutoHandler(RobotHandler robotHandler, AutoType autoType)

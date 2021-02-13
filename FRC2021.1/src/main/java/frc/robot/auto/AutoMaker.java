@@ -35,6 +35,9 @@ public class AutoMaker {
     public AutoInstruction trainRight(double speed, double clicks) {
         return new AutoInstruction(InstructionType.TrainRight, group2(speed, clicks), autoHandler);
     }
+    public AutoInstruction zuccWithTank(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks) {
+        return new AutoInstruction(InstructionType.ZuccAndTank, group5(zuccRollerSpeed, zuccFrontBeltSpeed, tankSpeedLeft, tankSpeedRight, tankClicks), autoHandler);
+    }
 
 
 
@@ -51,6 +54,11 @@ public class AutoMaker {
     private double[] group3(double a, double b, double c)
     {
         double[] values = {a, b, c};
+        return values;
+    }
+    private double[] group5(double a, double b, double c, double d, double e)
+    {
+        double[] values = {a, b, c, d, e};
         return values;
     }
 }

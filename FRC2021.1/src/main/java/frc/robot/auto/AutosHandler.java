@@ -15,7 +15,8 @@ public class AutosHandler extends AutoMaker {
         Bounce,
         Barrel,
         HyperPathA,
-        HyperPathB
+        HyperPathB,
+        TestAuto
     }
 
     private AutoHandler autoHandler;
@@ -37,6 +38,7 @@ public class AutosHandler extends AutoMaker {
         autos.put(AutoType.Barrel, autoBarrel);
         autos.put(AutoType.HyperPathA, autoHyperPathA);
         autos.put(AutoType.HyperPathB, autoHyperPathB);
+        autos.put(AutoType.TestAuto, autoTestAuto);
     }
 
     public AutoInstruction[] autoSlalom = {
@@ -185,5 +187,9 @@ public class AutosHandler extends AutoMaker {
         drive(0.8, 500),
         drive(1, 8000),
 
+    };
+
+    public AutoInstruction[] autoTestAuto = {
+       zuccWithTank(0.6, 0.6, 0.1, 0.1, 10000)
     };
 }

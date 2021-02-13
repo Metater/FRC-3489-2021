@@ -156,7 +156,7 @@ public class AutoHandler {
         drive(0.8, 500),
         drive(1, 8000),
 
-    };
+    };//kjadsfjkasdjkjkfdsjajkkfakjl
 
     private AutoInstruction[] autoHyperPathB = {
         drive(0.6, 3000),
@@ -177,7 +177,7 @@ public class AutoHandler {
         drive(0.6, 250),
         drive(0.8, 500),
         drive(1, 8000),
-        
+
     };
 
     private void populateAutoList()

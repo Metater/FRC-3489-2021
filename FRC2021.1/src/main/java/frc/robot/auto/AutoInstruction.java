@@ -135,16 +135,21 @@ public class AutoInstruction {
             isFirstCycle = false;
             encoderTarget = Math.abs(ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) + Constants.Clicks.BALL_SYSTEM_CLICKS_PER_INDEX;
         }
-        if (encoderTarget > ballSystemHandler.intakeBeltRear.getSelectedSensorPosition())
+        if (Math.abs(ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) >= encoderTarget)
         {
             ballSystemHandler.intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
             ballSystemHandler.intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
+            System.out.println("----------------------------");
+            System.out.println("Indexing to: " + encoderTarget);
+            System.out.println("Current: " + ballSystemHandler.intakeBeltRear.getSelectedSensorPosition());
+            System.out.println("----------------------------");
         }
         else
         {
             ballSystemHandler.tryStopIntakeBeltFront();
             ballSystemHandler.tryStopIntakeBeltRear();
             isFinished = true;
+            System.out.println("Done");
         }
     }
 

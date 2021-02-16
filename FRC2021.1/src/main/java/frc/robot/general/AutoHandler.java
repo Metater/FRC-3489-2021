@@ -31,6 +31,8 @@ public class AutoHandler {
 
     public Map<AutoType, AutoInstruction[]> autos = new HashMap<AutoType, AutoInstruction[]>();
 
+    public List<AutoInstruction> additionalInstructions = new ArrayList<AutoInstruction>();
+
     public int currentStep = 0;
 
     private AutoType autoType;
@@ -75,6 +77,14 @@ public class AutoHandler {
         {
             System.out.println("Stopped: " + currentStep);
         }
+
+        for(AutoInstruction additionalInstruction : additionalInstructions)
+        {
+            if (!additionalInstruction.isFinished)
+                additionalInstruction.cycle();
+            else 
+                additionalInstructions.remove(additionalInstruction);
+        }
     }
 
 
@@ -83,6 +93,12 @@ public class AutoHandler {
     }
     public BallSystemHandler getBallSystemHandler() {
         return robotHandler.ballSystemHandler;
+    }
+    public void startInstructionAsync(AutoInstruction instruction) {
+        additionalInstructions.add(instruction);
+    }
+    public void tryStopInstruction(AutoInstruction instruction) {
+        
     }
 
 

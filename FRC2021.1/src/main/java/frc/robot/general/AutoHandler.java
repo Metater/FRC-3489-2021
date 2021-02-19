@@ -67,17 +67,20 @@ public class AutoHandler {
 
     public void autonomousPeriodic()
     {
+
         if (selectedAuto.length-1 >= currentStep)
         {
-            if (selectedAuto[currentStep].isFinished) currentStep++;
-            selectedAuto[currentStep].cycle();
-            System.out.println("Running: " + currentStep);
+            if (selectedAuto[currentStep].isFinished) 
+                currentStep++;
+            else // Could add extra finish check to replace else
+                selectedAuto[currentStep].cycle();
         }
         else
         {
-            System.out.println("Stopped: " + currentStep);
+
         }
 
+        /*
         for(AutoInstruction additionalInstruction : additionalInstructions)
         {
             if (!additionalInstruction.isFinished)
@@ -85,6 +88,7 @@ public class AutoHandler {
             else 
                 additionalInstructions.remove(additionalInstruction);
         }
+        */
     }
 
 
@@ -251,9 +255,17 @@ public class AutoHandler {
     };
 
     public AutoInstruction[] autoTestAuto = {
-        zuccWithTank(-0.6, 0.6, 0, 0, 200),
+        drive(-0.6, 2000),
+        waitFor(0),
+        bleh(0.6, 3),
+        drive(0.6, 2000),
         waitFor(2),
-        index()
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
+        startIndex(),
+        waitFor(2),
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 3600),
+        startIndex(),
+        stop()
     };
 
 
@@ -296,6 +308,12 @@ public class AutoHandler {
     }
     public AutoInstruction index() {
         return new AutoInstruction(InstructionType.Index, group0(), this);
+    }
+    public AutoInstruction startIndex() {
+        return new AutoInstruction(InstructionType.Index, group0(), this);
+    }
+    public AutoInstruction bleh(double speed, double blehTime) {
+        return new AutoInstruction(InstructionType.Bleh, group2(speed, blehTime), this);
     }
 
 

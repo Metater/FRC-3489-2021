@@ -17,12 +17,14 @@ public class AutoInstruction {
         Wait,
         ZuccAndTank,
         Index,
+        StartIndex,
         Drive,
         TurnLeft,
         TurnRight,
         Tank,
         TrainLeft,
-        TrainRight
+        TrainRight,
+        Bleh
     }
 
     // Add tank left and right encoder clicks
@@ -60,6 +62,12 @@ public class AutoInstruction {
                 break;
             case Index:
                 indexInstruction();
+                break;
+            case StartIndex:
+                startIndexInstruction();
+                break;
+            case Bleh:
+                blehInstruction(values[0], values[1]);
                 break;
             case Drive:
                 driveInstruction(values[0], values[1]);
@@ -127,20 +135,20 @@ public class AutoInstruction {
             isFinished = true;
         }
     }
-    double encoderTarget;
+    double indexStartClicks;
     private void indexInstruction() {
         BallSystemHandler ballSystemHandler = autoHandler.getBallSystemHandler();
         if (isFirstCycle)
         {
             isFirstCycle = false;
-            encoderTarget = Math.abs(ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) + Constants.Clicks.BALL_SYSTEM_CLICKS_PER_INDEX;
+            indexStartClicks = ballSystemHandler.intakeBeltRear.getSelectedSensorPosition();
         }
-        if (Math.abs(ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) >= encoderTarget)
+        if (Math.abs(indexStartClicks - ballSystemHandler.intakeBeltRear.getSelectedSensorPosition()) < Constants.Clicks.BALL_SYSTEM_CLICKS_PER_INDEX)
         {
             ballSystemHandler.intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
             ballSystemHandler.intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
             System.out.println("----------------------------");
-            System.out.println("Indexing to: " + encoderTarget);
+            System.out.println("Indexing to: " + indexStartClicks);
             System.out.println("Current: " + ballSystemHandler.intakeBeltRear.getSelectedSensorPosition());
             System.out.println("----------------------------");
         }
@@ -150,6 +158,36 @@ public class AutoInstruction {
             ballSystemHandler.tryStopIntakeBeltRear();
             isFinished = true;
             System.out.println("Done");
+        }
+    }
+    private void startIndexInstruction()
+    {
+        autoHandler.startInstructionAsync(autoHandler.index());
+        isFinished = true;
+    }
+
+    double blehFinishTime;
+    private void blehInstruction(double speed, double blehTime)
+    {
+        if (isFirstCycle)
+        {
+            isFirstCycle = false;
+            blehFinishTime = Timer.getFPGATimestamp() + blehTime;
+            System.out.println("Start BLEH");
+        }
+
+        if (blehFinishTime <= Timer.getFPGATimestamp())
+        {
+            System.out.println("Stop BLEH");
+            isFinished = true;
+            autoHandler.getBallSystemHandler().intakeBeltFront.stopMotor();
+            autoHandler.getBallSystemHandler().intakeBeltRear.stopMotor();
+        }
+        else
+        {
+            System.out.println("BLEHing");
+            autoHandler.getBallSystemHandler().intakeBeltFront.set(speed);
+            autoHandler.getBallSystemHandler().intakeBeltRear.set(speed * -1);
         }
     }
 

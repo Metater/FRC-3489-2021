@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -37,16 +39,13 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
 
-  ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
+  //ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
-  Map<String, SimpleWidget> simpleWidgets = new HashMap<String, SimpleWidget>();
+  //Map<String, SimpleWidget> simpleWidgets = new HashMap<String, SimpleWidget>();
 
-  WPI_TalonFX falcon = new WPI_TalonFX(1);
+  WPI_TalonSRX falcon = new WPI_TalonSRX(1);
 
-  double X;
-  double Y;
-  double Area;
-
+  int cycles = 0;
 
 
 
@@ -76,6 +75,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    /*
 
     double x = tx.getDouble(0.0);
     double y = ty.getDouble(0.0);
@@ -84,12 +84,14 @@ public class Robot extends TimedRobot {
     X = x;
     Y = y;
     Area = area;
+    */
 
     //PrintDoubleToWidget("X", x);
     //PrintDoubleToWidget("Y", y);
     //PrintDoubleToWidget("Area", area);
   }
 
+  /*
   public void PrintDoubleToWidget(String name, double value)
   {
       if (simpleWidgets.containsKey(name))
@@ -103,6 +105,7 @@ public class Robot extends TimedRobot {
           simpleWidgets.put(name, sw);
       }
   }
+  */
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
@@ -138,17 +141,38 @@ public class Robot extends TimedRobot {
 
     falcon.setSafetyEnabled(false);
 
+
     addPeriodic(() -> 
     {
-      if (X > 0)
+
+      double x = tx.getDouble(0.0);
+      double y = ty.getDouble(0.0);
+      double area = ta.getDouble(0.0);
+
+      double xDegreesThreshold = 2;
+      double speed = 0.4;
+
+      double scale = 4000000;
+      double scaledSpeed = (((x * x * x * x)/scale) + speed);
+
+      if (cycles % 95 == 0)
       {
-        falcon.set(0.065);
+        System.out.println("Xoff" + x);
+        System.out.println("Scaled Speed" + scaledSpeed);
       }
-      else
+      cycles++;
+
+      if (x > xDegreesThreshold)
       {
-        falcon.set(-0.065);
+        falcon.set(scaledSpeed * -1);
+      } 
+      else if (x < (-1 * xDegreesThreshold)) {
+        falcon.set(scaledSpeed);
       }
-    }, 0.01, 0);
+      else {
+        falcon.stopMotor();
+      }
+    }, 0.0105, 0);
   }
 
   /** This function is called periodically during operator control. */

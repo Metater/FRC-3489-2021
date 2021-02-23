@@ -19,6 +19,7 @@ public class AutoHandler {
     {
         Joe,
         Slalom,
+        SlalomFancy,
         TheChugLife,
         Bounce,
         Barrel,
@@ -49,6 +50,7 @@ public class AutoHandler {
     private void populateAutoList()
     {
         autos.put(AutoType.Slalom, autoSlalom);
+        autos.put(AutoType.SlalomFancy, autoSlalomFancy);
         autos.put(AutoType.Joe, autoJoe);
         autos.put(AutoType.TheChugLife, autoTheChugLife);
         autos.put(AutoType.Bounce, autoBounce);
@@ -80,6 +82,8 @@ public class AutoHandler {
 
         }
 
+        System.out.println(currentStep);
+
         /*
         for(AutoInstruction additionalInstruction : additionalInstructions)
         {
@@ -105,15 +109,34 @@ public class AutoHandler {
         
     }
 
+    public AutoInstruction[] autoSlalomFancy = {
+        tank(0.4, 0.9, 4500),
+        tank(0.9, 0.4, 4500),
+        tank(0.9, 0.3, 3500),
+        drive(0.9, 23000),
+        tank(1.0, 0.4, 12500),
+        drive(0.8, 6000),
+        tank(0.4, 1.0, 7000),
+        drive(0.8, 2000),
+        tank(0.3, 0.8, 9000),
+        tank(0.3, 0.7, 4000),
+        drive(0.7, 1000),
+        tank(1.0, 0.4, 9500),
+        drive(0.9, 20000),
+        waitFor(5),
+        tank(-1, 1, 5000),
+        stop(),
+    };
+
 
     public AutoInstruction[] autoSlalom = {
         // Clear start box, and move to left of main line
         drive(0.8, 3000),
         waitFor(1),
-        turnLeft(0.7, 700),
+        turnLeft(0.7, 800),
         drive(0.8, 6800),
         waitFor(2),
-        turnRight(0.8, 630),
+        turnRight(0.8, 1000),
         waitFor(1),
         // Go zoom to other end
         drive(0.9, 19400),

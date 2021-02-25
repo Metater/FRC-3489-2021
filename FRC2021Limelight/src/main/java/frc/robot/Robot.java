@@ -144,35 +144,92 @@ public class Robot extends TimedRobot {
 
     addPeriodic(() -> 
     {
-
-      double x = tx.getDouble(0.0);
-      double y = ty.getDouble(0.0);
-      double area = ta.getDouble(0.0);
-
-      double xDegreesThreshold = 2;
-      double speed = 0.4;
-
-      double scale = 4000000;
-      double scaledSpeed = (((x * x * x * x)/scale) + speed);
-
-      if (cycles % 95 == 0)
-      {
-        System.out.println("Xoff" + x);
-        System.out.println("Scaled Speed" + scaledSpeed);
-      }
-      cycles++;
-
-      if (x > xDegreesThreshold)
-      {
-        falcon.set(scaledSpeed * -1);
-      } 
-      else if (x < (-1 * xDegreesThreshold)) {
-        falcon.set(scaledSpeed);
-      }
-      else {
-        falcon.stopMotor();
-      }
+      tapeTrackEquationOld();
+      //tapeTrackBigBain();
     }, 0.0105, 0);
+  }
+
+  private double speed;
+  double Kp = -0.001f;
+  double steering_adjust;
+
+  private void tapeTrackBigBain()
+  {
+    double x = tx.getDouble(0.0);
+
+    steering_adjust = Kp * x;
+
+    speed += steering_adjust;
+
+    System.out.println(speed);
+
+    speed = Math.max(-0.5, Math.min(0.5, speed));
+
+    System.out.println(speed);
+
+    falcon.set(speed);
+  }
+
+  private void tapeTrackEquation()
+  {
+    double x = tx.getDouble(0.0);
+    //double y = ty.getDouble(0.0);
+    //double area = ta.getDouble(0.0);
+
+    double xDegreesThreshold = 2;
+    double speed = 0.4;
+
+    double scale = 4000000;
+    double scaledSpeed = (((x * x * x * x)/scale) + speed);
+
+    if (cycles % 95 == 0)
+    {
+      System.out.println("Xoff" + x);
+      System.out.println("Scaled Speed" + scaledSpeed);
+    }
+    cycles++;
+
+    if (x > xDegreesThreshold)
+    {
+      falcon.set(scaledSpeed * -1);
+    } 
+    else if (x < (-1 * xDegreesThreshold)) {
+      falcon.set(scaledSpeed);
+    }
+    else {
+      falcon.stopMotor();
+    }
+  }
+
+  private void tapeTrackEquationOld()
+  {
+    double x = tx.getDouble(0.0);
+    //double y = ty.getDouble(0.0);
+    //double area = ta.getDouble(0.0);
+
+    double xDegreesThreshold = 2;
+    double speed = 0.35;
+
+    double scale = 8880.2;
+    double scaledSpeed = (((x * x)/scale) + speed);
+
+    if (cycles % 95 == 0)
+    {
+      System.out.println("Xoff" + x);
+      System.out.println("Scaled Speed" + scaledSpeed);
+    }
+    cycles++;
+
+    if (x > xDegreesThreshold)
+    {
+      falcon.set(scaledSpeed * -1);
+    } 
+    else if (x < (-1 * xDegreesThreshold)) {
+      falcon.set(scaledSpeed);
+    }
+    else {
+      falcon.stopMotor();
+    }
   }
 
   /** This function is called periodically during operator control. */

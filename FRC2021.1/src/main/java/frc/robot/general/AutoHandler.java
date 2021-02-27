@@ -25,7 +25,8 @@ public class AutoHandler {
         Barrel,
         HyperPathA,
         HyperPathB,
-        TestAuto
+        TestAuto,
+        Lightspeed
     }
 
     private RobotHandler robotHandler;
@@ -58,6 +59,7 @@ public class AutoHandler {
         autos.put(AutoType.HyperPathA, autoHyperPathA);
         autos.put(AutoType.HyperPathB, autoHyperPathB);
         autos.put(AutoType.TestAuto, autoTestAuto);
+        //iautos.put(AutoType.Lightspeed, lightspeed);
     }
 
     public void autonomousInit()
@@ -108,6 +110,47 @@ public class AutoHandler {
     public void tryStopInstruction(AutoInstruction instruction) {
         
     }
+
+  /*  public AutoInstruction[] lightspeed  = {
+
+        //start of lap 1
+
+        tank(0.7, 0.3, 4000), //right turn
+        drive(0.9, 4000), //straight
+        tank(0.7, 0.3, 4000), //right turn
+        tank(0.3, 0.7, 8000), //left turn
+        drive(0.9, 5000), //straight
+        tank(0.3, 0.7, 12000), //left turn
+        tank(0.7, 0.3, 8000), //right turn
+        drive(0.9, 8000), //straight
+        tank(0.7, 0.3, 4000), //right turn
+        drive(0.9, 12000), //straight
+        tank(0.7, 0.3, 2000), //right turn
+        tank(0.3, 0.7, 4000), //left turn
+        drive(0.9, 2000), //straight
+
+        //start of lap 2
+
+        tank(0.7, 0.3, 8000), //right turn
+        drive(0.9, 4000), //straight
+        tank(0.7, 0.3, 4000), //right turn
+        tank(0.3, 0.7, 8000), //left turn
+        drive(0.9, 5000), //straight
+        tank(0.3, 0.7, 12000), //left turn
+        tank(0.7, 0.3, 8000), //right turn
+        drive(0.9, 8000), //straight
+        tank(0.7, 0.3, 4000), //right turn
+        drive(0.9, 12000), //straight
+        tank(0.7, 0.3, 2000), //right turn
+        tank(0.3, 0.7, 4000), //left turn
+        drive(0.9, 2000), //straight
+        tank(0.3, 0.7, 4000), //left turn
+
+        //end
+
+
+
+    };*/
 
     public AutoInstruction[] autoSlalomFancy = {
         tank(0.4, 0.9, 4500),
@@ -233,19 +276,20 @@ public class AutoHandler {
         stop()
     };
 
+
     public AutoInstruction[] autoHyperPathA = {
         drive(0.6, 3000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnRight(0.6, 2000),
         waitFor(1),
         drive(0.6, 2000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnLeft(0.6, 5000),
         waitFor(1),
         drive(0.8, 4000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnRight(0.6, 2000),
         waitFor(1),
@@ -257,17 +301,17 @@ public class AutoHandler {
 
     public AutoInstruction[] autoHyperPathB = {
         drive(0.6, 3000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnRight(0.6, 2000),
         waitFor(1),
         drive(0.6, 2000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnLeft(0.6, 5000),
         waitFor(1),
         drive(0.8, 4000),
-        //add zucc and tank here
+        zuccWithTank(-0.8, 0.8, 0.6, 0.6, 1200),
         waitFor(1),
         turnRight(0.6, 2000),
         waitFor(1),

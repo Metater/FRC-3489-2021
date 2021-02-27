@@ -142,28 +142,34 @@ public class Robot extends TimedRobot {
 
     falcon.setSafetyEnabled(false);
 
-    pl.setNumber(2);
+    pl.setNumber(0);
 
 
     addPeriodic(() -> 
     {
-      tapeTrackEquationOld();
+      //tapeTrackEquationOld();
       //tapeTrackEquation();
-      //tapeTrackBigBain();
+      tapeTrackBigBain();
     }, 0.0105, 0);
   }
 
   private double speed;
-  double Kp = -0.0001f;
-  double steering_adjust;
+  //double Kp = -0.0001f;
+  double Kp = -0.000001f;
 
   private void tapeTrackBigBain()
   {
     double x = tx.getDouble(0.0);
 
-    steering_adjust = Kp * x;
+    double steering_adjust = (Kp * x * x);
 
     speed += steering_adjust;
+
+    double xDegreesThreshold = 4;
+    if (Math.abs(x) < xDegreesThreshold)
+    {
+      speed = 0;
+    }
 
     System.out.println(speed);
 

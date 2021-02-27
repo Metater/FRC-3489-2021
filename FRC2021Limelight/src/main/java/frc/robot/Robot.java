@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
   NetworkTableEntry tx = table.getEntry("tx");
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
+  NetworkTableEntry pl = table.getEntry("pipeline");
 
   //ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
@@ -141,16 +142,19 @@ public class Robot extends TimedRobot {
 
     falcon.setSafetyEnabled(false);
 
+    pl.setNumber(2);
+
 
     addPeriodic(() -> 
     {
       tapeTrackEquationOld();
+      //tapeTrackEquation();
       //tapeTrackBigBain();
     }, 0.0105, 0);
   }
 
   private double speed;
-  double Kp = -0.001f;
+  double Kp = -0.0001f;
   double steering_adjust;
 
   private void tapeTrackBigBain()
@@ -207,8 +211,8 @@ public class Robot extends TimedRobot {
     //double y = ty.getDouble(0.0);
     //double area = ta.getDouble(0.0);
 
-    double xDegreesThreshold = 2;
-    double speed = 0.35;
+    double xDegreesThreshold = 6;
+    double speed = 0.34;
 
     double scale = 8880.2;
     double scaledSpeed = (((x * x)/scale) + speed);

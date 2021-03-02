@@ -27,7 +27,7 @@ public class RobotHandler {
         cameraHandler = new CameraHandler(this);
 
         driveHandler.differentialDrive.setSafetyEnabled(false);
-        autoHandler = new AutoHandler(this, AutoType.SlalomFancy); // Set the auto type with suffleboard or something
+        autoHandler = new AutoHandler(this, AutoType.Barrel); // Set the auto type with suffleboard or something
 
         //testHandler = new TestHandler(this);
     }

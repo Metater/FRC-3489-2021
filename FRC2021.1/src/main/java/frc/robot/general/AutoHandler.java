@@ -252,27 +252,15 @@ public class AutoHandler {
     };
 
     public AutoInstruction[] autoBarrel = {
-        drive(0.8, 10000),
-        waitFor(1),
-        tank(0.8, 0.3, 10000),
-        waitFor(1),
+        drive(0.8, 15000),
+        tank(0.8, 0.4, 27500), //30k very bad at 12.85ish volts
         drive(0.8, 5000),
-        waitFor(1),
-        tank(0.8, 0.3, 3000),
-        waitFor(1),
-        drive(0.8, 10000),
-        waitFor(1),
-        tank(0.3, 0.8, 10000),
-        waitFor(1),
-        drive(0.8, 5000),
-        waitFor(1),
-        drive(0.8, 5000),
-        waitFor(1),
-        tank(0.8, 0.3, 5000),
-        waitFor(1),
-        drive(0.6, 250),
-        drive(0.8, 500),
-        drive(1.0, 20000),
+        tank(0.8, 0.35, 34000),
+        drive(1, 18000),
+        tank(0.32, 0.8, 28000),
+        drive(0.8, 12420),
+        tank(0.3, 0.8, 12000),
+        drive(1.0, 12000),
         stop()
     };
 

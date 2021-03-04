@@ -55,22 +55,66 @@ public class InputHandler {
             return isEitherOrDriveJoystickButtonPressed(Constants.Buttons.SWITCH_FRONT);
         return false;
     }
+    public boolean shouldToggleSpeedScale()
+    {
+        if (robotHandler.stateHandler.lastSpeedScaleToggleTime + 1 < Timer.getFPGATimestamp())
+            return isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_SPEED_SCALE);
+        return false;
+    }
 
 
     // SPECIFIC JOYSTICK STICK METHODS
     public double getLeftDriveSpeed()
     {
-        double driveSpeed = joystickDriveLeft.getY();
+        double driveSpeed = joystickDriveLeft.getY() * getDriveScaledSpeed();
         if (Math.abs(driveSpeed) < Constants.DRIVE_SPEED_CUTOFF)
             driveSpeed = 0;
         return driveSpeed;
     }
     public double getRightDriveSpeed()
     {
-        double driveSpeed = joystickDriveRight.getY();
+        double driveSpeed = joystickDriveRight.getY() * getDriveScaledSpeed();
         if (Math.abs(driveSpeed) < Constants.DRIVE_SPEED_CUTOFF)
             driveSpeed = 0;
         return driveSpeed;
+    }
+    public double getZAxisSpeed()
+    {
+        return joystickDriveLeft.getZ();
+    }
+    public double getDriveScaledSpeed()
+    {
+        if (shouldToggleSpeedScale())
+        {
+            robotHandler.stateHandler.toggleSpeedScale();
+        }
+
+        robotHandler.shuffleboardHandler.PrintBooleanToWidget("Scaling Speed", robotHandler.stateHandler.scaleSpeedEnabled);
+
+        if (robotHandler.stateHandler.scaleSpeedEnabled)
+        {
+            double scaledSpeed = getZAxisSpeed();
+
+            scaledSpeed += 1d;
+
+            scaledSpeed /= 2;
+
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Corrected Z Axis Speed", scaledSpeed);
+
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Z Axis Speed", getZAxisSpeed());
+
+            scaledSpeed += 0.625d;
+
+            scaledSpeed = Math.min(1, scaledSpeed);
+
+            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Scaled Speed", scaledSpeed);
+
+            return scaledSpeed;
+        }
+        else
+        {
+            return 1d;
+        }
     }
     public double getManStickSpeed()
     {

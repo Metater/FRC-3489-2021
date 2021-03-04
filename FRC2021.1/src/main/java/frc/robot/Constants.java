@@ -39,7 +39,9 @@ public final class Constants {
         public static final int LIFT_COLOR_WHEEL = 4;
         public static final int SPIN_COLOR_WHEEL = 12;
 
+        // Drive Stick
         public static final int SWITCH_FRONT = 7;
+        public static final int TOGGLE_SPEED_SCALE = 5;
 
     }
 
@@ -96,6 +98,12 @@ public final class Constants {
     public final class Clicks
     {
         public static final double BALL_SYSTEM_CLICKS_PER_INDEX = 20000;
+    }
+
+    public final class MotorOffset
+    {
+        // May want to make a scaling thing, instead, bc friction, and account for negatives
+        public static final double RIGHT_DRIVE_TRAIN_FRICTION_CORRECTION = 0;
     }
 
 

@@ -24,6 +24,15 @@ public class StateHandler {
         lastSwitchFrontTime = Timer.getFPGATimestamp();
     }
     
+    public boolean scaleSpeedEnabled = false;
+    public double lastSpeedScaleToggleTime;
+
+    public void toggleSpeedScale()
+    {
+        scaleSpeedEnabled = !scaleSpeedEnabled;
+        lastSpeedScaleToggleTime = Timer.getFPGATimestamp();
+    }
+
     public void reset()
     {
         isOutakeSideFront = true;

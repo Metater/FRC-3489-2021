@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class RecordingAndPlaybackHandler {
 
     public Map<String, Recording> recordings = new HashMap<String, Recording>();
@@ -16,16 +18,45 @@ public class RecordingAndPlaybackHandler {
     }
     public class Recorder
     {
-        public Recording current = new Recording();
+        public String name;
+        public Recording recording;
 
-        public void NewRecording()
+        private double lastLeftValue;
+        private double lastRightValue;
+
+        public void newRecording(String name)
         {
-            
+            this.name = name;
+            recording = new Recording();
+        }
+        public void tryAddMotorPeriod(double leftValue, double rightValue)
+        {
+            if ((lastLeftValue != leftValue) || (lastRightValue != rightValue))
+            {
+                MotorPeriod motorPeriod = new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp());
+                addMotorPeriod(motorPeriod);
+                lastLeftValue = leftValue;
+                lastRightValue = rightValue;
+            }
+        }
+        public Recording endRecording()
+        {
+            MotorPeriod motorPeriod = new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp());
+            addMotorPeriod(motorPeriod);
+            return recording;
+        }
+        private void addMotorPeriod(MotorPeriod motorPeriod)
+        {
+            recording.recording.add(motorPeriod);
         }
     }
     public class Player
     {
-
+        private RobotHandler robotHandler;
+        public Player(RobotHandler robotHandler)
+        {
+            this.robotHandler = robotHandler;
+        }
     }
     public class MotorPeriod
     {

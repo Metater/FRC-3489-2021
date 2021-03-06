@@ -16,7 +16,12 @@ public class RecordingAndPlaybackHandler {
     }
     public class Recorder
     {
-        
+        public Recording current = new Recording();
+
+        public void NewRecording()
+        {
+            
+        }
     }
     public class Player
     {

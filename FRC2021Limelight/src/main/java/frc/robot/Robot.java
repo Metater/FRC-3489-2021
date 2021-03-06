@@ -238,7 +238,7 @@ public class Robot extends TimedRobot {
   private void tapeTrackEquationOld()
   {
     double x = tx.getDouble(0.0);
-    //double y = ty.getDouble(0.0);
+    double y = ty.getDouble(0.0);
     //double area = ta.getDouble(0.0);
 
     double xDegreesThreshold = 7;

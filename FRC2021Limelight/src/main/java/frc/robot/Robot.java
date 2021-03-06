@@ -243,6 +243,10 @@ public class Robot extends TimedRobot {
 
     double xDegreesThreshold = 7;
     double speed = 0.325;
+    
+    double heightSpeed = 1;
+    double heightScale = 0.0009;
+    double heightScaledPower = -(heightScale * y * y) + heightSpeed;
 
     double scale = 8880.2;
     double scaledSpeed = (((x * x)/scale) + speed);
@@ -258,7 +262,7 @@ public class Robot extends TimedRobot {
       falcon.stopMotor();
       
       if (driveLeft.getRawButton(SHOOT_BUTTON))
-        actualFalcon.set(0.3);
+        actualFalcon.set(heightScaledPower);
       else
         actualFalcon.stopMotor();
     }

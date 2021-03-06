@@ -59,15 +59,18 @@ public class DriveHandler {
         // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
         if (robotHandler.stateHandler.isOutakeSideFront)
         {
-            differentialDrive.tankDrive(backwardRightDriveSpeed, backwardLeftDriveSpeed);
+            double leftTrain = backwardRightDriveSpeed;
+            double rightTrain = backwardLeftDriveSpeed;
+            differentialDrive.tankDrive(leftTrain,rightTrain);
 
             robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", false);
         }
         // Control is backwards, invert spin direction and right and left, and set drive train
         else
         {
-            differentialDrive.tankDrive(backwardLeftDriveSpeed * -1, backwardRightDriveSpeed * -1); // May need to switch with above depending on which way is default "forward",
-            // but then rename forwardLeftDriveSpeed and forwardRightDriveSpeed
+            double leftTrain = backwardLeftDriveSpeed * -1;
+            double rightTrain = backwardRightDriveSpeed * -1;
+            differentialDrive.tankDrive(leftTrain, rightTrain);
 
             robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", true);
         }

@@ -33,6 +33,22 @@ public class StateHandler {
         lastSpeedScaleToggleTime = Timer.getFPGATimestamp();
     }
 
+    public boolean recording = false;
+    public double lastRecordingToggleTime;
+    public void toggleRecording()
+    {
+        recording = !recording;
+        lastRecordingToggleTime = Timer.getFPGATimestamp();
+    }
+
+    public boolean playing = false;
+    public double lastPlayerToggleTime;
+    public void togglePlayer()
+    {
+        playing = !playing;
+        lastPlayerToggleTime = Timer.getFPGATimestamp();
+    }
+
     public void reset()
     {
         isOutakeSideFront = true;

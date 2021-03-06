@@ -42,6 +42,8 @@ public final class Constants {
         // Drive Stick
         public static final int SWITCH_FRONT = 7;
         public static final int TOGGLE_SPEED_SCALE = 5;
+        public static final int TOGGLE_RECORDING = 6;
+        public static final int TOGGLE_PLAYBACK = 4;
 
     }
 

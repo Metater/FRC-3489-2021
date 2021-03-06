@@ -14,6 +14,8 @@ public class RobotHandler {
 
     public AutoHandler autoHandler;
 
+    public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
+
     public TestHandler testHandler;
 
     public RobotHandler()
@@ -29,7 +31,18 @@ public class RobotHandler {
         driveHandler.differentialDrive.setSafetyEnabled(false);
         autoHandler = new AutoHandler(this, AutoType.Barrel); // Set the auto type with suffleboard or something
 
+        recordingAndPlaybackHandler = new RecordingAndPlaybackHandler(this);
+
         //testHandler = new TestHandler(this);
+    }
+
+    public void robotInit()
+    {
+        
+    }
+    public void robotPeriodic()
+    {
+
     }
 
     public void disabledInit() // Disabled isn't it?

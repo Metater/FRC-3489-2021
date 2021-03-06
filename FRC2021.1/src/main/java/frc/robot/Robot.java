@@ -42,12 +42,7 @@ public class Robot extends TimedRobot {
 
   public Robot()
   {
-    /*
-    addPeriodic(() -> 
-    {
 
-    }, 1, 2);
-    */
   }
 
   /**
@@ -62,6 +57,12 @@ public class Robot extends TimedRobot {
 
     robotHandler = new RobotHandler();
 
+    robotHandler.robotInit();
+
+    addPeriodic(() -> 
+    {
+      System.out.println("Selected Recording: " + robotHandler.recordingAndPlaybackHandler.selectedRecording);
+    }, 1, 0);
   }
 
   /**
@@ -78,6 +79,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    robotHandler.robotPeriodic();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

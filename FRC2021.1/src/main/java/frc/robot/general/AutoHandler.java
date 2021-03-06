@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.deser.std.PrimitiveArrayDeserializers;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.auto.*;
@@ -252,14 +253,16 @@ public class AutoHandler {
     };
 
     public AutoInstruction[] autoBarrel = {
-        drive(0.8, 15000),
-        tank(0.8, 0.4, 27500), //30k very bad at 12.85ish volts
+        drive(0.8, 18000),
+        tank(0.8, 0.4, 31420), //30k very bad at 12.85ish volts
         drive(0.8, 5000),
         tank(0.8, 0.35, 34000),
-        drive(1, 18000),
+        drive(1, 21000),
+        tank(0.3, 0.8, 20000),
+        drive(0.8, 5000),
         tank(0.32, 0.8, 28000),
-        drive(0.8, 12420),
-        tank(0.3, 0.8, 12000),
+        drive(0.8, 15420),
+        tank(0.3, 0.8, 7500),
         drive(1.0, 12000),
         stop()
     };

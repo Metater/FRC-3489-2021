@@ -9,6 +9,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.deser.std.PrimitiveArrayDeserializers;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.auto.*;
@@ -47,6 +48,8 @@ public class AutoHandler {
         this.autoType = autoType;
 
         populateAutoList();
+
+        fopen()
     }
 
     private void populateAutoList()

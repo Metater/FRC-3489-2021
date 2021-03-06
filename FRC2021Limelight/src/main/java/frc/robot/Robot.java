@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -46,7 +47,16 @@ public class Robot extends TimedRobot {
 
   WPI_TalonSRX falcon = new WPI_TalonSRX(1);
 
+  WPI_TalonFX actualFalcon = new WPI_TalonFX(6);
+
   int cycles = 0;
+
+  static final int LIMELIGHT_TOGGLE = 2;
+  static final int SHOOT_BUTTON = 1;
+  boolean limelightEnabled = false;
+  double limelightLastToggleTime = 0;
+
+  Joystick driveLeft = new Joystick(0);
 
 
 
@@ -141,15 +151,30 @@ public class Robot extends TimedRobot {
     }
 
     falcon.setSafetyEnabled(false);
-
-    pl.setNumber(0);
+    actualFalcon.setSafetyEnabled(false);
 
 
     addPeriodic(() -> 
     {
-      //tapeTrackEquationOld();
-      //tapeTrackEquation();
-      tapeTrackBigBain();
+      if (limelightEnabled)
+      {
+        pl.setNumber(0);
+        tapeTrackEquationOld();
+        //tapeTrackEquation();
+        //tapeTrackBigBain();
+
+        if (cycles % 48 == 0)
+          System.out.println("Limelight enabled");
+      }
+      else
+      {
+        pl.setNumber(5);
+        if (cycles % 48 == 0)
+          System.out.println("Limelight disabled");
+      }
+
+      cycles++;
+
     }, 0.0105, 0);
   }
 
@@ -197,7 +222,6 @@ public class Robot extends TimedRobot {
       System.out.println("Xoff" + x);
       System.out.println("Scaled Speed" + scaledSpeed);
     }
-    cycles++;
 
     if (x > xDegreesThreshold)
     {
@@ -217,18 +241,11 @@ public class Robot extends TimedRobot {
     //double y = ty.getDouble(0.0);
     //double area = ta.getDouble(0.0);
 
-    double xDegreesThreshold = 6;
-    double speed = 0.34;
+    double xDegreesThreshold = 7;
+    double speed = 0.325;
 
     double scale = 8880.2;
     double scaledSpeed = (((x * x)/scale) + speed);
-
-    if (cycles % 95 == 0)
-    {
-      System.out.println("Xoff" + x);
-      System.out.println("Scaled Speed" + scaledSpeed);
-    }
-    cycles++;
 
     if (x > xDegreesThreshold)
     {
@@ -239,6 +256,11 @@ public class Robot extends TimedRobot {
     }
     else {
       falcon.stopMotor();
+      
+      if (driveLeft.getRawButton(SHOOT_BUTTON))
+        actualFalcon.set(0.3);
+      else
+        actualFalcon.stopMotor();
     }
   }
 
@@ -255,6 +277,17 @@ public class Robot extends TimedRobot {
       falcon.set(-0.065);
     }
     */
+
+    double time  = Timer.getFPGATimestamp();
+
+    if (driveLeft.getRawButton(LIMELIGHT_TOGGLE))
+    {
+      if (limelightLastToggleTime + 1 < time)
+      {
+        limelightLastToggleTime = time;
+        limelightEnabled = !limelightEnabled;
+      }
+    }
   }
 
   @Override

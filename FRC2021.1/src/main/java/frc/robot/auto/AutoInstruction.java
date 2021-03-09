@@ -6,9 +6,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.general.AutoHandler;
-import frc.robot.general.BallSystemHandler;
-import frc.robot.general.RobotHandler;
+import frc.robot.handlers.AutoHandler;
+import frc.robot.handlers.BallSystemHandler;
+import frc.robot.handlers.RobotHandler;
 
 public class AutoInstruction {
 

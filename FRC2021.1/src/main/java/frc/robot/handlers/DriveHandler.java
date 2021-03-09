@@ -1,4 +1,4 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -40,12 +40,14 @@ public class DriveHandler {
     * Called every teleopPeriodic cycle
     */
     public void teleopPeriodic() {
+
         trySwitchFront();
         tryScissorLift();
         drive();
 
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Velocity Left", _leftFront.getSelectedSensorVelocity());
+        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Velocity Left", -1 * _leftFront.getSelectedSensorVelocity());
         robotHandler.shuffleboardHandler.PrintDoubleToWidget("Velocity Right", _rghtFront.getSelectedSensorVelocity());
+        robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", robotHandler.stateHandler.isIntakeSideFront);
     }
 
     /**
@@ -56,30 +58,20 @@ public class DriveHandler {
         double backwardLeftDriveSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
         double backwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
         
-        // Control is forward, normal spin direction, and spin speed on joystick corresponds to each side, and set drive train
-        if (robotHandler.stateHandler.isOutakeSideFront)
-        {
-            double leftTrain = backwardRightDriveSpeed;
-            double rightTrain = backwardLeftDriveSpeed;
-            differentialDrive.tankDrive(leftTrain,rightTrain);
-
-            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", false);
-        }
-        // Control is backwards, invert spin direction and right and left, and set drive train
-        else
+        // Control is forward
+        if (robotHandler.stateHandler.isIntakeSideFront)
         {
             double leftTrain = backwardLeftDriveSpeed * -1;
             double rightTrain = backwardRightDriveSpeed * -1;
             differentialDrive.tankDrive(leftTrain, rightTrain);
-
-            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Forward", true);
         }
-
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Left Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(backwardLeftDriveSpeed));
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Right Stick", robotHandler.shuffleboardHandler.DoubleToPercent1Dec(backwardRightDriveSpeed));
-
-        //System.out.println(_leftFront.getSelectedSensorPosition());
-        //System.out.println(_rghtFront.getSelectedSensorPosition());
+        // Control is backwards
+        else
+        {
+            double leftTrain = backwardRightDriveSpeed;
+            double rightTrain = backwardLeftDriveSpeed;
+            differentialDrive.tankDrive(leftTrain, rightTrain);
+        }
     }
 
     /**
@@ -90,7 +82,6 @@ public class DriveHandler {
         if (robotHandler.inputHandler.shouldSwitchFront())
         {
             robotHandler.stateHandler.switchFront();
-            System.out.println("Should be only once");
 
             robotHandler.cameraHandler.UpdateCameraDirection();
         }

@@ -1,5 +1,6 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
+import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -14,43 +15,47 @@ public class StateHandler {
         this.robotHandler = robotHandler;
     }
 
-    // Switching Front Stuff
-    public boolean isOutakeSideFront = false;
+    public boolean isIntakeSideFront = true;
     public double lastSwitchFrontTime;
-
     public void switchFront()
     {
-        isOutakeSideFront = !isOutakeSideFront;
+        isIntakeSideFront = !isIntakeSideFront;
         lastSwitchFrontTime = Timer.getFPGATimestamp();
     }
-    
-    public boolean scaleSpeedEnabled = false;
-    public double lastSpeedScaleToggleTime;
 
+    public boolean isSpeedScaleEnabled = false;
+    public double lastSpeedScaleToggleTime;
     public void toggleSpeedScale()
     {
-        scaleSpeedEnabled = !scaleSpeedEnabled;
+        isSpeedScaleEnabled = !isSpeedScaleEnabled;
         lastSpeedScaleToggleTime = Timer.getFPGATimestamp();
     }
 
-    public boolean recording = false;
+    public boolean isRecording = false;
     public double lastRecordingToggleTime;
     public void toggleRecording()
     {
-        recording = !recording;
+        isRecording = !isRecording;
         lastRecordingToggleTime = Timer.getFPGATimestamp();
     }
-
-    public boolean playing = false;
+    public boolean isPlaying = false;
     public double lastPlayerToggleTime;
     public void togglePlayer()
     {
-        playing = !playing;
+        isPlaying = !isPlaying;
         lastPlayerToggleTime = Timer.getFPGATimestamp();
     }
 
     public void reset()
     {
-        isOutakeSideFront = true;
+        isIntakeSideFront = true;
+        isSpeedScaleEnabled = false;
+        isRecording = false;
+        isPlaying = false;
+
+        lastSwitchFrontTime = 0;
+        lastSpeedScaleToggleTime = 0;
+        lastRecordingToggleTime = 0;
+        lastPlayerToggleTime = 0;
     }
 }

@@ -1,10 +1,11 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -37,7 +38,7 @@ public class ShuffleboardHandler {
         }
         else
         {
-            SimpleWidget sw = tab.add(name, value);
+            SimpleWidget sw = getSimpleWidgetByTitle(name, (title) -> tab.add(title, value));
             sw.getEntry().setDouble(value);
             simpleWidgets.put(name, sw);
         }
@@ -51,7 +52,7 @@ public class ShuffleboardHandler {
         }
         else
         {
-            SimpleWidget sw = tab.add(name, value);
+            SimpleWidget sw = getSimpleWidgetByTitle(name, (title) -> tab.add(title, value));
             sw.getEntry().setString(value);
             simpleWidgets.put(name, sw);
         }
@@ -64,10 +65,24 @@ public class ShuffleboardHandler {
         }
         else
         {
-            SimpleWidget sw = tab.add(name, value);
+            SimpleWidget sw = getSimpleWidgetByTitle(name, (title) -> tab.add(title, value));
             sw.getEntry().setBoolean(value);
             simpleWidgets.put(name, sw);
         }
+    }
+
+    private SimpleWidget getSimpleWidgetByTitle(String title, Function<String, SimpleWidget> func)
+    {
+        List<ShuffleboardComponent<?>> components = tab.getComponents();
+        for(ShuffleboardComponent<?> sc : components)
+        {
+            String scTitle = sc.getTitle();
+            if (scTitle == title)
+            {
+                return (SimpleWidget)sc;
+            }
+        }
+        return func.apply(title);
     }
     
     

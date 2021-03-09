@@ -1,4 +1,4 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,10 +36,10 @@ public class RecordingAndPlaybackHandler {
             if (robotHandler.stateHandler.lastRecordingToggleTime + 1 < Timer.getFPGATimestamp())
             {
                 robotHandler.stateHandler.toggleRecording();
-                if (!robotHandler.stateHandler.recording) //Stop recording
+                if (!robotHandler.stateHandler.isRecording) //Stop recording
                 {
-                    String name = recorder.name;
                     Recording recording = recorder.endRecording();
+                    String name = recording.name;
                     recordings.put(name, recording);
                 }
                 else // Start recording
@@ -54,7 +54,7 @@ public class RecordingAndPlaybackHandler {
             if (robotHandler.stateHandler.lastPlayerToggleTime + 1 < Timer.getFPGATimestamp())
             {
                 robotHandler.stateHandler.togglePlayer();
-                if (!robotHandler.stateHandler.playing) //Stop playing
+                if (!robotHandler.stateHandler.isPlaying) //Stop playing
                 {
                     player.stop();
                 }
@@ -65,6 +65,7 @@ public class RecordingAndPlaybackHandler {
             }
         }
     }
+    /*
     public MotorPeriod sendMotorPeriodValues()
     {
         if (recorder.isRecording)
@@ -72,14 +73,15 @@ public class RecordingAndPlaybackHandler {
             
         }
     }
+    */
 
     public class Recording
     {
         public List<MotorPeriod> recording = new ArrayList<MotorPeriod>();
+        public String name;
     }
     public class Recorder
     {
-        public String name;
         public Recording recording;
 
         public boolean isRecording = false;
@@ -89,16 +91,15 @@ public class RecordingAndPlaybackHandler {
 
         public void newRecording(String name)
         {
-            this.name = name;
             recording = new Recording();
+            recording.name = name;
             isRecording = true;
         }
         public void tryAddMotorPeriod(double leftValue, double rightValue)
         {
             if ((lastLeftValue != leftValue) || (lastRightValue != rightValue))
             {
-                MotorPeriod motorPeriod = new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp());
-                addMotorPeriod(motorPeriod);
+                addMotorPeriod(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
                 lastLeftValue = leftValue;
                 lastRightValue = rightValue;
             }
@@ -106,8 +107,7 @@ public class RecordingAndPlaybackHandler {
         public Recording endRecording()
         {
             isRecording = false;
-            MotorPeriod motorPeriod = new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp());
-            addMotorPeriod(motorPeriod);
+            addMotorPeriod(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
             return recording;
         }
         private void addMotorPeriod(MotorPeriod motorPeriod)

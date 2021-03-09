@@ -1,4 +1,4 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -89,9 +89,9 @@ public class InputHandler {
             robotHandler.stateHandler.toggleSpeedScale();
         }
 
-        robotHandler.shuffleboardHandler.PrintBooleanToWidget("Scaling Speed", robotHandler.stateHandler.scaleSpeedEnabled);
+        robotHandler.shuffleboardHandler.PrintBooleanToWidget("Scaling Speed", robotHandler.stateHandler.isSpeedScaleEnabled);
 
-        if (robotHandler.stateHandler.scaleSpeedEnabled)
+        if (robotHandler.stateHandler.isSpeedScaleEnabled)
         {
             double scaledSpeed = getZAxisSpeed();
 

@@ -1,4 +1,4 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -48,8 +48,6 @@ public class AutoHandler {
         this.autoType = autoType;
 
         populateAutoList();
-
-        fopen()
     }
 
     private void populateAutoList()

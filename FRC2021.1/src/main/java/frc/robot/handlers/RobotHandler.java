@@ -1,39 +1,40 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
-import frc.robot.general.AutoHandler.AutoType;
+import frc.robot.handlers.AutoHandler.AutoType;
 
 public class RobotHandler {
 
-    public DriveHandler driveHandler;
     public StateHandler stateHandler;
     public InputHandler inputHandler;
+
+    public DriveHandler driveHandler;
     public BallSystemHandler ballSystemHandler;
     public HookHandler hookHandler;
-    public ShuffleboardHandler shuffleboardHandler;
-    public CameraHandler cameraHandler;
 
     public AutoHandler autoHandler;
 
-    public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
+    public ShuffleboardHandler shuffleboardHandler;
+    public CameraHandler cameraHandler;
 
-    public TestHandler testHandler;
+    public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
 
     public RobotHandler()
     {
-        driveHandler = new DriveHandler(this);
         stateHandler = new StateHandler(this);
         inputHandler = new InputHandler(this);
+
+        driveHandler = new DriveHandler(this);
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
-        //shuffleboardHandler moved to teleopInit
-        cameraHandler = new CameraHandler(this);
 
-        driveHandler.differentialDrive.setSafetyEnabled(false);
         autoHandler = new AutoHandler(this, AutoType.Barrel); // Set the auto type with suffleboard or something
+
+        shuffleboardHandler = new ShuffleboardHandler(this);
+        cameraHandler = new CameraHandler(this);
 
         recordingAndPlaybackHandler = new RecordingAndPlaybackHandler(this);
 
-        //testHandler = new TestHandler(this);
+        driveHandler.differentialDrive.setSafetyEnabled(false);
     }
 
     public void robotInit()
@@ -47,20 +48,17 @@ public class RobotHandler {
 
     public void disabledInit() // Disabled isn't it?
     {
-        //ballSystemHandler.reset();
+        stateHandler.reset();
+        ballSystemHandler.reset();
     }
-    // UNCOMMENTSDOIJASOIHOIHSODHAOHIHO SOMETIME
 
     public void teleopInit() // Teleop isn't it?
     {
-        shuffleboardHandler = new ShuffleboardHandler(this);
-        stateHandler.reset();
         
     }
 
     public void teleopPeriodic()
     {
-        //testHandler.teleopPeriodic();
         driveHandler.teleopPeriodic();
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();

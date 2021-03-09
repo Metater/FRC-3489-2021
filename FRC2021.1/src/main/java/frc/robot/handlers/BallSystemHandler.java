@@ -1,4 +1,4 @@
-package frc.robot.general;
+package frc.robot.handlers;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

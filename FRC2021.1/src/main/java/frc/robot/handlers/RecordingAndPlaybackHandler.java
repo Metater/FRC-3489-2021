@@ -5,12 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
+
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
+// Redbull Replay
 public class RecordingAndPlaybackHandler {
 
     private RobotHandler robotHandler;
+
+    public Recorder recorder;
+    public Player player;
+
+
+    public List<Recording> recordings = new ArrayList<Recording>();
+
+    public int selectedRecording = -1;
 
     public RecordingAndPlaybackHandler(RobotHandler robotHandler)
     {
@@ -19,100 +30,108 @@ public class RecordingAndPlaybackHandler {
         player = new Player(robotHandler);
     }
 
-    public Map<String, Recording> recordings = new HashMap<String, Recording>();
-
-    public Recorder recorder;
-
-    public Player player;
-
-    public String selectedRecording = "Recording 0";
-
-    private int recordingId = 0;
-
     public void teleopPeriodic()
     {
         if (robotHandler.inputHandler.isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_RECORDING))
         {
             if (robotHandler.stateHandler.lastRecordingToggleTime + 1 < Timer.getFPGATimestamp())
             {
-                robotHandler.stateHandler.toggleRecording();
-                if (!robotHandler.stateHandler.isRecording) //Stop recording
-                {
-                    Recording recording = recorder.endRecording();
-                    String name = recording.name;
-                    recordings.put(name, recording);
-                }
-                else // Start recording
-                {
-                    recorder.newRecording("Recording " + String.valueOf(recordingId));
-                    recordingId++;
-                }
+                toggleRecorder();
             }
         }
         if (robotHandler.inputHandler.isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_PLAYBACK))
         {
             if (robotHandler.stateHandler.lastPlayerToggleTime + 1 < Timer.getFPGATimestamp())
             {
-                robotHandler.stateHandler.togglePlayer();
-                if (!robotHandler.stateHandler.isPlaying) //Stop playing
-                {
-                    player.stop();
-                }
-                else // Start playing
-                {
-                    player.play(recordings.get(selectedRecording));
-                }
+                togglePlayer();
             }
         }
     }
-    /*
-    public MotorPeriod sendMotorPeriodValues()
+    private void toggleRecorder()
     {
-        if (recorder.isRecording)
+        robotHandler.stateHandler.toggleRecording();
+        if (!robotHandler.stateHandler.isRecording) //Stop recording
         {
-            
+            Recording recording = recorder.endRecording();
+            String name = recording.name;
+            recordings.put(name, recording);
+        }
+        else // Start recording
+        {
+            recorder.newRecording("Recording " + String.valueOf(recordings.size()));
         }
     }
-    */
+    private void togglePlayer()
+    {
+        robotHandler.stateHandler.togglePlayer();
+        if (!robotHandler.stateHandler.isPlaying) //Stop playing
+        {
+            player.stop();
+        }
+        else // Start playing
+        {
+            player.play(recordings.get(selectedRecording));
+        }
+    }
+
+    public void recordValues(double leftTrain, double rightTrain)
+    {
+        if (!recorder.isRecording) return;
+
+        recorder.record(leftTrain, rightTrain);
+    }
 
     public class Recording
     {
         public List<MotorPeriod> recording = new ArrayList<MotorPeriod>();
-        public String name;
     }
     public class Recorder
     {
-        public Recording recording;
-
         public boolean isRecording = false;
+
+        private Recording recording;
+        private boolean firstCycle = true;
 
         private double lastLeftValue;
         private double lastRightValue;
 
-        public void newRecording(String name)
+        public void record(double leftValue, double rightValue)
         {
-            recording = new Recording();
-            recording.name = name;
-            isRecording = true;
-        }
-        public void tryAddMotorPeriod(double leftValue, double rightValue)
-        {
-            if ((lastLeftValue != leftValue) || (lastRightValue != rightValue))
+            if (firstCycle)
             {
-                addMotorPeriod(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
+                firstCycle = false;
                 lastLeftValue = leftValue;
                 lastRightValue = rightValue;
             }
+            else if (haveValuesChanged(leftValue, rightValue))
+            {
+                addMotorPeriod(lastLeftValue, lastRightValue);
+            }
+            lastLeftValue = leftValue;
+            lastRightValue = rightValue;
         }
-        public Recording endRecording()
+        private boolean haveValuesChanged(double leftValue, double rightValue)
         {
+            return (lastLeftValue != leftValue) || (lastRightValue != rightValue);
+        }
+        public void start()
+        {
+            recording = new Recording();
+            isRecording = true;
+            firstCycle = true;
+        }
+        public void stop()
+        {
+            addMotorPeriod(lastLeftValue, lastRightValue);
             isRecording = false;
-            addMotorPeriod(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
+        }
+        public Recording save()
+        {
             return recording;
         }
-        private void addMotorPeriod(MotorPeriod motorPeriod)
+        private void addMotorPeriod(double leftValue, double rightValue)
         {
-            recording.recording.add(motorPeriod);
+            recording.recording.add(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
         }
     }
     public class Player
@@ -127,17 +146,18 @@ public class RecordingAndPlaybackHandler {
         {
             this.robotHandler = robotHandler;
         }
-        public void play(Recording recording)
-        {
-            startTime = Timer.getFPGATimestamp();
-            this.recording = recording;
-            isPlaying = true;
-        }
+        
         public void run()
         {
             if (!isPlaying) return;
             MotorPeriod motorPeriod = findSuitableMotorPeriod();
             robotHandler.driveHandler.differentialDrive.tankDrive(motorPeriod.speedLeft, motorPeriod.speedLeft);
+        }
+        public void start(Recording recording)
+        {
+            startTime = Timer.getFPGATimestamp();
+            this.recording = recording;
+            isPlaying = true;
         }
         public void stop()
         {

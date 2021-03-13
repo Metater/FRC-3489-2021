@@ -4,6 +4,15 @@ import frc.robot.handlers.AutoHandler.AutoType;
 
 public class RobotHandler {
 
+    public enum RobotMode
+    {
+        Disabled,
+        Autonomous,
+        Teleop
+    }
+
+    public RobotMode robotMode = RobotMode.Disabled;
+
     public StateHandler stateHandler;
     public InputHandler inputHandler;
 
@@ -48,13 +57,14 @@ public class RobotHandler {
 
     public void disabledInit() // Disabled isn't it?
     {
+        robotMode = RobotMode.Disabled;
         stateHandler.reset();
         ballSystemHandler.reset();
     }
 
     public void teleopInit() // Teleop isn't it?
     {
-        
+        robotMode = RobotMode.Teleop;
     }
 
     public void teleopPeriodic()
@@ -66,6 +76,7 @@ public class RobotHandler {
 
     public void autonomousInit()
     {
+        robotMode = RobotMode.Autonomous;
         autoHandler.autonomousInit();
     }
 

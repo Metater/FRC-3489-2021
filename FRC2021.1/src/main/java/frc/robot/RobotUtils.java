@@ -23,6 +23,9 @@ public class RobotUtils {
         private double b;
         private double c;
 
+        private double slope;
+        private double xOffset;
+
         public SlopedLine(double a, double b, double c)
         {
             this.a = a;
@@ -35,11 +38,15 @@ public class RobotUtils {
             a = y2 - y1;
             b = x1 - x2;
             c = (a * x1) + (b * y1);
+
+            slope = (y2-y1)/(x2-x1);
+            xOffset = -1*c;
         }
 
         public double getX(double y)
         {
-
+            double x = (c-(b*y))/a;
+            return x;
         }
 
         public double getY(double x)
@@ -50,12 +57,12 @@ public class RobotUtils {
 
         public double getSlope()
         {
-
+            return slope;
         }
 
         public double getXOffset()
         {
-            
+            return xOffset;
         }
     }
 }

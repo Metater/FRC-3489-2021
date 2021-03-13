@@ -23,13 +23,6 @@ public class InputHandler {
     public DigitalInput _ballOutputSensor = new DigitalInput(1);
     public DigitalInput _stopWinchSensor = new DigitalInput(2);
     */
-    
-    public enum JoystickType
-    {
-        DriveLeft,
-        DriveRight,
-        Manipulator
-    }
 
     public InputHandler(RobotHandler robotHandler)
     {
@@ -93,22 +86,14 @@ public class InputHandler {
 
         if (robotHandler.stateHandler.isSpeedScaleEnabled)
         {
-            double scaledSpeed = getZAxisSpeed();
-
-            scaledSpeed += 1d;
-
-            scaledSpeed /= 2;
-
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Corrected Z Axis Speed", scaledSpeed);
-
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Z Axis Speed", getZAxisSpeed());
+            double scaledSpeed = RobotUtils.normalizeJoystick(getZAxisSpeed());
 
             scaledSpeed += 0.625d;
 
             scaledSpeed = Math.min(1, scaledSpeed);
 
             robotHandler.shuffleboardHandler.PrintDoubleToWidget("Scaled Speed", scaledSpeed);
-
+            
             return scaledSpeed;
         }
         else

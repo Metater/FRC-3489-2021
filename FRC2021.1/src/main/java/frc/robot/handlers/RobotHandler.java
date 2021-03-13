@@ -2,7 +2,11 @@ package frc.robot.handlers;
 
 import frc.robot.handlers.AutoHandler.AutoType;
 
+import frc.robot.*;
+
 public class RobotHandler {
+
+    public Robot robot;
 
     public enum RobotMode
     {
@@ -27,8 +31,10 @@ public class RobotHandler {
 
     public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
 
-    public RobotHandler()
+    public RobotHandler(Robot robot)
     {
+        this.robot = robot;
+
         stateHandler = new StateHandler(this);
         inputHandler = new InputHandler(this);
 

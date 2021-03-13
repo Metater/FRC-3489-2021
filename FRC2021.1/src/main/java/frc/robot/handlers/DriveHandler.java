@@ -20,8 +20,6 @@ public class DriveHandler {
 
     public DifferentialDrive differentialDrive = new DifferentialDrive(_leftFront, _rghtFront);
 
-    public PIDController pidController;
-
 
     public DriveHandler(RobotHandler robotHandler)
     {
@@ -55,21 +53,21 @@ public class DriveHandler {
     */
     private void drive()
     {
-        double backwardLeftDriveSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
-        double backwardRightDriveSpeed = robotHandler.inputHandler.getRightDriveSpeed();
+        double backwardLeftDriveTrainSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
+        double backwardRightDriveTrainSpeed = robotHandler.inputHandler.getRightDriveSpeed();
         
         // Control is forward
         if (robotHandler.stateHandler.isIntakeSideFront)
         {
-            double leftTrain = backwardLeftDriveSpeed * -1;
-            double rightTrain = backwardRightDriveSpeed * -1;
+            double leftTrain = backwardLeftDriveTrainSpeed * -1;
+            double rightTrain = backwardRightDriveTrainSpeed * -1;
             differentialDrive.tankDrive(leftTrain, rightTrain);
         }
         // Control is backwards
         else
         {
-            double leftTrain = backwardRightDriveSpeed;
-            double rightTrain = backwardLeftDriveSpeed;
+            double leftTrain = backwardRightDriveTrainSpeed;
+            double rightTrain = backwardLeftDriveTrainSpeed;
             differentialDrive.tankDrive(leftTrain, rightTrain);
         }
     }

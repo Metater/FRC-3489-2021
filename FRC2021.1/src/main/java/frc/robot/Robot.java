@@ -55,14 +55,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    robotHandler = new RobotHandler();
+    robotHandler = new RobotHandler(this);
 
     robotHandler.robotInit();
-
-    addPeriodic(() -> 
-    {
-      System.out.println("Selected Recording: " + robotHandler.recordingAndPlaybackHandler.selectedRecording);
-    }, 1, 0);
   }
 
   /**

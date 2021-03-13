@@ -20,7 +20,6 @@ public class RecordingAndPlaybackHandler {
 
 
     public List<Recording> recordings = new ArrayList<Recording>();
-
     public int selectedRecording = -1;
 
     public RecordingAndPlaybackHandler(RobotHandler robotHandler)
@@ -30,21 +29,36 @@ public class RecordingAndPlaybackHandler {
         player = new Player(robotHandler);
     }
 
+    public void robotInit()
+    {
+
+    }
+
     public void teleopPeriodic()
     {
         if (robotHandler.inputHandler.isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_RECORDING))
         {
             if (robotHandler.stateHandler.lastRecordingToggleTime + 1 < Timer.getFPGATimestamp())
             {
-                toggleRecorder();
+                if (!player.isPlaying)
+                    toggleRecorder();
             }
         }
         if (robotHandler.inputHandler.isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_PLAYBACK))
         {
             if (robotHandler.stateHandler.lastPlayerToggleTime + 1 < Timer.getFPGATimestamp())
             {
-                togglePlayer();
+                if (!recorder.isRecording)
+                    togglePlayer();
             }
+        }
+        if (recorder.isRecording)
+        {
+
+        }
+        else if (player.isPlaying)
+        {
+
         }
     }
     private void toggleRecorder()
@@ -53,8 +67,7 @@ public class RecordingAndPlaybackHandler {
         if (!robotHandler.stateHandler.isRecording) //Stop recording
         {
             Recording recording = recorder.endRecording();
-            String name = recording.name;
-            recordings.put(name, recording);
+            recordings.put(recording);
         }
         else // Start recording
         {

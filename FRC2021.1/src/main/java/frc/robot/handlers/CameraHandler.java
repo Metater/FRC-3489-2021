@@ -34,7 +34,7 @@ public class CameraHandler {
         server.setSource(frontCam);
     }
 
-    public void UpdateCameraDirection()
+    public void updateCameraDirection()
     {
         if (robotHandler.stateHandler.isIntakeSideFront)
             server.setSource(frontCam);

@@ -83,11 +83,26 @@ public class RobotHandler {
     public void autonomousInit()
     {
         robotMode = RobotMode.Autonomous;
-        autoHandler.autonomousInit();
+
+        if (recordingAndPlaybackHandler.selectedRecording == -1)
+        {
+            autoHandler.autonomousInit();
+        }
+        else
+        {
+            recordingAndPlaybackHandler.autonomousInit();
+        }
     }
 
     public void autonomousPeriodic()
     {
-        autoHandler.autonomousPeriodic();
+        if (recordingAndPlaybackHandler.selectedRecording == -1)
+        {
+            autoHandler.autonomousPeriodic();
+        }
+        else
+        {
+            recordingAndPlaybackHandler.autonomousPeriodic();
+        }
     }
 }

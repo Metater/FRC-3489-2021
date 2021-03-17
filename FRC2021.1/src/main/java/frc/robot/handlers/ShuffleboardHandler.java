@@ -29,7 +29,7 @@ public class ShuffleboardHandler {
     {
         this.robotHandler = robotHandler;
         recordingChooser.setDefaultOption("i^2", -1);
-        tab.add()
+        tab.add(recordingChooser).withSize(2, 1);
     }
 
     public int getSelectedRecording()
@@ -40,7 +40,6 @@ public class ShuffleboardHandler {
     public void addRecording(int recordingId)
     {
         recordingChooser.addOption("Recording " + recordingId, recordingId);
-        
     }
 
     //https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/shuffleboard/layouts-with-code/sending-data.html

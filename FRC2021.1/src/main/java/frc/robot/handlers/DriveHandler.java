@@ -56,20 +56,25 @@ public class DriveHandler {
         double backwardLeftDriveTrainSpeed = robotHandler.inputHandler.getLeftDriveSpeed();
         double backwardRightDriveTrainSpeed = robotHandler.inputHandler.getRightDriveSpeed();
         
+        double leftTrain;
+        double rightTrain;
+
         // Control is forward
         if (robotHandler.stateHandler.isIntakeSideFront)
         {
-            double leftTrain = backwardLeftDriveTrainSpeed * -1;
-            double rightTrain = backwardRightDriveTrainSpeed * -1;
-            differentialDrive.tankDrive(leftTrain, rightTrain);
+            leftTrain = backwardLeftDriveTrainSpeed * -1;
+            rightTrain = backwardRightDriveTrainSpeed * -1;
         }
         // Control is backwards
         else
         {
-            double leftTrain = backwardRightDriveTrainSpeed;
-            double rightTrain = backwardLeftDriveTrainSpeed;
-            differentialDrive.tankDrive(leftTrain, rightTrain);
+            leftTrain = backwardRightDriveTrainSpeed;
+            rightTrain = backwardLeftDriveTrainSpeed;
         }
+
+        robotHandler.recordingAndPlaybackHandler.recordValues(leftTrain, rightTrain);
+
+        differentialDrive.tankDrive(leftTrain, rightTrain);
     }
 
     /**
@@ -81,7 +86,7 @@ public class DriveHandler {
         {
             robotHandler.stateHandler.switchFront();
 
-            robotHandler.cameraHandler.UpdateCameraDirection();
+            robotHandler.cameraHandler.updateCameraDirection();
         }
     }
     /**

@@ -34,6 +34,24 @@ public class RecordingAndPlaybackHandler {
         }, 1, 0);
     }
 
+    public void autonomousInit()
+    {
+        selectedRecording = robotHandler.shuffleboardHandler.getSelectedRecording();
+    }
+
+    public void autonomousPeriodic()
+    {
+        if (!player.isPlaying)
+            togglePlayer();
+        player.run();
+    }
+
+    public void disabledInit()
+    {
+        if (player.isPlaying)
+            togglePlayer();
+    }
+
     public void teleopPeriodic()
     {
         if (robotHandler.inputHandler.isEitherOrDriveJoystickButton(Constants.Buttons.TOGGLE_RECORDING))

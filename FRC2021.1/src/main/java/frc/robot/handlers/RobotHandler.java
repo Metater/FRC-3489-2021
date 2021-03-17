@@ -54,7 +54,8 @@ public class RobotHandler {
 
     public void robotInit()
     {
-        
+        shuffleboardHandler.printBooleanToWidget("Recording", false);
+        shuffleboardHandler.printBooleanToWidget("Playing", false);
     }
     public void robotPeriodic()
     {
@@ -71,17 +72,21 @@ public class RobotHandler {
     public void teleopInit() // Teleop isn't it?
     {
         robotMode = RobotMode.Teleop;
+        recordingAndPlaybackHandler.teleopInit();
     }
 
     public void teleopPeriodic()
     {
-        driveHandler.teleopPeriodic();
+        if (!recordingAndPlaybackHandler.player.isPlaying)
+            driveHandler.teleopPeriodic();
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();
+        recordingAndPlaybackHandler.teleopPeriodic();
     }
 
     public void autonomousInit()
     {
+        /*
         robotMode = RobotMode.Autonomous;
 
         if (recordingAndPlaybackHandler.selectedRecording == -1)
@@ -92,10 +97,13 @@ public class RobotHandler {
         {
             recordingAndPlaybackHandler.autonomousInit();
         }
+        */
+        recordingAndPlaybackHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
+        /*
         if (recordingAndPlaybackHandler.selectedRecording == -1)
         {
             autoHandler.autonomousPeriodic();
@@ -104,5 +112,7 @@ public class RobotHandler {
         {
             recordingAndPlaybackHandler.autonomousPeriodic();
         }
+        */
+        recordingAndPlaybackHandler.autonomousPeriodic();
     }
 }

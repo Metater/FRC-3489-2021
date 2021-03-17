@@ -34,9 +34,15 @@ public class RecordingAndPlaybackHandler {
         }, 1, 0);
     }
 
+    public void teleopInit()
+    {
+        selectedRecording = 0;
+    }
+
     public void autonomousInit()
     {
         selectedRecording = robotHandler.shuffleboardHandler.getSelectedRecording();
+        selectedRecording = 0;
     }
 
     public void autonomousPeriodic()
@@ -81,10 +87,13 @@ public class RecordingAndPlaybackHandler {
             recorder.stop();
             Recording recording = recorder.save();
             recordings.add(recording);
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Recording", false);
+            robotHandler.shuffleboardHandler.printDoubleToWidget("Recording L", recording.recording.size());
         }
         else // Starting recorder
         {
             recorder.start();
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Recording", true);
         }
     }
     private void togglePlayer()
@@ -93,10 +102,12 @@ public class RecordingAndPlaybackHandler {
         if (!robotHandler.stateHandler.isPlaying) //Stopping player
         {
             player.stop();
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Playing", false);
         }
         else // Starting player
         {
             player.start(recordings.get(selectedRecording));
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Playing", true);
         }
     }
 
@@ -192,6 +203,7 @@ public class RecordingAndPlaybackHandler {
             if (!isPlaying) return;
             MotorPeriod motorPeriod = findSuitableMotorPeriod();
             robotHandler.driveHandler.differentialDrive.tankDrive(motorPeriod.speedLeft, motorPeriod.speedLeft);
+            System.out.println(motorPeriod.speedLeft + ":::" + motorPeriod.speedRight);
         }
         public void start(Recording recording)
         {
@@ -208,10 +220,12 @@ public class RecordingAndPlaybackHandler {
         {
             double timeSinceStart = getTimeSinceStart();
 
-            for (int i = recording.recording.size(); i >= 0; i--)
+            System.out.println(recording.recording.size());
+
+            for (int i = recording.recording.size()-1; i >= 0; i--)
             {
                 MotorPeriod motorPeriod = recording.recording.get(i);
-                if (motorPeriod.endTime > timeSinceStart)
+                if (motorPeriod.endTime < timeSinceStart)
                     return motorPeriod;
             }
 

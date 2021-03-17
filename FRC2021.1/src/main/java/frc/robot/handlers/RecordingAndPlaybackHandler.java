@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
-
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
@@ -80,7 +78,7 @@ public class RecordingAndPlaybackHandler {
         }
         else // Starting player
         {
-            player.start(recordings.get(selectedRecording)]);
+            player.start(recordings.get(selectedRecording));
         }
     }
 
@@ -100,6 +98,7 @@ public class RecordingAndPlaybackHandler {
         private RobotHandler robotHandler;
 
         public boolean isRecording = false;
+        public double startTime;
 
         private Recording recording;
         private boolean firstCycle = true;
@@ -131,6 +130,7 @@ public class RecordingAndPlaybackHandler {
         {
             recording = new Recording();
             isRecording = true;
+            startTime = Timer.getFPGATimestamp();
             firstCycle = true;
         }
         public void stop()
@@ -147,7 +147,8 @@ public class RecordingAndPlaybackHandler {
 
         private void addMotorPeriod(double leftValue, double rightValue)
         {
-            recording.recording.add(new MotorPeriod(lastLeftValue, lastRightValue, Timer.getFPGATimestamp()));
+            double timeSinceStart = Timer.getFPGATimestamp() - startTime;
+            recording.recording.add(new MotorPeriod(lastLeftValue, lastRightValue, timeSinceStart));
         }
         private boolean haveValuesChanged(double leftValue, double rightValue)
         {
@@ -185,20 +186,18 @@ public class RecordingAndPlaybackHandler {
             isPlaying = false;
         }
 
-
-
         private MotorPeriod findSuitableMotorPeriod()
         {
             double timeSinceStart = getTimeSinceStart();
-            int index = 0;
-            while(recording.recording.get(index).endTime < time)
+
+            for (int i = recording.recording.size(); i >= 0; i--)
             {
-                if (!(recording.recording.size() < index+1))
-                    index++;
-                else
-                    return new MotorPeriod(0, 0, 0);
+                MotorPeriod motorPeriod = recording.recording.get(i);
+                if (motorPeriod.endTime > timeSinceStart)
+                    return motorPeriod;
             }
-            return recording.recording.get(index-1);
+
+            return new MotorPeriod(0, 0, 0);
         }
         private double getTimeSinceStart()
         {

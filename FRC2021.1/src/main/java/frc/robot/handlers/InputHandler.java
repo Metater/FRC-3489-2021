@@ -82,7 +82,7 @@ public class InputHandler {
             robotHandler.stateHandler.toggleSpeedScale();
         }
 
-        robotHandler.shuffleboardHandler.PrintBooleanToWidget("Scaling Speed", robotHandler.stateHandler.isSpeedScaleEnabled);
+        robotHandler.shuffleboardHandler.printBooleanToWidget("Scaling Speed", robotHandler.stateHandler.isSpeedScaleEnabled);
 
         if (robotHandler.stateHandler.isSpeedScaleEnabled)
         {
@@ -92,7 +92,7 @@ public class InputHandler {
 
             scaledSpeed = Math.min(1, scaledSpeed);
 
-            robotHandler.shuffleboardHandler.PrintDoubleToWidget("Scaled Speed", scaledSpeed);
+            robotHandler.shuffleboardHandler.printDoubleToWidget("Scaled Speed", scaledSpeed);
             
             return scaledSpeed;
         }

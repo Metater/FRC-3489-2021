@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class ShuffleboardHandler {
 
@@ -21,16 +22,30 @@ public class ShuffleboardHandler {
     ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 
     //ArrayList<SimpleWidget> simpleWidgets = new ArrayList<SimpleWidget>();
-    Map<String, SimpleWidget> simpleWidgets = new HashMap<String, SimpleWidget>();
+    private Map<String, SimpleWidget> simpleWidgets = new HashMap<String, SimpleWidget>();
+    private SendableChooser<Integer> recordingChooser = new SendableChooser<Integer>();
 
     public ShuffleboardHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
+        recordingChooser.setDefaultOption("i^2", -1);
+        tab.add()
+    }
+
+    public int getSelectedRecording()
+    {
+        return recordingChooser.getSelected();
+    }
+
+    public void addRecording(int recordingId)
+    {
+        recordingChooser.addOption("Recording " + recordingId, recordingId);
+        
     }
 
     //https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/shuffleboard/layouts-with-code/sending-data.html
 
-    public void PrintDoubleToWidget(String name, double value)
+    public void printDoubleToWidget(String name, double value)
     {
         if (simpleWidgets.containsKey(name))
         {
@@ -44,7 +59,7 @@ public class ShuffleboardHandler {
         }
     }
 
-    public void PrintStringToWidget(String name, String value)
+    public void printStringToWidget(String name, String value)
     {
         if (simpleWidgets.containsKey(name))
         {
@@ -57,7 +72,7 @@ public class ShuffleboardHandler {
             simpleWidgets.put(name, sw);
         }
     }
-    public void PrintBooleanToWidget(String name, Boolean value)
+    public void printBooleanToWidget(String name, Boolean value)
     {
         if (simpleWidgets.containsKey(name))
         {

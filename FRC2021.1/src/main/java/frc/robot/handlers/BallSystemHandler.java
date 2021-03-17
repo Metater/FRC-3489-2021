@@ -62,14 +62,14 @@ public class BallSystemHandler {
     {
         System.out.println(ballCount);
 
-        robotHandler.shuffleboardHandler.PrintStringToWidget("Intake State", intakeState.toString());
+        robotHandler.shuffleboardHandler.printStringToWidget("Intake State", intakeState.toString());
         if (ballCount == 5)
-            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", true);
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Intake Full", true);
         else
-            robotHandler.shuffleboardHandler.PrintBooleanToWidget("Intake Full", false);
+            robotHandler.shuffleboardHandler.printBooleanToWidget("Intake Full", false);
 
         //robotHandler.shuffleboardHandler.PrintDoubleToWidget("Front Clicks: ", intakeBeltFront.getSelectedSensorPosition());
-        robotHandler.shuffleboardHandler.PrintDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
+        robotHandler.shuffleboardHandler.printDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
     }
     private void handleIntakeState()
     {

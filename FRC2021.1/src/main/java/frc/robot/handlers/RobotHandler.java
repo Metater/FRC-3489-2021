@@ -1,7 +1,7 @@
 package frc.robot.handlers;
 
 import frc.robot.handlers.AutoHandler.AutoType;
-
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.*;
 
 public class RobotHandler {
@@ -77,6 +77,8 @@ public class RobotHandler {
 
     public void teleopPeriodic()
     {
+        double time = Timer.getFPGATimestamp();
+        
         if (!recordingAndPlaybackHandler.player.isPlaying)
             driveHandler.teleopPeriodic();
         ballSystemHandler.teleopPeriodic();

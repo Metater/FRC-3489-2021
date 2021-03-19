@@ -202,7 +202,7 @@ public class RecordingAndPlaybackHandler {
         {
             if (!isPlaying) return;
             MotorPeriod motorPeriod = findSuitableMotorPeriod();
-            robotHandler.driveHandler.differentialDrive.tankDrive(motorPeriod.speedLeft, motorPeriod.speedLeft);
+            robotHandler.driveHandler.differentialDrive.tankDrive(motorPeriod.speedLeft, motorPeriod.speedRight);
             System.out.println(motorPeriod.speedLeft + ":::" + motorPeriod.speedRight);
         }
         public void start(Recording recording)

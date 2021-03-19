@@ -88,7 +88,7 @@ public class InputHandler {
         {
             double scaledSpeed = RobotUtils.normalizeJoystick(getZAxisSpeed());
 
-            scaledSpeed += 0.625d;
+            scaledSpeed += 0.6d;
 
             scaledSpeed = Math.min(1, scaledSpeed);
 

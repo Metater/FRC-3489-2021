@@ -35,11 +35,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-  NetworkTableEntry pl = table.getEntry("pipeline");
+  //NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  //NetworkTableEntry tx = table.getEntry("tx");
+  //NetworkTableEntry ty = table.getEntry("ty");
+  //NetworkTableEntry ta = table.getEntry("ta");
+  //NetworkTableEntry pl = table.getEntry("pipeline");
 
   //ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
 

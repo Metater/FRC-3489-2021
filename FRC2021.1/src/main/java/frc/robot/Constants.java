@@ -39,6 +39,8 @@ public final class Constants {
         public static final int LIFT_COLOR_WHEEL = 4;
         public static final int SPIN_COLOR_WHEEL = 12;
 
+        public static final int STOP_TIMER = 2;
+
         // Drive Stick
         public static final int SWITCH_FRONT = 7;
         public static final int TOGGLE_SPEED_SCALE = 5;

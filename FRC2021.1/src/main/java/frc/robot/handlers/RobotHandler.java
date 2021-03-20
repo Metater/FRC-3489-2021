@@ -31,6 +31,9 @@ public class RobotHandler {
 
     public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
 
+    private double enableTime;
+    private boolean hasBeenStopped = false;
+
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
@@ -73,20 +76,26 @@ public class RobotHandler {
     public void teleopInit() // Teleop isn't it?
     {
         robotMode = RobotMode.Teleop;
+        enableTime = Timer.getFPGATimestamp();
+        hasBeenStopped = false;
         recordingAndPlaybackHandler.teleopInit();
     }
 
     public void teleopPeriodic()
     {
-        double startTime = Timer.getFPGATimestamp();
-
         if (!recordingAndPlaybackHandler.player.isPlaying)
             driveHandler.teleopPeriodic();
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();
         recordingAndPlaybackHandler.teleopPeriodic();
 
-        System.out.println(Timer.getFPGATimestamp() - startTime);
+        if (inputHandler.joystickManipulator.getRawButton(Constants.Buttons.STOP_TIMER) && !hasBeenStopped)
+        {
+            hasBeenStopped = true;
+            double time = Timer.getFPGATimestamp() - enableTime;
+            System.out.println(time);
+            shuffleboardHandler.printDoubleToWidget("Last Time: ", time);
+        }
     }
 
     public void autonomousInit() 

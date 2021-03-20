@@ -13,17 +13,17 @@ public class RecordingAndPlaybackHandler {
 
     private RobotHandler robotHandler;
 
-    public Recorder recorder;
-    public Player player;
+    public CycleRecorder recorder;
+    public CyclePlayer player;
 
-    public List<Recording> recordings = new ArrayList<Recording>();
+    public List<CycleRecording> recordings = new ArrayList<CycleRecording>();
     public int selectedRecording = -1;
 
     public RecordingAndPlaybackHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
-        recorder = new Recorder(robotHandler);
-        player = new Player(robotHandler);
+        recorder = new CycleRecorder(robotHandler);
+        player = new CyclePlayer(robotHandler);
     }
 
     public void robotInit()
@@ -85,7 +85,7 @@ public class RecordingAndPlaybackHandler {
         if (!robotHandler.stateHandler.isRecording) // Stopped recorder
         {
             recorder.stop();
-            Recording recording = recorder.save();
+            CycleRecording recording = recorder.save();
             recordings.add(recording);
             robotHandler.shuffleboardHandler.printBooleanToWidget("Recording", false);
             robotHandler.shuffleboardHandler.printDoubleToWidget("Recording L", recording.recording.size());

@@ -30,7 +30,7 @@ public class RecordingAndPlaybackHandler {
     {
         robotHandler.robot.addPeriodic(() ->
         {
-            System.out.println("Selected Recording: " + robotHandler.recordingAndPlaybackHandler.selectedRecording);
+            //System.out.println("Selected Recording: " + robotHandler.recordingAndPlaybackHandler.selectedRecording);
         }, 1, 0);
     }
 
@@ -171,9 +171,6 @@ public class RecordingAndPlaybackHandler {
         {
             return recording;
         }
-
-
-
         private void addMotorPeriod(double leftValue, double rightValue)
         {
             double timeSinceStart = Timer.getFPGATimestamp() - startTime;
@@ -203,7 +200,7 @@ public class RecordingAndPlaybackHandler {
             if (!isPlaying) return;
             MotorPeriod motorPeriod = findSuitableMotorPeriod();
             robotHandler.driveHandler.differentialDrive.tankDrive(motorPeriod.speedLeft, motorPeriod.speedRight);
-            System.out.println(motorPeriod.speedLeft + ":::" + motorPeriod.speedRight);
+            //System.out.println(motorPeriod.speedLeft + ":::" + motorPeriod.speedRight);
         }
         public void start(Recording recording)
         {
@@ -247,6 +244,91 @@ public class RecordingAndPlaybackHandler {
             this.speedLeft = speedLeft;
             this.speedRight = speedRight;
             this.endTime = endTime;
+        }
+    }
+
+
+    public class CycleRecording
+    {
+        public List<MotorCycle> recording = new ArrayList<MotorCycle>();
+    }
+    public class CycleRecorder
+    {
+        private RobotHandler robotHandler;
+
+        private CycleRecording recording;
+
+        public boolean isRecording = false;
+
+        public CycleRecorder(RobotHandler robotHandler)
+        {
+            this.robotHandler = robotHandler;
+        }
+
+        public void record(double leftValue, double rightValue)
+        {
+            recording.recording.add(new MotorCycle(leftValue, rightValue));
+        }
+        public void start()
+        {
+            recording = new CycleRecording();
+            isRecording = true;
+        }
+        public void stop()
+        {
+            isRecording = false;
+        }
+        public CycleRecording save()
+        {
+            return recording;
+        }
+    }
+    public class CyclePlayer
+    {
+        private RobotHandler robotHandler;
+
+        private CycleRecording recording;
+
+        public boolean isPlaying = false;
+
+        public CyclePlayer(RobotHandler robotHandler)
+        {
+            this.robotHandler = robotHandler;
+        }
+
+        int cycle = 0;
+        public void run()
+        {
+            if (!isPlaying) return;
+            if (cycle > recording.recording.size()-1)
+            {
+                robotHandler.driveHandler.differentialDrive.tankDrive(0, 0);
+                return;
+            }
+            MotorCycle motorCycle = recording.recording.get(cycle);
+            robotHandler.driveHandler.differentialDrive.tankDrive(motorCycle.speedLeft, motorCycle.speedRight);
+            cycle++;
+        }
+
+        public void start(CycleRecording recording)
+        {
+            this.recording = recording;
+            isPlaying = true;
+            cycle = 0;
+        }
+        public void stop()
+        {
+            isPlaying = false;
+        }
+    }
+    public class MotorCycle
+    {
+        public double speedLeft;
+        public double speedRight;
+        public MotorCycle(double speedLeft, double speedRight)
+        {
+            this.speedLeft = speedLeft;
+            this.speedRight = speedRight;
         }
     }
 }

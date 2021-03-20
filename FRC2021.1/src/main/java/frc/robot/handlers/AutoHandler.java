@@ -86,7 +86,7 @@ public class AutoHandler {
 
         }
 
-        System.out.println(currentStep);
+        //System.out.println(currentStep);
 
         /*
         for(AutoInstruction additionalInstruction : additionalInstructions)

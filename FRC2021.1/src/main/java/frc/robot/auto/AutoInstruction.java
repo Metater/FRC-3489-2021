@@ -98,13 +98,13 @@ public class AutoInstruction {
             isFirstCycle = false;
             finishTime = Timer.getFPGATimestamp() + waitTime;
             autoHandler.getDriveHandler().differentialDrive.stopMotor();
-            System.out.println("Set finish time");
+            //System.out.println("Set finish time");
         }
 
         if (finishTime <= Timer.getFPGATimestamp())
             isFinished = true;
 
-        System.out.println("Waiting, time left: " + (finishTime - Timer.getFPGATimestamp()));
+        //System.out.println("Waiting, time left: " + (finishTime - Timer.getFPGATimestamp()));
     }
 
     private void zuccAndTankInstruction(double zuccRollerSpeed, double zuccFrontBeltSpeed, double tankSpeedLeft, double tankSpeedRight, double tankClicks)
@@ -147,17 +147,17 @@ public class AutoInstruction {
         {
             ballSystemHandler.intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
             ballSystemHandler.intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
-            System.out.println("----------------------------");
-            System.out.println("Indexing to: " + indexStartClicks);
-            System.out.println("Current: " + ballSystemHandler.intakeBeltRear.getSelectedSensorPosition());
-            System.out.println("----------------------------");
+            //System.out.println("----------------------------");
+            //System.out.println("Indexing to: " + indexStartClicks);
+            //System.out.println("Current: " + ballSystemHandler.intakeBeltRear.getSelectedSensorPosition());
+            //System.out.println("----------------------------");
         }
         else
         {
             ballSystemHandler.tryStopIntakeBeltFront();
             ballSystemHandler.tryStopIntakeBeltRear();
             isFinished = true;
-            System.out.println("Done");
+            //System.out.println("Done");
         }
     }
     private void startIndexInstruction()
@@ -173,19 +173,19 @@ public class AutoInstruction {
         {
             isFirstCycle = false;
             blehFinishTime = Timer.getFPGATimestamp() + blehTime;
-            System.out.println("Start BLEH");
+            //System.out.println("Start BLEH");
         }
 
         if (blehFinishTime <= Timer.getFPGATimestamp())
         {
-            System.out.println("Stop BLEH");
+            //System.out.println("Stop BLEH");
             isFinished = true;
             autoHandler.getBallSystemHandler().intakeBeltFront.stopMotor();
             autoHandler.getBallSystemHandler().intakeBeltRear.stopMotor();
         }
         else
         {
-            System.out.println("BLEHing");
+            //System.out.println("BLEHing");
             autoHandler.getBallSystemHandler().intakeBeltFront.set(speed);
             autoHandler.getBallSystemHandler().intakeBeltRear.set(speed * -1);
         }
@@ -194,7 +194,7 @@ public class AutoInstruction {
     private void driveInstruction(double speed, double clicks) {
         tankInstructionLeftClicks(speed, speed, clicks);
 
-        System.out.println("Driving, clicks left: " + (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition())));
+        //System.out.println("Driving, clicks left: " + (Math.abs(startClicks - getLeftClicksReference().getSelectedSensorPosition())));
     }
     private void turnLeftInstruction(double speed, double clicks) {
         tankInstructionLeftClicks(speed * -1, speed, clicks);

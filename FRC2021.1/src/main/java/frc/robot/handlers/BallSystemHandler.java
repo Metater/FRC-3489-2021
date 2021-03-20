@@ -60,8 +60,6 @@ public class BallSystemHandler {
     }
     private void updateShuffleboard()
     {
-        System.out.println(ballCount);
-
         robotHandler.shuffleboardHandler.printStringToWidget("Intake State", intakeState.toString());
         if (ballCount == 5)
             robotHandler.shuffleboardHandler.printBooleanToWidget("Intake Full", true);

@@ -20,13 +20,13 @@ public class TestHandler {
         if(robotHandler.inputHandler.joystickDriveLeft.getRawButton(testMotor8Button))
         {
             testMotor8.set(0.3);
-            System.out.println("Motor Go BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+            //System.out.println("Motor Go BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
         }
-        System.out.println("Teleop Cycle");
+        //System.out.println("Teleop Cycle");
         if (robotHandler.inputHandler.joystickDriveLeft.getRawButtonReleased(testMotor8Button))
         {
             //testMotor8.stopMotor();
-            System.out.println("Motor stop ):");
+            //System.out.println("Motor stop ):");
         }
     }
 }

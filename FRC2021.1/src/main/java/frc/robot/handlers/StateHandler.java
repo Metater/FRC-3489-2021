@@ -1,5 +1,7 @@
 package frc.robot.handlers;
 
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -8,6 +10,8 @@ import edu.wpi.first.wpilibj.Timer;
 public class StateHandler {
 
     private RobotHandler robotHandler;
+
+    private Map<String, Boolean> states = new HashMap<String, Boolean>();
 
     public StateHandler(RobotHandler robotHandler)
     {
@@ -22,7 +26,7 @@ public class StateHandler {
         lastSwitchFrontTime = Timer.getFPGATimestamp();
     }
 
-    public boolean isSpeedScaleEnabled = false;
+    public boolean isSpeedScaleEnabled = true;
     public double lastSpeedScaleToggleTime;
     public void toggleSpeedScale()
     {
@@ -48,7 +52,7 @@ public class StateHandler {
     public void reset()
     {
         isIntakeSideFront = true;
-        isSpeedScaleEnabled = false;
+        isSpeedScaleEnabled = true;
         isRecording = false;
         isPlaying = false;
 

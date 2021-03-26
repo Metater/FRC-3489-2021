@@ -16,6 +16,19 @@ public final class Constants {
 
     public final class Thresholds
     {
-        
+        public static final double DriveJoystickSpeedCutoff = 0.1;
+        public static final double ManipulatorJoystickBeltSystemCutoff = 0.35;
+    }
+
+    public final class Speeds
+    {
+        public static final double IntakeRollerSpeed = -0.9;
+        public static final double BeltFrontSpeed = 0.6;
+        public static final double BeltRearSpeed = -0.21;
+    }
+
+    public final class Devices
+    {
+
     }
 }

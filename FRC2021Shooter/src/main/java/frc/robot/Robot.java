@@ -29,8 +29,8 @@ public class Robot extends TimedRobot {
   public Joystick joystickDriveRight = new Joystick(1);
   public Joystick joystickManipulator = new Joystick(2);
 
-  public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(1);
-  public WPI_TalonFX falconShooterRight = new WPI_TalonFX(2);
+  public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(6);
+  //public WPI_TalonFX falconShooterRight = new WPI_TalonFX(2);
 
   private double shooterSpeed = 0;
 
@@ -106,10 +106,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double speedChange = joystickManipulator.getY();
-    speedChange *= 0.005;
-    shooterSpeed += speedChange;
+    if (Math.abs(speedChange) > 0.1)
+    {
+      speedChange *= 0.005;
+      shooterSpeed += speedChange;
+    }
+    if (Math.abs(shooterSpeed) > 0.075)
     falconShooterLeft.set(-1*shooterSpeed);
-    falconShooterRight.set(shooterSpeed);
+    //falconShooterRight.set(shooterSpeed);
     shooterSpeedEntry.setDouble(shooterSpeed);
   }
 

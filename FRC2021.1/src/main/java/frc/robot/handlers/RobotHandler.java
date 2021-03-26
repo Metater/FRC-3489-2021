@@ -45,7 +45,7 @@ public class RobotHandler {
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
 
-        autoHandler = new AutoHandler(this, AutoType.Barrel); // Set the auto type with suffleboard or something
+        autoHandler = new AutoHandler(this, AutoType.HyperPathA); // Set the auto type with suffleboard or something
 
         shuffleboardHandler = new ShuffleboardHandler(this);
         cameraHandler = new CameraHandler(this);
@@ -83,8 +83,10 @@ public class RobotHandler {
 
     public void teleopPeriodic()
     {
-        if (!recordingAndPlaybackHandler.player.isPlaying)
+        if (!recordingAndPlaybackHandler.player.isPlaying && Timer.getFPGATimestamp() - enableTime <= 60)
             driveHandler.teleopPeriodic();
+        else if (!recordingAndPlaybackHandler.player.isPlaying)
+            driveHandler.differentialDrive.tankDrive(0, 0);
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();
         recordingAndPlaybackHandler.teleopPeriodic();
@@ -100,33 +102,15 @@ public class RobotHandler {
 
     public void autonomousInit() 
     {
-        /*
         robotMode = RobotMode.Autonomous;
 
-        if (recordingAndPlaybackHandler.selectedRecording == -1)
-        {
-            autoHandler.autonomousInit();
-        }
-        else
-        {
-            recordingAndPlaybackHandler.autonomousInit();
-        }
-        */
+        autoHandler.autonomousInit();
         recordingAndPlaybackHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
-        /*
-        if (recordingAndPlaybackHandler.selectedRecording == -1)
-        {
-            autoHandler.autonomousPeriodic();
-        }
-        else
-        {
-            recordingAndPlaybackHandler.autonomousPeriodic();
-        }
-        */
+        autoHandler.autonomousPeriodic();
         recordingAndPlaybackHandler.autonomousPeriodic();
     }
 }

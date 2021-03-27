@@ -11,9 +11,13 @@ public class RobotHandler implements IRobotHandler, IDisabledHandler, ITeleopHan
 
     public Robot robot;
 
+    public ButtonHandler buttonHandler;
+
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
+
+        buttonHandler = new ButtonHandler(this);
     }
 
     public void robotInit()

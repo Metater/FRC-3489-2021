@@ -1,7 +1,6 @@
 package frc.robot.registries;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import frc.robot.configs.ButtonConfig;

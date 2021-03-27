@@ -67,7 +67,7 @@ public class BallSystemHandler {
             robotHandler.shuffleboardHandler.printBooleanToWidget("Intake Full", false);
 
         //robotHandler.shuffleboardHandler.PrintDoubleToWidget("Front Clicks: ", intakeBeltFront.getSelectedSensorPosition());
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Rear Clicks: ", intakeBeltRear.getSelectedSensorPosition());
     }
     private void handleIntakeState()
     {

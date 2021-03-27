@@ -20,14 +20,14 @@ public final class Constants {
     public static final double DRIVE_SPEED_CUTOFF = 0.1;
     public static final double MAN_STICK_SPEED_CUTOFF = 0.35;
 
-    public static final double ZUCC_SPEED = -0.9;
+    public static final double ZUCC_SPEED = -1;
     //public static final double ZUCC_SPEED = -0.25;
     public static final double ZUCC_JAM_SPEED = 0.16;
 
     public static final double ZUCC_JAM_CURRENT = 19;
 
-    public static final double INTAKE_BELT_FRONT_SPEED = 0.6; // Speed of belt going into the robot //0.6
-    public static final double INTAKE_BELT_REAR_SPEED = -0.21; // Speed of belt going into the robot //-0.21
+    public static final double INTAKE_BELT_FRONT_SPEED = 0.9; // Speed of belt going into the robot //0.6
+    public static final double INTAKE_BELT_REAR_SPEED = -0.65; // Speed of belt going into the robot //-0.21
 
     public final class Buttons
     {

@@ -27,7 +27,7 @@ public class StateHandler {
         lastSwitchFrontTime = Timer.getFPGATimestamp();
     }
 
-    public boolean isSpeedScaleEnabled = true;
+    public boolean isSpeedScaleEnabled = false;
     public double lastSpeedScaleToggleTime;
     public void toggleSpeedScale()
     {
@@ -53,7 +53,7 @@ public class StateHandler {
     public void reset()
     {
         isIntakeSideFront = true;
-        isSpeedScaleEnabled = true;
+        isSpeedScaleEnabled = false;
         isRecording = false;
         isPlaying = false;
 

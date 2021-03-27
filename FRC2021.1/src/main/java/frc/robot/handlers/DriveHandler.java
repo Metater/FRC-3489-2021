@@ -43,8 +43,8 @@ public class DriveHandler {
         tryScissorLift();
         drive();
 
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Velocity Left", -1 * _leftFront.getSelectedSensorVelocity());
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Velocity Right", _rghtFront.getSelectedSensorVelocity());
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Velocity Left", -1 * _leftFront.getSelectedSensorVelocity());
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Velocity Right", _rghtFront.getSelectedSensorVelocity());
         robotHandler.shuffleboardHandler.printBooleanToWidget("Intake Forward", robotHandler.stateHandler.isIntakeSideFront);
     }
 

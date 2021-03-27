@@ -84,9 +84,15 @@ public class RobotHandler {
     public void teleopPeriodic()
     {
         if (!recordingAndPlaybackHandler.player.isPlaying && Timer.getFPGATimestamp() - enableTime <= 60)
+        {
             driveHandler.teleopPeriodic();
+            shuffleboardHandler.printBooleanToWidget("Driving Enabled", true);
+        }
         else if (!recordingAndPlaybackHandler.player.isPlaying)
+        {
             driveHandler.differentialDrive.tankDrive(0, 0);
+            shuffleboardHandler.printBooleanToWidget("Driving Enabled", false);
+        }
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();
         recordingAndPlaybackHandler.teleopPeriodic();
@@ -98,6 +104,11 @@ public class RobotHandler {
             System.out.println(time);
             shuffleboardHandler.printDoubleToWidget("Last Time: ", time);
         }
+
+        if (Timer.getFPGATimestamp() - enableTime <= 60)
+            shuffleboardHandler.printDoubleToWidget("Time Left", (Timer.getFPGATimestamp() - enableTime) - 60);
+        else
+            shuffleboardHandler.printDoubleToWidget("Time Left", 0);
     }
 
     public void autonomousInit() 

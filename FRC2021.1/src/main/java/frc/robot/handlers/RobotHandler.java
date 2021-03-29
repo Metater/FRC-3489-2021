@@ -115,13 +115,13 @@ public class RobotHandler {
     {
         robotMode = RobotMode.Autonomous;
 
-        autoHandler.autonomousInit();
+        //autoHandler.autonomousInit();
         recordingAndPlaybackHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
-        autoHandler.autonomousPeriodic();
+        //autoHandler.autonomousPeriodic();
         recordingAndPlaybackHandler.autonomousPeriodic();
     }
 }

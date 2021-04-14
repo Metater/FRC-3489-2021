@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -38,6 +40,20 @@ public class Robot extends TimedRobot {
 
   private NetworkTableEntry shooterSpeedEntry;
 
+  // Selection
+  private int selectedSpeedIndex = 0;
+  private ArrayList<Double> loadedSpeeds = new ArrayList<Double>();
+
+  private static int SelectUpButton = 7;
+  private static int SelectDownButton = 9;
+  private static int SelectButton = 11;
+  private static int SaveButton = 12;
+
+  private double lastSelectUpTime;
+  private double lastSelectDownTime;
+  private double lastSelectTime;
+  private double lastSaveTime;
+
 
 
   /**
@@ -49,6 +65,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    FileUtils.printAllDirs();
   }
 
   /**
@@ -116,6 +134,20 @@ public class Robot extends TimedRobot {
       shooterSpeedEntry.setDouble(shooterSpeed);
     }
   }
+
+  private void handleSelectionButton()
+  {
+    
+  }
+  /*
+  private double isButtonPressed(double lastTime)
+  {
+    if (joystickManipulator.getRawButton())
+    {
+
+    }
+  }
+  */
 
   @Override
   public void testInit() {

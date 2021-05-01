@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -53,6 +54,9 @@ public class Robot extends TimedRobot {
   private double lastSelectDownTime;
   private double lastSelectTime;
   private double lastSaveTime;
+
+  private boolean fullSending = false;
+  private double lastFullSendToggleTime = 0;
 
 
 
@@ -123,22 +127,50 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double speedChange = joystickManipulator.getY();
-    if (Math.abs(speedChange) > 0.175)
+    if (!fullSending)
     {
-      speedChange *= 0.0025;
-      shooterSpeed += speedChange;
-
-      falconShooterLeft.set(shooterSpeed);
-      falconShooterRight.set(-1*shooterSpeed);
-      shooterSpeedEntry.setDouble(shooterSpeed);
+      double speedChange = joystickManipulator.getY();
+      if (Math.abs(speedChange) > 0.175)
+      {
+        speedChange *= 0.0025;
+        shooterSpeed += speedChange;
+  
+        falconShooterLeft.set(shooterSpeed);
+        falconShooterRight.set(-1*shooterSpeed);
+        shooterSpeedEntry.setDouble(shooterSpeed);
+      }
+    }
+    if (joystickManipulator.getRawButton(12))
+    {
+      tryToggleFullSend();
     }
   }
 
+  private void tryToggleFullSend()
+  {
+    if (Timer.getFPGATimestamp() > 1 + lastFullSendToggleTime)
+    {
+      lastFullSendToggleTime = Timer.getFPGATimestamp();
+      fullSending = !fullSending;
+      if (fullSending)
+      {
+        falconShooterLeft.set(-1);
+        falconShooterRight.set(1);
+      }
+      else
+      {
+        falconShooterLeft.set(0);
+        falconShooterRight.set(0);
+      }
+    }
+  }
+
+  /*
   private void handleSelectionButton()
   {
-    
+    if (joystickManipulator.getRawButton()
   }
+  */
   /*
   private double isButtonPressed(double lastTime)
   {

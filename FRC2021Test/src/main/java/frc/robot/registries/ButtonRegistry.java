@@ -2,27 +2,45 @@ package frc.robot.registries;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import frc.robot.configs.ButtonConfig;
+import frc.robot.types.ButtonActionType;
+import frc.robot.types.ButtonLocation;
 
 public class ButtonRegistry {
 
-    private Map<String, ButtonConfig> buttons = new HashMap<String, ButtonConfig>();
+    private Map<ButtonActionType, ButtonConfig> buttons = new HashMap<ButtonActionType, ButtonConfig>();
 
-    public void registerButton(String name, ButtonConfig buttonConfig)
+    public void registerButton(ButtonActionType buttonType, ButtonConfig buttonConfig)
     {
-        buttons.put(name, buttonConfig);
+        buttons.put(buttonType, buttonConfig);
     }
 
     public void printRegisteredButtons()
     {
-        for(Map.Entry<String, ButtonConfig> button : buttons.entrySet())
+        for(Map.Entry<ButtonActionType, ButtonConfig> button : buttons.entrySet())
         {
-            String name = (String)button.getKey();
+            ButtonActionType buttonType = (ButtonActionType)button.getKey();
             ButtonConfig buttonConfig = (ButtonConfig)button.getValue();
-            System.out.println("Button: " + name + "\n" +
-                               "Joytick: " + buttonConfig.assignedJoystick.toString() + "\n" +
-                               "Button Index: " + buttonConfig.buttonIndex);
+            System.out.println("Button: " + buttonType.toString());
+            System.out.println("Locations:");
+            int location = 1;
+            for(ButtonLocation buttonLocation : buttonConfig.buttonLocations)
+            {
+                System.out.println("\tLocation " + location);
+                System.out.println("\tJoystick: " + buttonLocation.assignedJoystick.toString());
+                System.out.println("\tButton Index: " + buttonLocation.buttonIndex);
+                location++;
+            }
         }
+    }
+
+    public List<Map.Entry<ButtonActionType, ButtonConfig>> getTeleopPeriodicButtons()
+    {
+
+        for(Map.Entry<ButtonActionType, ButtonConfig> button : buttons.entrySet())
+        {
     }
 }

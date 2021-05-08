@@ -11,38 +11,40 @@ public class RobotHandler implements IRobotHandler, IDisabledHandler, ITeleopHan
 
     public Robot robot;
 
+    public ButtonActionHandler buttonActionHandler;
     public ButtonHandler buttonHandler;
 
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
 
+        buttonActionHandler = new ButtonActionHandler(this);
         buttonHandler = new ButtonHandler(this);
     }
 
     public void robotInit()
     {
-
+        buttonHandler.robotInit();
     }
     public void robotPeriodic()
     {
-
+        buttonHandler.robotPeriodic();
     }
     public void disabledInit()
     {
-
+        buttonHandler.disabledInit();
     }
     public void disabledPeriodic()
     {
-
+        buttonHandler.disabledPeriodic();
     }
     public void teleopInit()
     {
-
+        buttonHandler.teleopInit();
     }
     public void teleopPeriodic()
     {
-
+        buttonHandler.teleopPeriodic();
     }
     public void autonomousInit()
     {
@@ -54,10 +56,10 @@ public class RobotHandler implements IRobotHandler, IDisabledHandler, ITeleopHan
     }
     public void testInit()
     {
-
+        buttonHandler.testInit();
     }
     public void testPeriodic()
     {
-        
+        buttonHandler.testPeriodic();
     }
 }

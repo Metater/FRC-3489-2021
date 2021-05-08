@@ -7,7 +7,9 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -53,8 +55,21 @@ public class Robot extends TimedRobot {
 
   private NetworkTableEntry shooterSpeedEntry;
 
+  private boolean autoAimEnabled = false;
+  private double lastAutoAimToggleTime = 0;
 
+  private boolean limelightEnabled = false;
+  private double lastLimelightEnableTime = 0;
 
+  private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  private NetworkTableEntry tx = table.getEntry("tx");
+  private NetworkTableEntry pl = table.getEntry("pipeline");
+
+  public static final int DecrementSpeed = 11;
+  public static final int IncrementSpeed = 12;
+  private double lastDecrementTime = 0;
+  private double lastIncrementTime = 0;
+  private static final double incrementAmount = -0.05;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -81,6 +96,10 @@ public class Robot extends TimedRobot {
     ninjagoNinjago.setSafetyEnabled(shouldBeSafe);
     falconShooterLeft.setSafetyEnabled(shouldBeSafe);
     falconShooterRight.setSafetyEnabled(shouldBeSafe);
+
+    driveTrain.setSafetyEnabled(shouldBeSafe);
+
+    pl.setNumber(5);
   }
 
   /**
@@ -136,45 +155,91 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic()
   {
-    drive();
-    twist();
-    shooter();
+    tryToggleAutoAim();
+    tryToggleLimelight();
 
-    if (joystickManipulator.getRawButton(12))
+    drive();
+    if (!autoAimEnabled) twist();
+    shooter();
+    tryDecrementShooterSpeed();
+    tryIncrementShooterSpeed();
+
+    if (autoAimEnabled) tapeTrackEquationOld();
+
+
+    setShooterStuff();
+  }
+
+  private void setShooterStuff()
+  {
+    if (Math.abs(shooterSpeed) > 1)
     {
-      falconShooterLeft.set(-1);
-      falconShooterRight.set(1);
-      shooterSpeed = -1;
+      shooterSpeed = Math.signum(shooterSpeed);
     }
-    else if (joystickManipulator.getRawButton(10))
+    falconShooterLeft.set(shooterSpeed);
+    falconShooterRight.set(-1*shooterSpeed);
+    shooterSpeedEntry.setDouble(shooterSpeed * -1);
+  }
+
+  private void tapeTrackEquationOld()
+  {
+    double x = tx.getDouble(0.0);
+
+    double xDegreesThreshold = 2.5;
+    double speed = 0.3;
+    
+    //double heightSpeed = 1;
+    //double heightScale = 0.0009;
+    //double heightScaledPower = -(heightScale * y * y) + heightSpeed;
+
+    double scale = 8880.2;
+    double scaledSpeed = (((x * x)/scale) + speed);
+
+    if (x > xDegreesThreshold)
     {
-      falconShooterLeft.set(-0.8);
-      falconShooterRight.set(0.8);
-      shooterSpeed = -0.8;
+      ninjagoNinjago.set(scaledSpeed * -1);
+    } 
+    else if (x < (-1 * xDegreesThreshold)) {
+      ninjagoNinjago.set(scaledSpeed);
     }
-    else if (joystickManipulator.getRawButton(8))
-    {
-      falconShooterLeft.set(-0.6);
-      falconShooterRight.set(0.6);
-      shooterSpeed = -0.6;
+    else {
+      ninjagoNinjago.stopMotor();
     }
-    else if (joystickManipulator.getRawButton(7))
+  }
+
+  private void tryToggleAutoAim()
+  {
+    if (joystickManipulator.getRawButton(4) && 1 + lastAutoAimToggleTime < Timer.getFPGATimestamp())
     {
-      falconShooterLeft.set(-0.4);
-      falconShooterRight.set(0.4);
-      shooterSpeed = -0.4;
+      lastAutoAimToggleTime = Timer.getFPGATimestamp();
+      autoAimEnabled = !autoAimEnabled;
     }
-    else if (joystickManipulator.getRawButton(9))
+  }
+  private void tryToggleLimelight()
+  {
+    if (joystickManipulator.getRawButton(3) && 1 + lastLimelightEnableTime < Timer.getFPGATimestamp())
     {
-      falconShooterLeft.set(-0.2);
-      falconShooterRight.set(0.2);
-      shooterSpeed = -0.2;
+      lastLimelightEnableTime = Timer.getFPGATimestamp();
+      limelightEnabled = !limelightEnabled;
+      if (limelightEnabled) pl.setNumber(0);
+      else pl.setNumber(5);
     }
-    else if (joystickManipulator.getRawButton(11))
+  }
+
+  private void tryDecrementShooterSpeed()
+  {
+    if (joystickManipulator.getRawButton(DecrementSpeed) && 0.25 + lastDecrementTime < Timer.getFPGATimestamp())
     {
-      falconShooterLeft.stopMotor();
-      falconShooterRight.stopMotor();
-      shooterSpeed = 0;
+      lastDecrementTime = Timer.getFPGATimestamp();
+      shooterSpeed -= incrementAmount;
+    }
+  }
+  private void tryIncrementShooterSpeed()
+  {
+    if (joystickManipulator.getRawButton(IncrementSpeed) && 0.25 + lastIncrementTime < Timer.getFPGATimestamp())
+    {
+      lastIncrementTime = Timer.getFPGATimestamp();
+      shooterSpeed += incrementAmount;
     }
   }
 
@@ -185,51 +250,23 @@ public class Robot extends TimedRobot {
     {
       speedChange *= 0.0025;
       shooterSpeed += speedChange;
-      if (Math.abs(shooterSpeed) > 1)
-      {
-        shooterSpeed = Math.signum(shooterSpeed);
-      }
-
-      falconShooterLeft.set(shooterSpeed);
-      falconShooterRight.set(-1*shooterSpeed);
-      shooterSpeedEntry.setDouble(shooterSpeed);
     }
   }
 
   private void twist()
   {
     double twistSpeed = joystickManipulator.getZ() * -1;
-    if (Math.abs(twistSpeed) > 0.15)
+    if (Math.abs(twistSpeed) > 0.1)
     {
-      twistSpeed *= 0.65;
+      twistSpeed *= 0.30;
       ninjagoNinjago.set(twistSpeed);
+      System.out.println(twistSpeed);
     }
     else
     {
       ninjagoNinjago.stopMotor();
     }
   }
-
-  /*
-  private void tryToggleFullSend()
-  {
-    if (Timer.getFPGATimestamp() > 1 + lastFullSendToggleTime)
-    {
-      lastFullSendToggleTime = Timer.getFPGATimestamp();
-      fullSending = !fullSending;
-      if (fullSending)
-      {
-        falconShooterLeft.set(-1);
-        falconShooterRight.set(1);
-      }
-      else
-      {
-        falconShooterLeft.set(0);
-        falconShooterRight.set(0);
-      }
-    }
-  }
-  */
 
   private void drive()
   {

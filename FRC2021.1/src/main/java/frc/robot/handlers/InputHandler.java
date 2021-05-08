@@ -2,6 +2,9 @@ package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+
+import java.security.spec.ECPublicKeySpec;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.*;
@@ -30,9 +33,24 @@ public class InputHandler {
     }
 
     // SPECIFIC JOYSTICK BUTTON METHODS
+    public double winchSpeed()
+    {
+        if (joystickDriveLeft.getPOV() == 180 && joystickDriveRight.getPOV() == 180)
+        {
+            return 0.5;
+        }
+        else if (joystickDriveLeft.getPOV() == 0 && joystickDriveRight.getPOV() == 0)
+        {
+            return -0.3;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public boolean shouldScissorLift()
     {
-        boolean bothButtonsPressed = joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT) && joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT);
+        boolean bothButtonsPressed = joystickDriveLeft.getRawButton(Constants.Buttons.SCISSOR_LIFT) && joystickDriveRight.getRawButton(Constants.Buttons.SCISSOR_LIFT);
         return bothButtonsPressed;
     }
     public boolean shouldToggleIntake()

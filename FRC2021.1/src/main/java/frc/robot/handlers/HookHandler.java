@@ -16,24 +16,18 @@ public class HookHandler {
     public HookHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
+        setSolenoids(false);
     }
 
     public void teleopPeriodic()
     {
-        if (robotHandler.inputHandler.shouldScissorLift())
-            solenoidsOn();
-        else
-            solenoidsOff();
+        setSolenoids(robotHandler.inputHandler.shouldScissorLift());
+        winch.set(robotHandler.inputHandler.winchSpeed());
     }
 
-    private void solenoidsOn()
+    private void setSolenoids(boolean value)
     {
-        winchSolenoidLeft.set(true);
-        winchSolenoidRight.set(true);
-    }
-    private void solenoidsOff()
-    {
-        winchSolenoidLeft.set(false);
-        winchSolenoidRight.set(false);
+        winchSolenoidLeft.set(value);
+        winchSolenoidRight.set(!value);
     }
 }

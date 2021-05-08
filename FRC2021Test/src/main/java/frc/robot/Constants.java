@@ -31,4 +31,17 @@ public final class Constants {
     {
 
     }
+
+    public final class JoystickDriveLeftButtons
+    {
+        public static final int SwitchFront = 7;
+    }
+    public final class JoystickDriveRightButtons
+    {
+        public static final int SwitchFront = 7;
+    }
+    public final class JoystickManipulatorButtons
+    {
+        
+    }
 }

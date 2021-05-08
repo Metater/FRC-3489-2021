@@ -106,8 +106,8 @@ public class InputHandler {
         double manStickSpeed = joystickManipulator.getY();
         if (Math.abs(manStickSpeed) < Constants.MAN_STICK_SPEED_CUTOFF)
             manStickSpeed = 0;
-        else
-            manStickSpeed = Math.signum(manStickSpeed);
+        //else
+            //manStickSpeed = Math.signum(manStickSpeed);
         return manStickSpeed;
     }
 

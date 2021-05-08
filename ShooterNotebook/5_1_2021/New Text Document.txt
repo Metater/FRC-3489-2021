@@ -1,0 +1,113 @@
+     test 1:
+
+tan(theta) = h / d || h1 = 8.5ft (90 in) || h2 = 11ft (132in) || h3 = 10ft (120in) || h4 = 8ft (96in) || h5 = 9ft (108in)
+
+d = 288in
+
+speed for test was 100%
+
+tan(theta) = /288
+
+     theta = x degrees
+
+     test 2:
+
+d = 288in
+
+speed for test was 90.18%
+
+h1 = 8.75 ft (104in) || h2 = 6 ft 11 in (83in) || h3 = 11ft (132in) || h4 = 8.5ft (102in) || h5 = 91in
+
+     test 3:
+
+d = 288in
+
+speed for test was 80.25%
+
+h1 = 80in
+
+--------------------------------------------------
+
+PLEXIGLASS TESTS AT MAX? SETTING:
+
+     Test 4:
+
+d = 288in
+
+speed for test was 100%
+
+h1 = 9.25, h2 = 7.7, h3 = 71in, h4 = 144in, 
+
+     Test 5:
+
+results - 24 ft, 3/4 accuracy, 95% power
+
+     Test 6:
+
+results - 18ft, 100% power, 2/5 accuracy
+
+     Test 7:
+
+results - 18ft, 95% power, 5/5 accuracy
+
+     Test 8:
+
+results - 12ft, 100% power, 5/5 accuracy
+
+     Test 9:
+
+results - 12ft, 100% power, 3/3 in small hole
+
+     Test 10:
+
+results - 12ft, 100% power, 1/4 in small hole (11.7 resting volts)
+
+     Test 11:
+
+results - 12ft, 100% power, 1/6 small hole (13.01 resting volts start, 12.8 volts end)
+
+     Test 12:
+
+results - 6ft, no
+
+---------------------------------------------
+
+PLEXIGLASS TESTS AT LOWER SETTING:
+	
+     Test 13:
+
+results - 6ft, no
+
+     Test 14:
+
+results - 12ft, 75% power, 1/4 small hole, 4/4 big hole
+
+     Test 15:
+
+results - 12ft, 75% power, 3/8 small hole, 8/8 big hole
+
+     Test 16:
+
+results - 18ft, 78% power, 8/8 big hole
+
+     Test 17:
+
+results - 24ft, 84.1% power seemed best
+
+(y = 0.0215x^{2}+72) = decent equation for speeds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

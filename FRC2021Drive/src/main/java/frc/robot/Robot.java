@@ -4,14 +4,14 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,37 +28,31 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public Joystick joystickDriveLeft = new Joystick(0);
-  public Joystick joystickDriveRight = new Joystick(1);
-  public Joystick joystickManipulator = new Joystick(2);
+  private Joystick joystickDriveLeft = new Joystick(0);
+  private Joystick joystickDriveRight = new Joystick(1);
+  private Joystick joystickManipulator = new Joystick(2);
 
+  public static final double DriveJoystickThreshold = 0.05;
+
+  private WPI_TalonSRX driveFrontLeft = new WPI_TalonSRX(7);
+  private WPI_TalonSRX driveFrontRight = new WPI_TalonSRX(4);
+  private WPI_TalonSRX driveBackLeft = new WPI_TalonSRX(5);
+  private WPI_TalonSRX driveBackRight = new WPI_TalonSRX(2);
+
+  private WPI_TalonSRX ninjagoNinjago = new WPI_TalonSRX(6);
   public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(11);
   public WPI_TalonFX falconShooterRight = new WPI_TalonFX(10);
 
+  public static final boolean shouldBeSafe = false;
+
+  private DifferentialDrive driveTrain;
+
   private double shooterSpeed = 0;
 
-  private ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
+  private ShuffleboardTab tab = Shuffleboard.getTab("3489 New Robot");
 
   private NetworkTableEntry shooterSpeedEntry;
 
-  // Selection
-  private int selectedSpeedIndex = 0;
-  private ArrayList<Double> loadedSpeeds = new ArrayList<Double>();
-
-  private static int SelectUpButton = 7;
-  private static int SelectDownButton = 9;
-  private static int SelectButton = 11;
-  private static int SaveButton = 12;
-
-  private double lastSelectUpTime;
-  private double lastSelectDownTime;
-  private double lastSelectTime;
-  private double lastSaveTime;
-
-  private boolean fullSending = false;
-  private double lastFullSendToggleTime = 0;
-
-  private double distanceFromTarget = 0; 
 
 
 
@@ -72,7 +66,21 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    FileUtils.printAllDirs();
+    driveTrain = new DifferentialDrive(driveFrontLeft, driveFrontRight);
+
+    driveBackLeft.follow(driveFrontLeft);
+    driveBackRight.follow(driveFrontRight);
+
+    shooterSpeedEntry = tab.add("Shooter Speed: ", shooterSpeed).getEntry();
+
+    driveFrontLeft.setSafetyEnabled(shouldBeSafe);
+    driveFrontRight.setSafetyEnabled(shouldBeSafe);
+    driveBackLeft.setSafetyEnabled(shouldBeSafe);
+    driveBackRight.setSafetyEnabled(shouldBeSafe);
+
+    ninjagoNinjago.setSafetyEnabled(shouldBeSafe);
+    falconShooterLeft.setSafetyEnabled(shouldBeSafe);
+    falconShooterRight.setSafetyEnabled(shouldBeSafe);
   }
 
   /**
@@ -122,22 +130,87 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    shooterSpeedEntry = tab.add("Shooter Speed: ", distanceFromTarget).getEntry();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    if (!fullSending){
-      joemamamama();
-    }
+  public void teleopPeriodic()
+  {
+    drive();
+    twist();
+    shooter();
+
     if (joystickManipulator.getRawButton(12))
     {
-      tryToggleFullSend();
+      falconShooterLeft.set(-1);
+      falconShooterRight.set(1);
+      shooterSpeed = -1;
+    }
+    else if (joystickManipulator.getRawButton(10))
+    {
+      falconShooterLeft.set(-0.8);
+      falconShooterRight.set(0.8);
+      shooterSpeed = -0.8;
+    }
+    else if (joystickManipulator.getRawButton(8))
+    {
+      falconShooterLeft.set(-0.6);
+      falconShooterRight.set(0.6);
+      shooterSpeed = -0.6;
+    }
+    else if (joystickManipulator.getRawButton(7))
+    {
+      falconShooterLeft.set(-0.4);
+      falconShooterRight.set(0.4);
+      shooterSpeed = -0.4;
+    }
+    else if (joystickManipulator.getRawButton(9))
+    {
+      falconShooterLeft.set(-0.2);
+      falconShooterRight.set(0.2);
+      shooterSpeed = -0.2;
+    }
+    else if (joystickManipulator.getRawButton(11))
+    {
+      falconShooterLeft.stopMotor();
+      falconShooterRight.stopMotor();
+      shooterSpeed = 0;
     }
   }
 
+  private void shooter()
+  {
+    double speedChange = joystickManipulator.getY();
+    if (Math.abs(speedChange) > 0.175)
+    {
+      speedChange *= 0.0025;
+      shooterSpeed += speedChange;
+      if (Math.abs(shooterSpeed) > 1)
+      {
+        shooterSpeed = Math.signum(shooterSpeed);
+      }
+
+      falconShooterLeft.set(shooterSpeed);
+      falconShooterRight.set(-1*shooterSpeed);
+      shooterSpeedEntry.setDouble(shooterSpeed);
+    }
+  }
+
+  private void twist()
+  {
+    double twistSpeed = joystickManipulator.getZ() * -1;
+    if (Math.abs(twistSpeed) > 0.15)
+    {
+      twistSpeed *= 0.65;
+      ninjagoNinjago.set(twistSpeed);
+    }
+    else
+    {
+      ninjagoNinjago.stopMotor();
+    }
+  }
+
+  /*
   private void tryToggleFullSend()
   {
     if (Timer.getFPGATimestamp() > 1 + lastFullSendToggleTime)
@@ -156,52 +229,18 @@ public class Robot extends TimedRobot {
       }
     }
   }
-
-  private void joemama(){
-    double speedChange = joystickManipulator.getY();
-      if (Math.abs(speedChange) > 0.175){
-        speedChange *= 0.0025;
-        distanceFromTarget += speedChange;
-    double speed = (0.0215 * distanceFromTarget * distanceFromTarget) + 72;
-    speed/=100;
-    falconShooterLeft.set(speed * -1);
-        falconShooterRight.set(speed);
-
-        
-      }
-    }
-    private void joemamamama(){
-     if (!fullSending)
-    {
-      double speedChange = joystickManipulator.getY();
-      if (Math.abs(speedChange) > 0.175)
-      {
-        speedChange *= 0.0025;
-        shooterSpeed += speedChange;
-  
-        falconShooterLeft.set(shooterSpeed);
-        falconShooterRight.set(-1*shooterSpeed);
-        shooterSpeedEntry.setDouble(shooterSpeed);
-      }
-    }
-  }
-  
-
-  /*
-  private void handleSelectionButton()
-  {
-    if (joystickManipulator.getRawButton()
-  }
   */
-  /*
-  private double isButtonPressed(double lastTime)
-  {
-    if (joystickManipulator.getRawButton())
-    {
 
+  private void drive()
+  {
+    double leftTrain = joystickDriveLeft.getY() *-1;
+    double rightTrain = joystickDriveRight.getY() *-1;
+
+    if (Math.abs(leftTrain) > DriveJoystickThreshold || Math.abs(rightTrain) > DriveJoystickThreshold)
+    {
+      driveTrain.tankDrive(leftTrain, rightTrain);
     }
   }
-  */
 
   @Override
   public void testInit() {

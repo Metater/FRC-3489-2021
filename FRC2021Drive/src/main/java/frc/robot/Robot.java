@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   private WPI_TalonSRX ninjagoNinjago = new WPI_TalonSRX(6);
   public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(11);
   public WPI_TalonFX falconShooterRight = new WPI_TalonFX(10);
+  private WPI_TalonSRX cellevator = new WPI_TalonSRX(1);
 
   public static final boolean shouldBeSafe = false;
 
@@ -69,7 +70,7 @@ public class Robot extends TimedRobot {
   public static final int IncrementSpeed = 12;
   private double lastDecrementTime = 0;
   private double lastIncrementTime = 0;
-  private static final double incrementAmount = -0.05;
+  private static final double incrementAmount = -0.01;
 
   private String turretData = "";
 
@@ -183,9 +184,16 @@ public class Robot extends TimedRobot {
 
     double x = tx.getDouble(0.0);
 
+    if (joystickManipulator.getRawButton(10))
+      cellevator.set(-1);
+    else if (joystickManipulator.getRawButton(8))
+      cellevator.set(1);
+    else
+      cellevator.set(0);
+
     //
 
-    double statorCurrent = (falconShooterLeft.getStatorCurrent() + falconShooterRight.getStatorCurrent())/2;
+    double statorCurrent = (falconShooterLeft.getStatorCurrent() + cellevator.getStatorCurrent());
 
     if (statorCurrent > 5)
     {
@@ -196,14 +204,14 @@ public class Robot extends TimedRobot {
 
       lastShootTime = Timer.getFPGATimestamp();
       turretData += "Time: " + "{" + Timer.getFPGATimestamp() + "} Stator Current: {" + statorCurrent + "}\n";
+
+      System.out.println("Stator Current: " + statorCurrent);
     }
 
 
     //turretData += "Motor Speed: {" + ninjagoNinjago.get() + "} " + "Target Offset : {" + x + "}\n";
 
     double speed = Math.abs(ninjagoNinjago.get());
-
-    System.out.println("Stator Current: " + statorCurrent);
 
 
 
@@ -313,7 +321,7 @@ public class Robot extends TimedRobot {
 
   private void tryDecrementShooterSpeed()
   {
-    if (joystickManipulator.getRawButton(DecrementSpeed) && 0.25 + lastDecrementTime < Timer.getFPGATimestamp())
+    if (joystickManipulator.getRawButton(DecrementSpeed) && 0.15 + lastDecrementTime < Timer.getFPGATimestamp())
     {
       lastDecrementTime = Timer.getFPGATimestamp();
       shooterSpeed -= incrementAmount;
@@ -321,7 +329,7 @@ public class Robot extends TimedRobot {
   }
   private void tryIncrementShooterSpeed()
   {
-    if (joystickManipulator.getRawButton(IncrementSpeed) && 0.25 + lastIncrementTime < Timer.getFPGATimestamp())
+    if (joystickManipulator.getRawButton(IncrementSpeed) && 0.15 + lastIncrementTime < Timer.getFPGATimestamp())
     {
       lastIncrementTime = Timer.getFPGATimestamp();
       shooterSpeed += incrementAmount;

@@ -1,0 +1,253 @@
+----------------------------------------------------------------------------------
+Time: {29.12736} Stator Current: {7.46}
+Time: {29.145853} Stator Current: {12.58}
+Time: {29.164937} Stator Current: {12.58}
+Time: {29.385846} Stator Current: {9.32}
+Time: {29.405267} Stator Current: {9.32}
+Time: {29.425927} Stator Current: {8.06}
+Time: {29.445175} Stator Current: {5.67}
+Time: {29.465313} Stator Current: {5.67}
+Time: {29.646499} Stator Current: {6.745}
+Time: {29.665519} Stator Current: {6.745}
+Time: {29.684779} Stator Current: {6.75}
+Time: {29.705145} Stator Current: {6.75}
+Time: {29.725693} Stator Current: {5.51}
+Time: {29.92573} Stator Current: {6.975}
+Time: {29.946247} Stator Current: {7.9350000000000005}
+Time: {29.966037} Stator Current: {7.9350000000000005}
+Time: {30.185388} Stator Current: {8.395}
+Time: {30.204879} Stator Current: {8.395}
+Time: {30.226621} Stator Current: {7.17}
+Time: {30.245058} Stator Current: {5.37}
+Time: {30.265372} Stator Current: {5.37}
+Time: {30.445059} Stator Current: {7.869999999999999}
+Time: {30.465032} Stator Current: {7.869999999999999}
+Time: {30.485022} Stator Current: {6.02}
+Time: {30.505802} Stator Current: {6.02}
+Time: {30.685017} Stator Current: {6.5}
+Time: {30.70523} Stator Current: {6.5}
+Time: {30.726462} Stator Current: {6.76}
+Time: {30.744915} Stator Current: {6.265000000000001}
+Time: {30.765534} Stator Current: {6.265000000000001}
+Time: {30.944993} Stator Current: {5.12}
+Time: {30.96608} Stator Current: {5.12}
+Time: {30.985648} Stator Current: {6.575}
+Time: {31.004885} Stator Current: {6.575}
+Time: {31.025749} Stator Current: {5.09}
+Time: {31.22612} Stator Current: {5.5649999999999995}
+Time: {31.24495} Stator Current: {7.085}
+Time: {31.265932} Stator Current: {7.085}
+Time: {31.485244} Stator Current: {6.965}
+Time: {31.505641} Stator Current: {6.965}
+Time: {31.525328} Stator Current: {5.85}
+Time: {31.745054} Stator Current: {6.125}
+Time: {31.764812} Stator Current: {6.125}
+Time: {31.985464} Stator Current: {5.13}
+Time: {32.004945} Stator Current: {5.13}
+Time: {32.025496} Stator Current: {5.305}
+Time: {32.285008} Stator Current: {5.45}
+Time: {32.304879} Stator Current: {5.45}
+Time: {32.54517} Stator Current: {5.620000000000001}
+Time: {32.564903} Stator Current: {5.620000000000001}
+Time: {32.785075} Stator Current: {5.48}
+Time: {32.805056} Stator Current: {5.48}
+----------------------------------------------------------------------------------
+Time: {37.484723} Stator Current: {7.045}
+Time: {37.504886} Stator Current: {7.045}
+Time: {37.524648} Stator Current: {6.9}
+Time: {37.545522} Stator Current: {6.26}
+Time: {37.564723} Stator Current: {6.26}
+Time: {37.58552} Stator Current: {5.41}
+Time: {37.604698} Stator Current: {5.41}
+Time: {37.625372} Stator Current: {5.130000000000001}
+---------------------------------------------------------------------------------- FIRST GOOD BALL THREE TIMES 1ST
+max current avg - 17.9666
+avg of avg - 10.4595
+Time: {55.48472} Stator Current: {15.280000000000001}
+Time: {55.504826} Stator Current: {15.280000000000001}
+Time: {55.524879} Stator Current: {16.92}
+Time: {55.544671} Stator Current: {17.965}
+Time: {55.564687} Stator Current: {17.965}
+Time: {55.584675} Stator Current: {13.855}
+Time: {55.604863} Stator Current: {13.855}
+Time: {55.624798} Stator Current: {12.57}
+Time: {55.644683} Stator Current: {11.01}
+Time: {55.664708} Stator Current: {11.01}
+Time: {55.684659} Stator Current: {8.995}
+Time: {55.70476} Stator Current: {8.995}                                         MAX CURRENT 18
+Time: {55.725765} Stator Current: {8.295}					avg 10.83
+Time: {55.744801} Stator Current: {7.465}
+Time: {55.764736} Stator Current: {7.465}
+Time: {55.784734} Stator Current: {6.345000000000001}
+Time: {55.80517} Stator Current: {6.345000000000001}
+Time: {55.825677} Stator Current: {5.945}
+Time: {55.844683} Stator Current: {5.48}
+Time: {55.864755} Stator Current: {5.48}
+---------------------------------------------------------------------------------- 2ND
+Time: {66.884986} Stator Current: {17.625}
+Time: {66.904509} Stator Current: {17.625}
+Time: {66.924538} Stator Current: {17.625}
+Time: {66.94448} Stator Current: {15.64}
+Time: {66.964871} Stator Current: {15.64}
+Time: {66.984515} Stator Current: {12.26}
+Time: {67.0046} Stator Current: {12.26}
+Time: {67.024563} Stator Current: {12.26}
+Time: {67.044515} Stator Current: {9.895}
+Time: {67.064572} Stator Current: {9.895}
+Time: {67.084542} Stator Current: {8.155}
+Time: {67.104529} Stator Current: {8.155}
+Time: {67.124649} Stator Current: {7.5649999999999995}                           MAX CURRENT 17.6
+Time: {67.144626} Stator Current: {6.85}					avg 10.308
+Time: {67.164639} Stator Current: {6.85}
+Time: {67.184655} Stator Current: {5.865}
+Time: {67.204561} Stator Current: {5.865}
+Time: {67.224505} Stator Current: {5.865}
+Time: {67.24455} Stator Current: {5.140000000000001}
+Time: {67.264782} Stator Current: {5.140000000000001}
+---------------------------------------------------------------------------------- 3RD
+Time: {73.944787} Stator Current: {5.175}
+Time: {73.964581} Stator Current: {5.175}
+Time: {73.98451} Stator Current: {18.32}
+Time: {74.004539} Stator Current: {18.32}
+Time: {74.024545} Stator Current: {18.32}
+Time: {74.044621} Stator Current: {16.405}
+Time: {74.064649} Stator Current: {16.405}                                           MAX CURRENT 18.3
+Time: {74.084556} Stator Current: {12.83}						avg 10.24
+Time: {74.104542} Stator Current: {12.83}
+Time: {74.124495} Stator Current: {12.83}
+Time: {74.144537} Stator Current: {10.27}
+Time: {74.164654} Stator Current: {10.27}
+Time: {74.184512} Stator Current: {8.440000000000001}
+Time: {74.204532} Stator Current: {8.440000000000001}
+Time: {74.224868} Stator Current: {8.440000000000001}
+Time: {74.244518} Stator Current: {7.055}
+Time: {74.264736} Stator Current: {7.055}
+Time: {74.284573} Stator Current: {6.04}
+Time: {74.304506} Stator Current: {6.04}
+Time: {74.324586} Stator Current: {6.04}
+Time: {74.344549} Stator Current: {5.300000000000001}
+Time: {74.364565} Stator Current: {5.300000000000001}
+---------------------------------------------------------------------------------- MEDIUM BALL CONDITION 1ST
+avg of max - 16.6
+avg of avg - 9.7489
+Time: {81.484573} Stator Current: {8.595}
+Time: {81.504659} Stator Current: {8.595}
+Time: {81.524544} Stator Current: {8.595}
+Time: {81.544508} Stator Current: {17.18}
+Time: {81.564507} Stator Current: {17.18}
+Time: {81.584491} Stator Current: {13.515}
+Time: {81.604508} Stator Current: {13.515}
+Time: {81.624544} Stator Current: {13.515}
+Time: {81.64452} Stator Current: {10.780000000000001}
+Time: {81.664615} Stator Current: {10.780000000000001}                                  MAX CURRENT 17.2
+Time: {81.684511} Stator Current: {8.81}                       				avg 9.64
+Time: {81.704504} Stator Current: {8.81}
+Time: {81.724513} Stator Current: {8.81}
+Time: {81.745761} Stator Current: {7.325}
+Time: {81.764546} Stator Current: {7.325}
+Time: {81.784492} Stator Current: {6.220000000000001}
+Time: {81.804657} Stator Current: {6.220000000000001}
+Time: {81.82452} Stator Current: {6.220000000000001}
+Time: {81.844519} Stator Current: {5.405}
+Time: {81.86499} Stator Current: {5.405}
+---------------------------------------------------------------------------------- 2ND
+Time: {91.084653} Stator Current: {9.245}
+Time: {91.104532} Stator Current: {9.245}
+Time: {91.124539} Stator Current: {9.245}
+Time: {91.144578} Stator Current: {17.855}
+Time: {91.164537} Stator Current: {17.855}
+Time: {91.184533} Stator Current: {14.005}
+Time: {91.204559} Stator Current: {14.005}
+Time: {91.224636} Stator Current: {14.005}
+Time: {91.244536} Stator Current: {11.115}                                          MAX CURRENT 17.9
+Time: {91.264538} Stator Current: {11.115}                                          avg 9.992
+Time: {91.284485} Stator Current: {9.025}
+Time: {91.304552} Stator Current: {9.025}
+Time: {91.324536} Stator Current: {9.025}
+Time: {91.344478} Stator Current: {7.465}
+Time: {91.364507} Stator Current: {7.465}
+Time: {91.384527} Stator Current: {6.37}
+Time: {91.405532} Stator Current: {6.37}
+Time: {91.424541} Stator Current: {6.37}
+Time: {91.444538} Stator Current: {5.52}
+Time: {91.464515} Stator Current: {5.52}
+---------------------------------------------------------------------------------- 3RD
+Time: {98.14466} Stator Current: {14.73}
+Time: {98.164558} Stator Current: {14.73}
+Time: {98.184605} Stator Current: {14.535}
+Time: {98.20461} Stator Current: {13.575}
+Time: {98.2246} Stator Current: {13.575}
+Time: {98.244513} Stator Current: {10.785}
+Time: {98.264561} Stator Current: {10.785}
+Time: {98.285139} Stator Current: {8.81}
+Time: {98.30455} Stator Current: {8.81}
+Time: {98.324574} Stator Current: {8.81}
+Time: {98.344488} Stator Current: {7.34}
+Time: {98.36453} Stator Current: {7.34}
+Time: {98.384524} Stator Current: {6.265000000000001}                              MAX CURRENT 14.7
+Time: {98.40454} Stator Current: {6.265000000000001}                               avg 9.615
+Time: {98.424556} Stator Current: {6.265000000000001}
+Time: {98.444519} Stator Current: {5.415}
+Time: {98.464534} Stator Current: {5.415}
+---------------------------------------------------------------------------------- BAD BALL CONDITION 1ST  
+MAX CURRENT AVG= 15.27
+AVG AVG = 9.398
+Time: {104.944664} Stator Current: {5.43}
+Time: {104.964564} Stator Current: {5.43}
+Time: {104.984487} Stator Current: {16.115}
+Time: {105.005559} Stator Current: {16.115}
+Time: {105.024594} Stator Current: {16.115}
+Time: {105.044567} Stator Current: {14.485}
+Time: {105.064598} Stator Current: {14.485}
+Time: {105.084514} Stator Current: {11.445}
+Time: {105.104539} Stator Current: {11.445}
+Time: {105.124613} Stator Current: {11.445}
+Time: {105.144481} Stator Current: {9.29}
+Time: {105.164535} Stator Current: {9.29}
+Time: {105.184532} Stator Current: {7.675000000000001}                            MAX CURRENT 16.1
+Time: {105.204569} Stator Current: {7.675000000000001}                            avg 9.424
+Time: {105.224644} Stator Current: {7.675000000000001}
+Time: {105.244542} Stator Current: {6.51}
+Time: {105.264856} Stator Current: {6.51}
+Time: {105.284513} Stator Current: {5.625}
+Time: {105.304596} Stator Current: {5.625}
+Time: {105.324559} Stator Current: {5.625}
+---------------------------------------------------------------------------------- 2ND
+Time: {112.28469} Stator Current: {7.9}
+Time: {112.304584} Stator Current: {7.9}
+Time: {112.324521} Stator Current: {7.9}
+Time: {112.34454} Stator Current: {16.015}
+Time: {112.364504} Stator Current: {16.015}
+Time: {112.384514} Stator Current: {12.945}
+Time: {112.404545} Stator Current: {12.945}
+Time: {112.42468} Stator Current: {12.945}
+Time: {112.444483} Stator Current: {10.31}
+Time: {112.464535} Stator Current: {10.31}
+Time: {112.484564} Stator Current: {8.469999999999999}                       MAX CURRENT 16
+Time: {112.504532} Stator Current: {8.469999999999999}                       avg 9.20
+Time: {112.524542} Stator Current: {8.469999999999999}
+Time: {112.544532} Stator Current: {7.075}
+Time: {112.564508} Stator Current: {7.075}
+Time: {112.584542} Stator Current: {6.615}
+Time: {112.604492} Stator Current: {6.04}
+Time: {112.624577} Stator Current: {6.04}
+Time: {112.644483} Stator Current: {5.279999999999999}
+Time: {112.664574} Stator Current: {5.279999999999999}
+---------------------------------------------------------------------------------- 3RD
+Time: {118.044667} Stator Current: {9.8}
+Time: {118.064521} Stator Current: {9.8}
+Time: {118.084518} Stator Current: {13.74}
+Time: {118.104577} Stator Current: {13.74}
+Time: {118.124604} Stator Current: {13.74}
+Time: {118.145599} Stator Current: {10.844999999999999}                   MAX CURRENT 13.7
+Time: {118.164515} Stator Current: {10.844999999999999}                   avg 9.57
+Time: {118.184509} Stator Current: {8.83}
+Time: {118.204569} Stator Current: {8.83}
+Time: {118.224553} Stator Current: {8.83}
+Time: {118.2445} Stator Current: {7.35}
+Time: {118.264517} Stator Current: {7.35}
+Time: {118.284507} Stator Current: {6.23}
+Time: {118.304683} Stator Current: {6.23}
+Time: {118.324569} Stator Current: {6.23}
+Time: {118.344497} Stator Current: {5.415}
+Time: {118.36452} Stator Current: {5.415}

@@ -1,0 +1,36 @@
+Good ball tests:
+	Max cur avg: 17.97
+	Avg of Avg: 10.46
+	Test 1:
+		Max Cur: 18
+		Avg: 10.83
+	Test 2:
+		Max Cur: 17.6
+		Avg: 10.31
+	Test 3:
+		Max Cur: 18.3
+		Avg: 10.24
+Medium ball tests:
+	Max cur avg: 16.6
+	Avg of Avg: 9.75
+	Test 1:
+		Max Cur: 17.2
+		Avg: 9.64
+	Test 2:
+		Max Cur: 17.9
+		Avg: 9.99
+	Test 3:
+		Max Cur: 14.7
+		Avg: 9.62
+Bad ball tests:
+	Max cur avg: 15.27
+	Avg of Avg: 9.40
+	Test 1:
+		Max Cur: 16.1
+		Avg: 9.424
+	Test 2:
+		Max Cur: 16
+		Avg: 9.20
+	Test 3:
+		Max Cur: 13.7
+		Avg: 9.57

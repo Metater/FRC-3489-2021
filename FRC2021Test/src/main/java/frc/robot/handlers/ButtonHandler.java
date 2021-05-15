@@ -21,6 +21,8 @@ import frc.robot.types.TriggeredButtonState;
 
 public class ButtonHandler extends BaseHandler implements IRobotHandler, IDisabledHandler, ITeleopHandler, ITestHandler {
 
+    public HashMap<String, >
+
     public ButtonHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;

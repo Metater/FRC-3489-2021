@@ -71,6 +71,10 @@ public class Robot extends TimedRobot {
   private double lastIncrementTime = 0;
   private static final double incrementAmount = -0.05;
 
+  private String turretData = "";
+
+  private double lastShootTime = 0;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -120,7 +124,18 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit()
+  {
+    if (FileUtils.fileExists("turretData.txt"))
+    {
+      System.out.println(turretData);
+    }
+    else
+    {
+      FileUtils.createLocalFile("turretData.txt");
+    }
+    FileUtils.writeLocalFile("turretData.txt", turretData);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -149,6 +164,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    turretData = "";
   }
 
   /** This function is called periodically during operator control. */
@@ -164,7 +181,62 @@ public class Robot extends TimedRobot {
     tryDecrementShooterSpeed();
     tryIncrementShooterSpeed();
 
-    if (autoAimEnabled) tapeTrackEquationOld();
+    double x = tx.getDouble(0.0);
+
+    //
+
+    double statorCurrent = (falconShooterLeft.getStatorCurrent() + falconShooterRight.getStatorCurrent())/2;
+
+    if (statorCurrent > 5)
+    {
+      if (Timer.getFPGATimestamp() - lastShootTime > 1)
+      {
+        turretData += "----------------------------------------------------------------------------------\n";
+      }
+
+      lastShootTime = Timer.getFPGATimestamp();
+      turretData += "Time: " + "{" + Timer.getFPGATimestamp() + "} Stator Current: {" + statorCurrent + "}\n";
+    }
+
+
+    //turretData += "Motor Speed: {" + ninjagoNinjago.get() + "} " + "Target Offset : {" + x + "}\n";
+
+    double speed = Math.abs(ninjagoNinjago.get());
+
+    System.out.println("Stator Current: " + statorCurrent);
+
+
+
+    if (autoAimEnabled)
+    {
+      tapeTrackSimple(x, 1, 0.1675);
+      if (Math.signum(speed) > 0.1)
+      {
+
+      }
+      else if (Math.signum(speed) < 0.1)
+      {
+
+      }
+      else
+      {
+        if (autoAimEnabled && Math.abs(x) < 1) autoAimEnabled = false;
+        ninjagoNinjago.stopMotor();
+      }
+    }
+    /*
+    if (autoAimEnabled)
+    {
+      
+      if (speed <= 0.1f) {
+
+      } else if (speed <= 0.2) {
+  
+      } else {
+        if (autoAimEnabled) tapeTrackEquationOld(x, 2.5, 0.3, 8880.2);
+      }
+    }
+    */
 
     if (joystickManipulator.getRawButton(9))
       shooterSpeed = 0;
@@ -184,18 +256,28 @@ public class Robot extends TimedRobot {
     shooterSpeedEntry.setDouble(shooterSpeed * -1);
   }
 
-  private void tapeTrackEquationOld()
+  private void tapeTrackSimple(double x, double xDegreesThreshold, double speed)
   {
-    double x = tx.getDouble(0.0);
+    if (Math.abs(x) >= xDegreesThreshold)
+    {
+      if (Math.signum(x) > 0.5)
+      {
+        ninjagoNinjago.set(speed * -1);
+      }
+      else
+      {
+        ninjagoNinjago.set(speed);
+      }
+    }
+  }
 
-    double xDegreesThreshold = 2.5;
-    double speed = 0.3;
+  private void tapeTrackEquationOld(double x, double xDegreesThreshold, double speed, double scale)
+  {
     
     //double heightSpeed = 1;
     //double heightScale = 0.0009;
     //double heightScaledPower = -(heightScale * y * y) + heightSpeed;
 
-    double scale = 8880.2;
     double scaledSpeed = (((x * x)/scale) + speed);
 
     if (x > xDegreesThreshold)

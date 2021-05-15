@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   private WPI_TalonSRX ninjagoNinjago = new WPI_TalonSRX(6);
   public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(11);
   public WPI_TalonFX falconShooterRight = new WPI_TalonFX(10);
+  private WPI_TalonSRX cellevator = new WPI_TalonSRX(8);
 
   public static final boolean shouldBeSafe = false;
 
@@ -182,6 +183,13 @@ public class Robot extends TimedRobot {
     tryIncrementShooterSpeed();
 
     double x = tx.getDouble(0.0);
+
+    if (joystickManipulator.getRawButton(10))
+      cellevator.set(-1);
+    else if (joystickManipulator.getRawButton(8))
+      cellevator.set(1);
+    else
+      cellevator.set(0);
 
     //
 

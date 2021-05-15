@@ -44,4 +44,9 @@ public final class Constants {
     {
         
     }
+
+    public final class MotorCANIDs
+    {
+        //public static final int IntakeBeltFront = 
+    }
 }

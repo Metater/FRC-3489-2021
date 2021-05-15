@@ -166,6 +166,9 @@ public class Robot extends TimedRobot {
 
     if (autoAimEnabled) tapeTrackEquationOld();
 
+    if (joystickManipulator.getRawButton(9))
+      shooterSpeed = 0;
+
 
     setShooterStuff();
   }

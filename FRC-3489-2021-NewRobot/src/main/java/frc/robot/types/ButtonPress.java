@@ -8,10 +8,10 @@ public class ButtonPress {
     public BaseButtonTriggerCriteria buttonTriggerCriteria;
     public double lastPressTime;
 
-    public ButtonPress(BaseButtonTriggerCriteria buttonTriggerCriteria, double lastPressTime)
+    public ButtonPress(BaseButtonTriggerCriteria buttonTriggerCriteria)
     {
         this.buttonTriggerCriteria = buttonTriggerCriteria;
-        this.lastPressTime = lastPressTime;
+        this.lastPressTime = buttonTriggerCriteria.buttonLastPressData.lastPressTime;
     }
 
     public double getTimeBetweenLastPress()

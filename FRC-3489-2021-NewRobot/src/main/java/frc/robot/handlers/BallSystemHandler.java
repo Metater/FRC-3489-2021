@@ -58,12 +58,12 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
     {
         double shooterStatorCurrent = (robotHandler.deviceContainer.turretShooterLeft.getStatorCurrent() + robotHandler.deviceContainer.turretShooterRight.getStatorCurrent())/2;
         double rotateStatorCurrent = robotHandler.deviceContainer.turretRotate.getStatorCurrent();
-        System.out.println("Shooter current: " + shooterStatorCurrent + " Rotate current: " + rotateStatorCurrent);
+        System.out.println("SC:" + shooterStatorCurrent + " RC:" + rotateStatorCurrent);
     }
 
     public void buttonPressed(ButtonPress buttonPress)
     {
-        if (buttonPress.buttonLocation.compare(1, JoystickType.Manipulator))
+        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(1, JoystickType.Manipulator))
         {
             robotHandler.deviceContainer.turretCellevator.set(-1);
         }
@@ -71,11 +71,11 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
         {
             robotHandler.deviceContainer.turretCellevator.set(0);
         }
-        if (buttonPress.buttonLocation.compare(11, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterDecrementTime > 0.25)
+        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(11, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterDecrementTime > 0.25)
         {
             lastShooterDecrementTime = Timer.getFPGATimestamp();
         }
-        if (buttonPress.buttonLocation.compare(12, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterIncrementTime > 0.25)
+        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(12, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterIncrementTime > 0.25)
         {
             lastShooterIncrementTime = Timer.getFPGATimestamp();
         }
@@ -88,6 +88,6 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
       }
       robotHandler.deviceContainer.turretShooterLeft.set(shooterSpeed);
       robotHandler.deviceContainer.turretShooterRight.set(shooterSpeed * -1);
-      shooterSpeedEntry.setDouble(shooterSpeed * -1);
+      robotHandler.shuffleboardHandler.getEntry("Shooter Speed").setDouble(shooterSpeed * -1);
     }
 }

@@ -1,5 +1,6 @@
 package frc.robot.handlers;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.interfaces.IButtonListener;
 import frc.robot.interfaces.ITeleopListener;
@@ -12,6 +13,7 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
     public DifferentialDrive differentialDrive;
 
     public boolean forwardSwitched = false;
+    private double lastForwardSwitchTime = -1;
     
     public DriveHandler(RobotHandler robotHandler)
     {
@@ -43,11 +45,11 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
 
     public void buttonPressed(ButtonPress buttonPress)
     {
-        System.out.println(buttonPress.buttonLocation.buttonIndex + ":" + buttonPress.getTimeBetweenLastPress());
-        boolean leftSwitchForward = buttonPress.buttonLocation.compare(7, JoystickType.DriveLeft) && buttonPress.getTimeBetweenLastPress() > 0.5;
-        boolean rightSwitchForward = buttonPress.buttonLocation.compare(7, JoystickType.DriveRight) && buttonPress.getTimeBetweenLastPress() > 0.5;
-        if (leftSwitchForward || rightSwitchForward)
+        boolean leftSwitchForward = buttonPress.buttonLocation.compare(7, JoystickType.DriveLeft);
+        boolean rightSwitchForward = buttonPress.buttonLocation.compare(7, JoystickType.DriveRight);
+        if ((leftSwitchForward || rightSwitchForward) && Timer.getFPGATimestamp() - lastForwardSwitchTime > 0.5)
         {
+            lastForwardSwitchTime = Timer.getFPGATimestamp();
             forwardSwitched = !forwardSwitched;
         }
     }

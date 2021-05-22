@@ -10,11 +10,12 @@ public class RobotHandler {
     public DeviceContainer deviceContainer;
 
     public FunctionListenerHandler functionListenerHandler;
-
     public SetupHandler setupHandler;
     public ButtonListenerHandler buttonListenerHandler;
     public JoystickHandler joystickHandler;
+    public ShuffleboardHandler shuffleboardHandler;
     public DriveHandler driveHandler;
+    public BallSystemHandler ballSystemHandler;
 
     public RobotHandler(Robot robot)
     {
@@ -23,11 +24,12 @@ public class RobotHandler {
         deviceContainer = new DeviceContainer();
 
         functionListenerHandler = new FunctionListenerHandler(this);
-
         setupHandler = new SetupHandler(this);
         buttonListenerHandler = new ButtonListenerHandler(this);
         joystickHandler = new JoystickHandler(this);
+        shuffleboardHandler = new ShuffleboardHandler(this);
         driveHandler = new DriveHandler(this);
+        ballSystemHandler = new BallSystemHandler(this);
     }
 
     public void robotInit()

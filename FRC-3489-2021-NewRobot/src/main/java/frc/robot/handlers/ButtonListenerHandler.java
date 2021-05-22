@@ -14,11 +14,14 @@ import frc.robot.types.ButtonLocation;
 import frc.robot.types.ButtonPress;
 import frc.robot.types.JoystickType;
 import frc.robot.types.PeriodicType;
+import frc.robot.types.buttonTriggerCriteria.BaseButtonTriggerCriteria;
 
 public class ButtonListenerHandler extends BaseHandler implements IRobotListener, ITeleopListener, ITestListener {
 
     private List<IButtonListener> buttonListeners = new ArrayList<IButtonListener>();
     // Later could add button press criteria along with adding a button listener
+
+    private Map<BaseButtonTriggerCriteria, IButtonListener>
 
     private Map<ButtonLocation, Map<PeriodicType, Double>> buttonLocationLastPressMap = new HashMap<ButtonLocation, Map<PeriodicType, Double>>();
 
@@ -28,6 +31,11 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
         robotHandler.functionListenerHandler.addRobotListener(this);
         robotHandler.functionListenerHandler.addTeleopListener(this);
         robotHandler.functionListenerHandler.addTestListener(this);
+    }
+
+    public void addButtonTrigger(BaseButtonTriggerCriteria buttonTriggerCriteria, IButtonListener trigger)
+    {
+
     }
 
     public void addButtonListener(IButtonListener buttonListener)

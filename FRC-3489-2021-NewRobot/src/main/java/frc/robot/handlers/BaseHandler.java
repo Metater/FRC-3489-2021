@@ -1,5 +1,5 @@
 package frc.robot.handlers;
 
-public class BaseHandler {
+public abstract class BaseHandler {
     protected RobotHandler robotHandler;
 }

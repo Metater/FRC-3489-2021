@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,7 +22,7 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
     private List<IButtonListener> buttonListeners = new ArrayList<IButtonListener>();
     // Later could add button press criteria along with adding a button listener
 
-    private Map<BaseButtonTriggerCriteria, IButtonListener>
+    private List<BaseButtonTriggerCriteria> buttonTriggers = new ArrayList<BaseButtonTriggerCriteria>();
 
     private Map<ButtonLocation, Map<PeriodicType, Double>> buttonLocationLastPressMap = new HashMap<ButtonLocation, Map<PeriodicType, Double>>();
 
@@ -33,9 +34,27 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
         robotHandler.functionListenerHandler.addTestListener(this);
     }
 
-    public void addButtonTrigger(BaseButtonTriggerCriteria buttonTriggerCriteria, IButtonListener trigger)
+    public void addButtonTriggerCriteria(BaseButtonTriggerCriteria buttonTriggerCriteria)
     {
-
+        buttonTriggers.add(buttonTriggerCriteria);
+        boolean hadButtonLocation = false;
+        for (Entry<ButtonLocation, Map<PeriodicType, Double>> buttonLocationLastPress : buttonLocationLastPressMap.entrySet())
+        {
+            if (buttonLocationLastPress.getKey().compare(buttonTriggerCriteria.buttonLocation))
+            {
+                if (!buttonLocationLastPress.getValue().containsKey(buttonTriggerCriteria.periodicType))
+                {
+                    buttonLocationLastPressMap.get(buttonLocationLastPress.getKey()).put(buttonTriggerCriteria.periodicType, -1d);
+                    hadButtonLocation = true;
+                }
+            }
+        }
+        if (!hadButtonLocation)
+        {
+            Map<PeriodicType, Double> lastPressTimesForPeriodicType = new HashMap<PeriodicType, Double>();
+            lastPressTimesForPeriodicType.put(buttonTriggerCriteria.periodicType, -1d);
+            buttonLocationLastPressMap.put(buttonTriggerCriteria.buttonLocation, lastPressTimesForPeriodicType);
+        }
     }
 
     public void addButtonListener(IButtonListener buttonListener)
@@ -75,9 +94,29 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
 
     private void pollListeners(PeriodicType periodicType)
     {
+        for (BaseButtonTriggerCriteria buttonTriggerCriteria : buttonTriggers)
+        {
+            if (buttonTriggerCriteria.periodicType != periodicType) continue;
+            if (getButton(buttonTriggerCriteria.buttonLocation))
+            {
+                
+            }
+        }
+
         checkMapAndPoll(periodicType, JoystickType.DriveLeft);
         checkMapAndPoll(periodicType, JoystickType.DriveRight);
         checkMapAndPoll(periodicType, JoystickType.Manipulator);
+    }
+
+    private boolean getButton(ButtonLocation buttonLocation)
+    {
+        if (buttonLocation.joystickType == JoystickType.DriveLeft) {
+            return robotHandler.deviceContainer.joystickDriveLeft.getRawButton(buttonLocation.buttonIndex);
+        } else if (buttonLocation.joystickType == JoystickType.DriveRight) {
+            return robotHandler.deviceContainer.joystickDriveRight.getRawButton(buttonLocation.buttonIndex);
+        } else {
+            return robotHandler.deviceContainer.joystickManipulator.getRawButton(buttonLocation.buttonIndex);
+        }
     }
     private void checkMapAndPoll(PeriodicType periodicType, JoystickType joystickType)
     {

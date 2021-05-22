@@ -1,17 +1,16 @@
 package frc.robot.types;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.types.buttonTriggerCriteria.BaseButtonTriggerCriteria;
 
 public class ButtonPress {
 
-    public ButtonLocation buttonLocation;
-    public PeriodicType periodicType;
+    public BaseButtonTriggerCriteria buttonTriggerCriteria;
     public double lastPressTime;
 
-    public ButtonPress(ButtonLocation buttonLocation, PeriodicType periodicType, double lastPressTime)
+    public ButtonPress(BaseButtonTriggerCriteria buttonTriggerCriteria, double lastPressTime)
     {
-        this.buttonLocation = buttonLocation;
-        this.periodicType = periodicType;
+        this.buttonTriggerCriteria = buttonTriggerCriteria;
         this.lastPressTime = lastPressTime;
     }
 

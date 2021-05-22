@@ -4,9 +4,9 @@ import frc.robot.interfaces.IButtonListener;
 import frc.robot.types.ButtonLocation;
 import frc.robot.types.PeriodicType;
 
-public class PressedDebounceButtonTriggerCriteria extends BaseButtonTriggerCriteria {
+public class WhileHeldDebounceButtonTriggerCriteria extends BaseButtonTriggerCriteria {
     
-    public PressedDebounceButtonTriggerCriteria(IButtonListener trigger, PeriodicType periodicType, String buttonTriggerName, ButtonLocation buttonLocation)
+    public WhileHeldDebounceButtonTriggerCriteria(IButtonListener trigger, PeriodicType periodicType, String buttonTriggerName, ButtonLocation buttonLocation)
     {
         buttonTriggerCriteriaType = ButtonTriggerCriteriaType.PressedDebounce;
         this.trigger = trigger;

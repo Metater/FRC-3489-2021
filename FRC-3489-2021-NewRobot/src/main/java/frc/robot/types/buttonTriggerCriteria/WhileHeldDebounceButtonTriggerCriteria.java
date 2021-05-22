@@ -5,6 +5,8 @@ import frc.robot.types.ButtonLocation;
 import frc.robot.types.PeriodicType;
 
 public class WhileHeldDebounceButtonTriggerCriteria extends BaseButtonTriggerCriteria {
+
+    public boolean isHeld = false;
     
     public WhileHeldDebounceButtonTriggerCriteria(IButtonListener trigger, PeriodicType periodicType, String buttonTriggerName, ButtonLocation buttonLocation)
     {

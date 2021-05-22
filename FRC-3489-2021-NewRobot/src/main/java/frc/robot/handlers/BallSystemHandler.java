@@ -29,7 +29,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
 
     public void robotInit()
     {
-
+        
     }
 
     public void robotPeriodic()

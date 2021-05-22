@@ -22,4 +22,6 @@ public class DeviceContainer {
     public WPI_TalonSRX turretRotate = new WPI_TalonSRX(6);
     public WPI_TalonFX turretShooterLeft = new WPI_TalonFX(11);
     public WPI_TalonFX turretShooterRight = new WPI_TalonFX(10);
+
+    public WPI_TalonFX falcon = new WPI_TalonFX(6);
 }

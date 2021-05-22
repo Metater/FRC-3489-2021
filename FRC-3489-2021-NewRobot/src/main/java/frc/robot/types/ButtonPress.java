@@ -14,7 +14,7 @@ public class ButtonPress {
         this.lastPressTime = buttonTriggerCriteria.buttonLastPressData.lastPressTime;
     }
 
-    public double getTimeBetweenLastPress()
+    public double getTimeSinceLastPress()
     {
         return Timer.getFPGATimestamp() - lastPressTime;
     }

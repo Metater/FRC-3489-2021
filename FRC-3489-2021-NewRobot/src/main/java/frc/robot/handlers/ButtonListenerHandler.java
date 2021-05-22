@@ -92,15 +92,56 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
                     case Raw:
                         RawButtonTriggerCriteria rawButtonTriggerCriteria = (RawButtonTriggerCriteria)buttonTriggerCriteria;
                         buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
+                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
                         break;
                     case PressedDebounce:
                         PressedDebounceButtonTriggerCriteria pressedDebounceButtonTriggerCriteria = (PressedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2))
+                        {
+                            buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
+                            buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                        }
                         break;
+                    case WhileHeldDebounce:
+                        WhileHeldDebounceButtonTriggerCriteria whileHeldDebounceButtonTriggerCriteria = (WhileHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (!buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2) && !whileHeldDebounceButtonTriggerCriteria.isHeld)
+                        {
+                            whileHeldDebounceButtonTriggerCriteria.isHeld = true;
+                        }
+                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                        break;
+                    case ReleasedDebounce:
+                        ReleasedDebounceButtonTriggerCriteria releasedDebounceButtonTriggerCriteria = (ReleasedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (buttonTriggerCriteria.buttonTriggerCriteriaType)
+                {
                     case WhileHeldDebounce:
                         WhileHeldDebounceButtonTriggerCriteria whileHeldDebounceButtonTriggerCriteria = (WhileHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
                         break;
                     case ReleasedDebounce:
                         ReleasedDebounceButtonTriggerCriteria releasedDebounceButtonTriggerCriteria = (ReleasedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2))
+                        {
+                            if (releasedDebounceButtonTriggerCriteria.releaseScheduled)
+                            {
+                                releasedDebounceButtonTriggerCriteria.releaseScheduled = false;
+                                buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
+                            }
+                        }
+                        else
+                        {
+                            releasedDebounceButtonTriggerCriteria.releaseScheduled = true;
+                        }
+                        releasedDebounceButtonTriggerCriteria.lastReleaseTime = Timer.getFPGATimestamp();
+                        break;
+                    default:
                         break;
                 }
             }

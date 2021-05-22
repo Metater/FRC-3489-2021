@@ -15,4 +15,5 @@ package frc.robot;
 public final class Constants
 {
     public static final boolean SafetiesEnabled = false;
+    public static final double DriveJoystickThreshold = 0.075;
 }

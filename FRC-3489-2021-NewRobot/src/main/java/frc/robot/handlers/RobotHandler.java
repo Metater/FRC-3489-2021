@@ -12,6 +12,8 @@ public class RobotHandler {
     public FunctionListenerHandler functionListenerHandler;
 
     public SetupHandler setupHandler;
+    public ButtonListenerHandler buttonListenerHandler;
+    public JoystickHandler joystickHandler;
     public DriveHandler driveHandler;
 
     public RobotHandler(Robot robot)
@@ -23,6 +25,8 @@ public class RobotHandler {
         functionListenerHandler = new FunctionListenerHandler(this);
 
         setupHandler = new SetupHandler(this);
+        buttonListenerHandler = new ButtonListenerHandler(this);
+        joystickHandler = new JoystickHandler(this);
         driveHandler = new DriveHandler(this);
     }
 

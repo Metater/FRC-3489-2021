@@ -1,25 +1,22 @@
 package frc.robot.types;
 
-import java.util.Map;
-
 import edu.wpi.first.wpilibj.Timer;
 
 public class ButtonPress {
 
-    public int buttonIndex;
-    public JoystickType joystickType;
+    public ButtonLocation buttonLocation;
     public PeriodicType periodicType;
-    public Map<PeriodicType, Double> lastPressTimes;
+    public double lastPressTime;
 
-    public ButtonPress(int buttonIndex, JoystickType joystickType, Map<PeriodicType, Double> lastPressTimes)
+    public ButtonPress(ButtonLocation buttonLocation, PeriodicType periodicType, double lastPressTime)
     {
-        this.buttonIndex = buttonIndex;
-        this.joystickType = joystickType;
-        this.lastPressTimes = lastPressTimes;
+        this.buttonLocation = buttonLocation;
+        this.periodicType = periodicType;
+        this.lastPressTime = lastPressTime;
     }
 
     public double getTimeBetweenLastPress()
     {
-        return Timer.getFPGATimestamp() - lastPressTimes.get(periodicType);
+        return Timer.getFPGATimestamp() - lastPressTime;
     }
 }

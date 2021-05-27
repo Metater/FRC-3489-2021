@@ -43,7 +43,7 @@ public class FalconTestHandler extends BaseHandler implements ITeleopListener, I
         System.out.println(robotHandler.deviceContainer.turretShooterLeft.getTemperature() + "::" + robotHandler.deviceContainer.turretShooterRight.getTemperature());
     }
 
-    public void buttonPressed(ButtonPress buttonPress)
+    public void buttonTriggered(ButtonPress buttonPress)
     {
         if (buttonPress.buttonTriggerCriteria.buttonTriggerName == "TestFalcon")
         {

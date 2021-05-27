@@ -4,5 +4,6 @@ public enum ButtonTriggerCriteriaType {
     Raw,
     PressedDebounce,
     WhileHeldDebounce,
+    WhileNotHeldDebounce,
     ReleasedDebounce
 }

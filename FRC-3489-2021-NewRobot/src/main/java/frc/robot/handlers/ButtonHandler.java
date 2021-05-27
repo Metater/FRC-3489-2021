@@ -7,6 +7,8 @@ import frc.robot.types.ButtonPress;
 import frc.robot.types.JoystickType;
 import frc.robot.types.PeriodicType;
 import frc.robot.types.buttonTriggerCriteria.RawButtonTriggerCriteria;
+import frc.robot.types.buttonTriggerCriteria.WhileHeldDebounceButtonTriggerCriteria;
+import frc.robot.types.buttonTriggerCriteria.WhileNotHeldDebounceButtonTriggerCriteria;
 
 public class ButtonHandler extends BaseHandler implements IButtonListener {
     
@@ -15,13 +17,13 @@ public class ButtonHandler extends BaseHandler implements IButtonListener {
         this.robotHandler = robotHandler;
         RawButtonTriggerCriteria testButton0 = new RawButtonTriggerCriteria(this, PeriodicType.Robot, "TestButton0", new ButtonLocation(12, JoystickType.Manipulator));
         robotHandler.buttonListenerHandler.addButtonTriggerCriteria(testButton0);
-        RawButtonTriggerCriteria testButton1 = new RawButtonTriggerCriteria(this, PeriodicType.Robot, "TestButton1", new ButtonLocation(11, JoystickType.Manipulator));
+        WhileHeldDebounceButtonTriggerCriteria testButton1 = new WhileHeldDebounceButtonTriggerCriteria(this, PeriodicType.Robot, "TestButton1", new ButtonLocation(11, JoystickType.Manipulator));
         robotHandler.buttonListenerHandler.addButtonTriggerCriteria(testButton1);
-        RawButtonTriggerCriteria testButton2 = new RawButtonTriggerCriteria(this, PeriodicType.Robot, "TestButton2", new ButtonLocation(7, JoystickType.DriveLeft));
+        WhileNotHeldDebounceButtonTriggerCriteria testButton2 = new WhileNotHeldDebounceButtonTriggerCriteria(this, PeriodicType.Robot, "TestButton2", new ButtonLocation(10, JoystickType.Manipulator));
         robotHandler.buttonListenerHandler.addButtonTriggerCriteria(testButton2);
     }
 
-    public void buttonPressed(ButtonPress buttonPress)
+    public void buttonTriggered(ButtonPress buttonPress)
     {
         System.out.println(buttonPress.buttonTriggerCriteria.buttonTriggerName + ":" + buttonPress.buttonTriggerCriteria.buttonLocation.buttonIndex + ": " + Timer.getFPGATimestamp());
     }

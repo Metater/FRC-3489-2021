@@ -61,7 +61,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
         System.out.println("SC:" + shooterStatorCurrent + " RC:" + rotateStatorCurrent);
     }
 
-    public void buttonPressed(ButtonPress buttonPress)
+    public void buttonTriggered(ButtonPress buttonPress)
     {
         if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(1, JoystickType.Manipulator))
         {

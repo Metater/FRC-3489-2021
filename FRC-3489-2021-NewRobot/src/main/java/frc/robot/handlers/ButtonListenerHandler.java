@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.containers.DeviceContainer;
 import frc.robot.interfaces.*;
-import frc.robot.types.ButtonLastPressData;
+import frc.robot.types.ButtonTriggerState;
 import frc.robot.types.ButtonLocation;
 import frc.robot.types.ButtonPress;
 import frc.robot.types.JoystickType;
@@ -21,6 +21,7 @@ import frc.robot.types.buttonTriggerCriteria.PressedDebounceButtonTriggerCriteri
 import frc.robot.types.buttonTriggerCriteria.RawButtonTriggerCriteria;
 import frc.robot.types.buttonTriggerCriteria.ReleasedDebounceButtonTriggerCriteria;
 import frc.robot.types.buttonTriggerCriteria.WhileHeldDebounceButtonTriggerCriteria;
+import frc.robot.types.buttonTriggerCriteria.WhileNotHeldDebounceButtonTriggerCriteria;
 
 public class ButtonListenerHandler extends BaseHandler implements IRobotListener, IDisabledListener, ITeleopListener, ITestListener {
 
@@ -37,7 +38,7 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
     public void addButtonTriggerCriteria(BaseButtonTriggerCriteria buttonTriggerCriteria)
     {
         buttonTriggers.add(buttonTriggerCriteria);
-        buttonTriggerCriteria.buttonLastPressData = new ButtonLastPressData();
+        buttonTriggerCriteria.buttonTriggerState = new ButtonTriggerState();
     }
 
     public void robotInit()
@@ -90,33 +91,39 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
                 switch (buttonTriggerCriteria.buttonTriggerCriteriaType)
                 {
                     case Raw:
-                        RawButtonTriggerCriteria rawButtonTriggerCriteria = (RawButtonTriggerCriteria)buttonTriggerCriteria;
-                        buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
-                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                        //RawButtonTriggerCriteria rawButtonTriggerCriteria = (RawButtonTriggerCriteria)buttonTriggerCriteria;
+                        buttonTriggerCriteria.trigger();
                         break;
                     case PressedDebounce:
-                        PressedDebounceButtonTriggerCriteria pressedDebounceButtonTriggerCriteria = (PressedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
-                        if (buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2))
+                        //PressedDebounceButtonTriggerCriteria pressedDebounceButtonTriggerCriteria = (PressedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (hasBeenTriggeredIn(buttonTriggerCriteria, 0.2))
                         {
-                            buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
-                            buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                            buttonTriggerCriteria.trigger();
                         }
                         break;
                     case WhileHeldDebounce:
                         WhileHeldDebounceButtonTriggerCriteria whileHeldDebounceButtonTriggerCriteria = (WhileHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
-                        if (!buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2) && !whileHeldDebounceButtonTriggerCriteria.isHeld)
-                        {
+                        if (hasntBeenPressedIn(buttonTriggerCriteria, 0.2) && !whileHeldDebounceButtonTriggerCriteria.isHeld)
                             whileHeldDebounceButtonTriggerCriteria.isHeld = true;
+                        if (whileHeldDebounceButtonTriggerCriteria.isHeld)
+                        {
+                            buttonTriggerCriteria.trigger();
                         }
-                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
+                        break;
+                    case WhileNotHeldDebounce:
+                        WhileNotHeldDebounceButtonTriggerCriteria whileNotHeldDebounceButtonTriggerCriteria = (WhileNotHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (!whileNotHeldDebounceButtonTriggerCriteria.isHeld && hasBeenPressedIn(buttonTriggerCriteria, 0.2))
+                        {
+                            whileNotHeldDebounceButtonTriggerCriteria.isHeld = true;
+                        }
                         break;
                     case ReleasedDebounce:
                         ReleasedDebounceButtonTriggerCriteria releasedDebounceButtonTriggerCriteria = (ReleasedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
-                        buttonTriggerCriteria.buttonLastPressData.lastPressTime = Timer.getFPGATimestamp();
                         break;
                     default:
                         break;
                 }
+                buttonTriggerCriteria.buttonTriggerState.press();
             }
             else
             {
@@ -124,15 +131,28 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
                 {
                     case WhileHeldDebounce:
                         WhileHeldDebounceButtonTriggerCriteria whileHeldDebounceButtonTriggerCriteria = (WhileHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (whileHeldDebounceButtonTriggerCriteria.isHeld && hasntBeenPressedIn(buttonTriggerCriteria, 0.2))
+                        {
+                            whileHeldDebounceButtonTriggerCriteria.isHeld = false;
+                        }
+                        if (whileHeldDebounceButtonTriggerCriteria.isHeld)
+                            buttonTriggerCriteria.trigger();
+                        break;
+                    case WhileNotHeldDebounce:
+                        WhileNotHeldDebounceButtonTriggerCriteria whileNotHeldDebounceButtonTriggerCriteria = (WhileNotHeldDebounceButtonTriggerCriteria)buttonTriggerCriteria;
+                        if (!whileNotHeldDebounceButtonTriggerCriteria.isHeld && hasntBeenPressedIn(buttonTriggerCriteria, 0.2))
+                        {
+                            buttonTriggerCriteria.trigger();
+                        }
                         break;
                     case ReleasedDebounce:
                         ReleasedDebounceButtonTriggerCriteria releasedDebounceButtonTriggerCriteria = (ReleasedDebounceButtonTriggerCriteria)buttonTriggerCriteria;
-                        if (buttonTriggerCriteria.buttonLastPressData.getTimeSinceLastPressValid(0.2))
+                        if (hasBeenPressedIn(buttonTriggerCriteria, 0.2))
                         {
                             if (releasedDebounceButtonTriggerCriteria.releaseScheduled)
                             {
                                 releasedDebounceButtonTriggerCriteria.releaseScheduled = false;
-                                buttonTriggerCriteria.trigger.buttonPressed(new ButtonPress(buttonTriggerCriteria));
+                                buttonTriggerCriteria.trigger();
                             }
                         }
                         else
@@ -146,6 +166,19 @@ public class ButtonListenerHandler extends BaseHandler implements IRobotListener
                 }
             }
         }
+    }
+
+    private boolean hasBeenPressedIn(BaseButtonTriggerCriteria buttonTriggerCriteria, double time) {
+        return buttonTriggerCriteria.buttonTriggerState.getTimeSinceLastPressValid(time);
+    }
+    private boolean hasntBeenPressedIn(BaseButtonTriggerCriteria buttonTriggerCriteria, double time) {
+        return !buttonTriggerCriteria.buttonTriggerState.getTimeSinceLastPressValid(time);
+    }
+    private boolean hasBeenTriggeredIn(BaseButtonTriggerCriteria buttonTriggerCriteria, double time) {
+        return buttonTriggerCriteria.buttonTriggerState.getTimeSinceLastPressValid(time);
+    }
+    private boolean hasntBeenTriggeredIn(BaseButtonTriggerCriteria buttonTriggerCriteria, double time) {
+        return !buttonTriggerCriteria.buttonTriggerState.getTimeSinceLastPressValid(time);
     }
 
     private boolean getButton(ButtonLocation buttonLocation)

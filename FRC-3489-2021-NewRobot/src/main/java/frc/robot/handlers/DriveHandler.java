@@ -41,7 +41,7 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
         }
     }
 
-    public void buttonPressed(ButtonPress buttonPress)
+    public void buttonTriggered(ButtonPress buttonPress)
     {
         boolean leftSwitchForward = buttonPress.buttonTriggerCriteria.buttonLocation.compare(7, JoystickType.DriveLeft);
         boolean rightSwitchForward = buttonPress.buttonTriggerCriteria.buttonLocation.compare(7, JoystickType.DriveRight);

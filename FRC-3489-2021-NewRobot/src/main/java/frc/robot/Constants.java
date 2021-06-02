@@ -16,4 +16,17 @@ public final class Constants
 {
     public static final boolean SafetiesEnabled = false;
     public static final double DriveJoystickThreshold = 0.075;
+
+    public final class Turret
+    {
+        public static final double CellavatorWaitSpeed = 0.5;
+        public static final double CellavatorLogSpeed = 0.5;
+        public static final double BallEntryCurrent = 15;
+        public static final double CellavatorLoggingPeriod = 0.3;
+        public static final double TurretAcceleratePeriod = 0.5;
+
+        public static final double GoodBallMinCurrentAvg = 25;
+        public static final double MediumBallMinCurrentAvg = 20;
+        public static final double BadBallMinCurrentAvg = 15;
+    }
 }

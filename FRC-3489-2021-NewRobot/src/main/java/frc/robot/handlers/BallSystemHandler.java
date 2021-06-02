@@ -1,29 +1,61 @@
 package frc.robot.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
 import frc.robot.interfaces.IButtonListener;
 import frc.robot.interfaces.IDisabledListener;
 import frc.robot.interfaces.IRobotListener;
 import frc.robot.interfaces.ITeleopListener;
+import frc.robot.types.ButtonLocation;
 import frc.robot.types.ButtonPress;
 import frc.robot.types.JoystickType;
+import frc.robot.types.PeriodicType;
+import frc.robot.types.buttonTriggerCriteria.BaseButtonTriggerCriteria;
+import frc.robot.types.buttonTriggerCriteria.RawButtonTriggerCriteria;
 import frc.robot.utils.FileUtils;
 
 public class BallSystemHandler extends BaseHandler implements IRobotListener, IDisabledListener, ITeleopListener, IButtonListener {
 
+    public enum TurretState
+    {
+        Deactivated,
+        Activated,
+        LoggingCurrent,
+        TurretAccelerating
+    }
+
+    public enum BallCondition
+    {
+        Good,
+        Medium,
+        Bad
+    }
+
+    private TurretState turretState;
+
+    private double logCurrentStartTime = -1;
+    private List<Double> cellavatorLoggedCurrents = new ArrayList<Double>();
+    private BallCondition lastDetectedBallCondition = BallCondition.Medium;
+
+    private double accelerateStartTime = -1;
+
     private String turretData = "";
 
-    private double shooterSpeed = 0;
-
-    private double lastShooterDecrementTime = -1;
-    private double lastShooterIncrementTime = -1;
-    
     public BallSystemHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
         robotHandler.functionListenerHandler.addRobotListener(this);
         robotHandler.functionListenerHandler.addDisabledListener(this);
         robotHandler.functionListenerHandler.addTeleopListener(this);
+        /*
+        BaseButtonTriggerCriteria triggerCriteria = new RawButtonTriggerCriteria(this, PeriodicType.Teleop, "ShootPressed", new ButtonLocation(1, JoystickType.Manipulator));
+        robotHandler.buttonListenerHandler.addButtonTriggerCriteria(triggerCriteria);
+        */
         robotHandler.shuffleboardHandler.addEntry(robotHandler.shuffleboardHandler.tab.add("Shooter Speed", 0).getEntry());
     }
 
@@ -59,35 +91,117 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
         double shooterStatorCurrent = (robotHandler.deviceContainer.turretShooterLeft.getStatorCurrent() + robotHandler.deviceContainer.turretShooterRight.getStatorCurrent())/2;
         double rotateStatorCurrent = robotHandler.deviceContainer.turretRotate.getStatorCurrent();
         System.out.println("SC:" + shooterStatorCurrent + " RC:" + rotateStatorCurrent);
+
+        tryShoot();
+    }
+
+    private void tryShoot()
+    {
+        switch (turretState)
+        {
+            case Deactivated:
+                if (robotHandler.deviceContainer.joystickManipulator.getRawButton(1))
+                {
+                    turretState = TurretState.Activated;
+                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                }
+                else
+                {
+                    robotHandler.deviceContainer.turretCellevator.stopMotor();
+                    setTurret(0);
+                }
+                break;
+            case Activated:
+                double cellavatorCurrent = robotHandler.deviceContainer.turretCellevator.getStatorCurrent();
+                if (cellavatorCurrent < Constants.Turret.BallEntryCurrent)
+                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                else
+                {
+                    turretState = TurretState.LoggingCurrent;
+                    logCurrentStartTime = Timer.getFPGATimestamp();
+                    cellavatorLoggedCurrents.clear();
+                    cellavatorLoggedCurrents.add(cellavatorCurrent);
+                }
+				break;
+            case LoggingCurrent:
+                if (Timer.getFPGATimestamp() - logCurrentStartTime < Constants.Turret.CellavatorLoggingPeriod)
+                {
+                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorLogSpeed);
+                    double loggedCurrent = robotHandler.deviceContainer.turretCellevator.getStatorCurrent();
+                    cellavatorLoggedCurrents.add(loggedCurrent);
+                }
+                else
+                {
+                    double sum = 0;
+                    for (double current : cellavatorLoggedCurrents)
+                    {
+                        sum += current;
+                    }
+                    double avgCurrent = sum / ((double)cellavatorLoggedCurrents.size());
+                    if (avgCurrent < Constants.Turret.GoodBallMinCurrentAvg)
+                        lastDetectedBallCondition = BallCondition.Good;
+                    else if (avgCurrent < Constants.Turret.MediumBallMinCurrentAvg)
+                        lastDetectedBallCondition = BallCondition.Medium;
+                    else
+                        lastDetectedBallCondition = BallCondition.Bad;
+                    turretState = TurretState.TurretAccelerating;
+                    robotHandler.deviceContainer.turretCellevator.stopMotor();
+                    accelerateStartTime = Timer.getFPGATimestamp();
+                }
+				break;
+            case TurretAccelerating:
+                if (Timer.getFPGATimestamp() - accelerateStartTime < Constants.Turret.TurretAcceleratePeriod)
+                {
+                    setTurret(getTurretSpeed());
+                }
+                else
+                {
+                    if (robotHandler.deviceContainer.joystickManipulator.getRawButton(1))
+                    {
+                        turretState = TurretState.Activated;
+                        robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                    }
+                    else
+                    {
+                        turretState = TurretState.Deactivated;
+                    }
+                }
+				break;
+			default:
+				break;
+        }
+    }
+
+    private void tryAim()
+    {
+
     }
 
     public void buttonTriggered(ButtonPress buttonPress)
     {
-        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(1, JoystickType.Manipulator))
-        {
-            robotHandler.deviceContainer.turretCellevator.set(-1);
-        }
-        else
-        {
-            robotHandler.deviceContainer.turretCellevator.set(0);
-        }
-        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(11, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterDecrementTime > 0.25)
-        {
-            lastShooterDecrementTime = Timer.getFPGATimestamp();
-        }
-        if (buttonPress.buttonTriggerCriteria.buttonLocation.compare(12, JoystickType.Manipulator) && Timer.getFPGATimestamp() - lastShooterIncrementTime > 0.25)
-        {
-            lastShooterIncrementTime = Timer.getFPGATimestamp();
-        }
+        
     }
-    private void setShooterSpeed()
+
+    private double getTurretSpeed()
     {
-      if (Math.abs(shooterSpeed) > 1)
-      {
-        shooterSpeed = Math.signum(shooterSpeed);
-      }
-      robotHandler.deviceContainer.turretShooterLeft.set(shooterSpeed);
-      robotHandler.deviceContainer.turretShooterRight.set(shooterSpeed * -1);
-      robotHandler.shuffleboardHandler.getEntry("Shooter Speed").setDouble(shooterSpeed * -1);
+        switch (lastDetectedBallCondition)
+        {
+            // Take in distance later
+            case Bad:
+                return 0.95;
+            case Good:
+                return 0.9;
+            case Medium:
+                return 0.85;
+            default:
+                break;
+        }
+        return 1;
+    }
+
+    private void setTurret(double speed)
+    {
+        robotHandler.deviceContainer.turretShooterLeft.set(-speed);
+        robotHandler.deviceContainer.turretShooterRight.set(speed);
     }
 }

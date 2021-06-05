@@ -31,7 +31,8 @@ public class ColorSpinnerHandler {
     private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private final ColorMatch colorMatcher = new ColorMatch();
     private final Color blueTarget = ColorMatch.makeColor(0.23, 0.46, 0.31);
-    private final Color greenTarget = ColorMatch.makeColor(0.21, 0.53, 0.25);
+    private final Color greenTarget = ColorMatch.makeColor(0.27, 0.48, 0.25);
+    //private final Color greenTarget = ColorMatch.makeColor(0.21, 0.53, 0.25);
     private final Color redTarget = ColorMatch.makeColor(0.33, 0.45, 0.22);
     private final Color yellowTarget = ColorMatch.makeColor(0.30, 0.51, 0.19);
 
@@ -107,6 +108,13 @@ public class ColorSpinnerHandler {
         {
           keepSpinning = true;
           redYellowPasses = 0;
+          stage = ControlPanelStage.Stage1;
+        }
+        if (robotHandler.inputHandler.joystickManipulator.getRawButton(Constants.Buttons.RESET_COLOR_SPINS-1))
+        {
+          keepSpinning = true;
+          redYellowPasses = 0;
+          stage = ControlPanelStage.Stage2;
         }
     }
 
@@ -141,9 +149,12 @@ public class ColorSpinnerHandler {
           }
           else if (stage == ControlPanelStage.Stage2)
           {
-            String gameData = DriverStation.getInstance().getGameSpecificMessage();
+            char gameData = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
 
-            if (colorToFind != "R")
+            robotHandler.shuffleboardHandler.printStringToWidget("Color to find", colorToFind);
+            String shiftedColor = getShiftedColor(gameData);
+            robotHandler.shuffleboardHandler.printStringToWidget("Shifted color", shiftedColor);
+            if (colorToFind != shiftedColor)
             {
               colorSpinner.set(0.2);
             }
@@ -160,5 +171,21 @@ public class ColorSpinnerHandler {
         }
         else
             colorSpinner.stopMotor();
+    }
+
+    private String getShiftedColor(char wantedColor)
+    {
+      switch (wantedColor)
+      {
+        case 'R':
+          return "G";
+        case 'Y':
+          return "B";
+        case 'G':
+          return "R";
+        case 'B':
+          return "Y";
+      }
+      return null;
     }
 }

@@ -31,6 +31,8 @@ public class RobotHandler {
 
     public RecordingAndPlaybackHandler recordingAndPlaybackHandler;
 
+    public ColorSpinnerHandler colorSpinnerHandler;
+
     private double enableTime;
     private boolean hasBeenStopped = false;
 
@@ -48,17 +50,21 @@ public class RobotHandler {
         autoHandler = new AutoHandler(this, AutoType.HyperPathA); // Set the auto type with suffleboard or something
 
         shuffleboardHandler = new ShuffleboardHandler(this);
-        cameraHandler = new CameraHandler(this);
+        //cameraHandler = new CameraHandler(this);
 
         recordingAndPlaybackHandler = new RecordingAndPlaybackHandler(this);
 
         driveHandler.differentialDrive.setSafetyEnabled(false);
+
+        colorSpinnerHandler = new ColorSpinnerHandler(this);
     }
 
     public void robotInit()
     {
         shuffleboardHandler.printBooleanToWidget("Recording", false);
         shuffleboardHandler.printBooleanToWidget("Playing", false);
+
+        colorSpinnerHandler.robotInit();
     }
     public void robotPeriodic()
     {
@@ -83,6 +89,7 @@ public class RobotHandler {
 
     public void teleopPeriodic()
     {
+        colorSpinnerHandler.teleopPeriodic();
         if (!recordingAndPlaybackHandler.player.isPlaying)
         {
             driveHandler.teleopPeriodic();

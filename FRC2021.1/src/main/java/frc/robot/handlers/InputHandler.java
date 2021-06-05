@@ -48,6 +48,16 @@ public class InputHandler {
             return 0;
         }
     }
+    public boolean shouldLiftColorSpinner()
+    {
+        return joystickManipulator.getRawButton(Constants.Buttons.LIFT_COLOR_WHEEL);
+    }
+
+    public boolean shouldSpinColorSpinner()
+    {
+        return joystickManipulator.getRawButton(Constants.Buttons.SPIN_COLOR_WHEEL);
+    }
+
     public boolean shouldScissorLift()
     {
         boolean bothButtonsPressed = joystickDriveLeft.getRawButton(Constants.Buttons.SCISSOR_LIFT) && joystickDriveRight.getRawButton(Constants.Buttons.SCISSOR_LIFT);

@@ -38,6 +38,7 @@ public final class Constants {
 
         public static final int LIFT_COLOR_WHEEL = 4;
         public static final int SPIN_COLOR_WHEEL = 12;
+        public static final int RESET_COLOR_SPINS = 11;
 
         public static final int STOP_TIMER = 2;
 

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.wpi.first.wpilibj.Filesystem;
 
@@ -64,6 +63,12 @@ public class FileUtils {
         String[] files;
         files = fileInDir.list();
         return files;
+    }
+
+    public static boolean fileExists(String fileName)
+    {
+        File tempDir = new File(Filesystem.getOperatingDirectory().toPath().toString() + "/" + fileName);
+        return tempDir.exists();
     }
 
     public static void createLocalFile(String fileName)

@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.ArrayList;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,188 +29,81 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public Joystick joystickDriveLeft = new Joystick(0);
-  public Joystick joystickDriveRight = new Joystick(1);
-  public Joystick joystickManipulator = new Joystick(2);
+  private TurretTesting turretTesting = new TurretTesting();
 
-  public WPI_TalonFX falconShooterLeft = new WPI_TalonFX(11);
-  public WPI_TalonFX falconShooterRight = new WPI_TalonFX(10);
-
-  private double shooterSpeed = 0;
-
-  private ShuffleboardTab tab = Shuffleboard.getTab("3489 2021");
-
-  private NetworkTableEntry shooterSpeedEntry;
-
-  // Selection
-  private int selectedSpeedIndex = 0;
-  private ArrayList<Double> loadedSpeeds = new ArrayList<Double>();
-
-  private static int SelectUpButton = 7;
-  private static int SelectDownButton = 9;
-  private static int SelectButton = 11;
-  private static int SaveButton = 12;
-
-  private double lastSelectUpTime;
-  private double lastSelectDownTime;
-  private double lastSelectTime;
-  private double lastSaveTime;
-
-  private boolean fullSending = false;
-  private double lastFullSendToggleTime = 0;
-
-  private double distanceFromTarget = 0; 
-
-
-
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
   @Override
-  public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+  public void robotInit()
+  {
     m_robotContainer = new RobotContainer();
 
-    FileUtils.printAllDirs();
 
-    shooterSpeedEntry = tab.add("Shooter Speed: ", distanceFromTarget).getEntry();
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
+
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit()
+  {
+
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic()
+  {
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  }
+
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() 
+  {
+
+  }
 
   @Override
-  public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
+  public void teleopInit() 
+  {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    turretTesting.teleopInit();
   }
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-    if (!fullSending){
-      joemamamama();
-    }
-    if (joystickManipulator.getRawButton(12))
-    {
-      tryToggleFullSend();
-    }
-  }
-
-  private void tryToggleFullSend()
-  {
-    if (Timer.getFPGATimestamp() > 1 + lastFullSendToggleTime)
-    {
-      lastFullSendToggleTime = Timer.getFPGATimestamp();
-      fullSending = !fullSending;
-      if (fullSending)
-      {
-        falconShooterLeft.set(-1);
-        falconShooterRight.set(1);
-      }
-      else
-      {
-        falconShooterLeft.set(0);
-        falconShooterRight.set(0);
-      }
-    }
-  }
-
-  private void joemama(){
-    double speedChange = joystickManipulator.getY();
-      if (Math.abs(speedChange) > 0.175){
-        speedChange *= 0.0025;
-        distanceFromTarget += speedChange;
-    double speed = (0.0215 * distanceFromTarget * distanceFromTarget) + 72;
-    speed/=100;
-    falconShooterLeft.set(speed * -1);
-        falconShooterRight.set(speed);
-
-        
-      }
-    }
-    private void joemamamama(){
-     if (!fullSending)
-    {
-      double speedChange = joystickManipulator.getY();
-      if (Math.abs(speedChange) > 0.175)
-      {
-        speedChange *= 0.0025;
-        shooterSpeed += speedChange;
-  
-        falconShooterLeft.set(shooterSpeed);
-        falconShooterRight.set(-1*shooterSpeed);
-        shooterSpeedEntry.setDouble(shooterSpeed);
-      }
-    }
-  }
-  
-
-  /*
-  private void handleSelectionButton()
-  {
-    if (joystickManipulator.getRawButton()
-  }
-  */
-  /*
-  private double isButtonPressed(double lastTime)
-  {
-    if (joystickManipulator.getRawButton())
-    {
-
-    }
-  }
-  */
 
   @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
+  public void teleopPeriodic()
+  {
+    turretTesting.teleopPeriodic();
+  }
+
+  @Override
+  public void testInit()
+  {
     CommandScheduler.getInstance().cancelAll();
+
+
   }
 
-  /** This function is called periodically during test mode. */
+
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic()
+  {
+
+  }
 }

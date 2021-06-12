@@ -1,4 +1,4 @@
-package frc.robot.interfaces;
+package frc.robot.shared.interfaces;
 
 public interface IRobotListener {
     public void robotInit();

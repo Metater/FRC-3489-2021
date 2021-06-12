@@ -2,6 +2,7 @@ package frc.robot.handlers;
 
 import frc.robot.Robot;
 import frc.robot.containers.DeviceContainer;
+import frc.robot.shared.handlers.FunctionListenerHandler;
 
 public class RobotHandler {
     
@@ -9,14 +10,15 @@ public class RobotHandler {
 
     public DeviceContainer deviceContainer;
 
+    public FunctionListenerHandler functionListenerHandler;
+
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
 
         deviceContainer = new DeviceContainer();
 
-        //driveHandler = new DriveHandler(this);
-        //ballSystemHandler = new BallSystemHandler(this);
+        functionListenerHandler = new FunctionListenerHandler(this);
     }
 
     public void robotInit()

@@ -1,6 +1,6 @@
 #include <FastLED.h>
 #define LED_PIN     7
-#define NUM_LEDS    65
+#define NUM_LEDS    416
 #define NUM_COLORS  7
 
 CRGB leds[NUM_LEDS];
@@ -8,7 +8,8 @@ CRGB leds[NUM_LEDS];
 int color = 0;
 
 void setup() {
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);\
+  FastLED.setBrightness(31);
 }
 void loop() {
   /*
@@ -43,7 +44,7 @@ void old()
     else
       leds[i] = getColor(0);
     FastLED.show();
-    delay(40);
+    //delay(0);
   }
   nextColor();
   for (int i = NUM_LEDS-1; i >= 0; i--) {
@@ -52,7 +53,7 @@ void old()
     else
       leds[i] = getColor(0);
     FastLED.show();
-    delay(40);
+    //delay(40);
   }
   nextColor();
 }

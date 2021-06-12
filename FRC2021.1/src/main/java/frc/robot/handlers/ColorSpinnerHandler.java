@@ -38,8 +38,8 @@ public class ColorSpinnerHandler {
 
     private double timeOf3Spins = -1;
 
-    private String colorToFind = "?";
-    private String previousColor = "?";
+    private char colorToFind = '?';
+    private char previousColor = '?';
     private boolean keepSpinning = true;
 
     private int redYellowPasses = 0;
@@ -68,19 +68,19 @@ public class ColorSpinnerHandler {
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
         if (match.color == blueTarget) {
           colorString = "Blue";
-          colorToFind = "B";
+          colorToFind = 'B';
         } else if (match.color == redTarget) {
           colorString = "Red";
-          colorToFind = "R";
+          colorToFind = 'R';
         } else if (match.color == greenTarget) {
           colorString = "Green";
-          colorToFind = "G";
+          colorToFind = 'G';
         } else if (match.color == yellowTarget) {
           colorString = "Yellow";
-          colorToFind = "Y";
+          colorToFind = 'Y';
         } else {
           colorString = "Unknown";
-          colorToFind = "?";
+          colorToFind = '?';
         }
 
         tryStage1();
@@ -122,7 +122,7 @@ public class ColorSpinnerHandler {
     {
       if (stage == ControlPanelStage.Stage1)
       {
-        if (colorToFind == "Y" && previousColor == "R")
+        if (colorToFind == 'Y' && previousColor == 'R')
         {
           redYellowPasses++;
           if (redYellowPasses > 4)
@@ -151,9 +151,9 @@ public class ColorSpinnerHandler {
           {
             char gameData = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
 
-            robotHandler.shuffleboardHandler.printStringToWidget("Color to find", colorToFind);
-            String shiftedColor = getShiftedColor(gameData);
-            robotHandler.shuffleboardHandler.printStringToWidget("Shifted color", shiftedColor);
+            robotHandler.shuffleboardHandler.printStringToWidget("Color to find", String.valueOf(colorToFind));
+            char shiftedColor = getShiftedColor(gameData);
+            robotHandler.shuffleboardHandler.printStringToWidget("Shifted color", String.valueOf(shiftedColor));
             if (colorToFind != shiftedColor)
             {
               colorSpinner.set(0.2);
@@ -173,19 +173,19 @@ public class ColorSpinnerHandler {
             colorSpinner.stopMotor();
     }
 
-    private String getShiftedColor(char wantedColor)
+    private char getShiftedColor(char wantedColor)
     {
       switch (wantedColor)
       {
         case 'R':
-          return "G";
+          return 'G';
         case 'Y':
-          return "B";
+          return 'B';
         case 'G':
-          return "R";
+          return 'R';
         case 'B':
-          return "Y";
+          return 'Y';
       }
-      return null;
+      return '?';
     }
 }

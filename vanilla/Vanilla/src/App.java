@@ -67,5 +67,6 @@ public class App {
         System.out.print("Enter something: ");
         String str = scanner.nextLine();
         System.out.println("You entered: " + str);
+        scanner.close();
     }
 }

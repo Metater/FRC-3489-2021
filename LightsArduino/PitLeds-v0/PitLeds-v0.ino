@@ -1,7 +1,7 @@
 #include <FastLED.h>
 
 #define LED_DATA_PIN 7
-#define NUM_LEDS 40
+#define NUM_LEDS 30
 
 CRGB ledStrip[NUM_LEDS];
 
@@ -10,18 +10,19 @@ int colorCounter = 0;
 void setup()
 {
   FastLED.addLeds<WS2812, LED_DATA_PIN, GRB>(ledStrip, NUM_LEDS);
+  FastLED.setBrightness(31);
 }
 
 void loop()
 {
   shiftStripRight(1);
-  if (colorCounter % 2 == 0)
-    ledStrip[0] = CRGB (25, 0, 214);
+  if (colorCounter % 4 == 0)
+    ledStrip[1] = CRGB (25, 0, 214);
   else
-    ledStrip[1] = CRGB (168, 50, 54);
+    ledStrip[0] = CRGB (168, 50, 54);
   FastLED.show();
   colorCounter++;
-  delay(50);
+  delay(10);
 }
 
 void shiftStripLeft(int n)

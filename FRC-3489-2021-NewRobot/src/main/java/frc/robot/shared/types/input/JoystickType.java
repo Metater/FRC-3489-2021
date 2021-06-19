@@ -1,4 +1,4 @@
-package frc.robot.types;
+package frc.robot.shared.types.input;
 
 public enum JoystickType {
     DriveLeft,

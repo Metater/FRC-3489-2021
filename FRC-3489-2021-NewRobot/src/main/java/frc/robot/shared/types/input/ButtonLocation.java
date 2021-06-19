@@ -1,6 +1,7 @@
-package frc.robot.types;
+package frc.robot.shared.types.input;
 
-public final class ButtonLocation {
+public class ButtonLocation {
+    
     public int buttonIndex;
     public JoystickType joystickType;
 

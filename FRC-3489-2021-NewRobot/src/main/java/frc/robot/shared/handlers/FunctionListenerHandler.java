@@ -1,8 +1,9 @@
-package frc.robot.handlers;
+package frc.robot.shared.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.handlers.RobotHandler;
 import frc.robot.shared.interfaces.*;
 
 public class FunctionListenerHandler extends BaseHandler {

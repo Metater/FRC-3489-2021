@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.shared.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.Filesystem;
 
 public class FileUtils {
+    
     public static void printAllDirs()
     {
         String[] fileNames = getFileNamesInDir(Filesystem.getOperatingDirectory());

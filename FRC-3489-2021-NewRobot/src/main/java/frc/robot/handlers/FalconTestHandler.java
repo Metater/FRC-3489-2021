@@ -1,24 +1,23 @@
 package frc.robot.handlers;
 
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.interfaces.IButtonListener;
-import frc.robot.interfaces.ITeleopListener;
-import frc.robot.types.ButtonLocation;
-import frc.robot.types.ButtonPress;
-import frc.robot.types.JoystickType;
-import frc.robot.types.PeriodicType;
-import frc.robot.types.buttonTriggerCriteria.RawButtonTriggerCriteria;
+import frc.robot.shared.interfaces.IButtonListener;
+import frc.robot.shared.interfaces.ITeleopListener;
+import frc.robot.shared.types.input.ButtonLocation;
+import frc.robot.shared.types.input.ButtonUpdateEventType;
+import frc.robot.shared.types.input.JoystickType;
+import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
+import frc.robot.shared.types.input.buttonUpdate.RawButtonUpdate;
+import frc.robot.shared.types.robot.PeriodicType;
+
 
 public class FalconTestHandler extends BaseHandler implements ITeleopListener, IButtonListener {
-
-    private double lastFalconTime = -1;
 
     public FalconTestHandler(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
         robotHandler.functionListenerHandler.addTeleopListener(this);
-        RawButtonTriggerCriteria testButton0 = new RawButtonTriggerCriteria(this, PeriodicType.Teleop, "TestFalcon", new ButtonLocation(1, JoystickType.Manipulator));
-        robotHandler.buttonListenerHandler.addButtonTriggerCriteria(testButton0);
+        RawButtonUpdate buttonUpdate = new RawButtonUpdate(this, PeriodicType.Teleop, "TestFalcon", new ButtonLocation(1, JoystickType.Manipulator));
+        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(buttonUpdate);
     }
 
     public void teleopInit()
@@ -28,26 +27,23 @@ public class FalconTestHandler extends BaseHandler implements ITeleopListener, I
 
     public void teleopPeriodic()
     {
-        if (Timer.getFPGATimestamp() - lastFalconTime <= 0.1)
-        {
-            //robotHandler.deviceContainer.falcon.set(1);
-            robotHandler.deviceContainer.turretShooterLeft.set(-1);
-            robotHandler.deviceContainer.turretShooterRight.set(1);
-        }
-        else
-        {
-            //robotHandler.deviceContainer.falcon.stopMotor();
-            robotHandler.deviceContainer.turretShooterLeft.stopMotor();
-            robotHandler.deviceContainer.turretShooterRight.stopMotor();
-        }
         System.out.println(robotHandler.deviceContainer.turretShooterLeft.getTemperature() + "::" + robotHandler.deviceContainer.turretShooterRight.getTemperature());
     }
 
-    public void buttonTriggered(ButtonPress buttonPress)
+    public void update(BaseButtonUpdate update)
     {
-        if (buttonPress.buttonTriggerCriteria.buttonTriggerName == "TestFalcon")
+        if (update.buttonUpdateName == "TestFalcon")
         {
-            lastFalconTime = Timer.getFPGATimestamp();
+            if (update.buttonUpdateEventType == ButtonUpdateEventType.On)
+            {
+                robotHandler.deviceContainer.turretShooterLeft.set(-1);
+                robotHandler.deviceContainer.turretShooterRight.set(1);
+            }
+            else if (update.buttonUpdateEventType == ButtonUpdateEventType.Off)
+            {
+                robotHandler.deviceContainer.turretShooterLeft.stopMotor();
+                robotHandler.deviceContainer.turretShooterRight.stopMotor();
+            }
         }
     }
     

@@ -2,6 +2,7 @@ package frc.robot.handlers;
 
 import frc.robot.Robot;
 import frc.robot.containers.DeviceContainer;
+import frc.robot.shared.handlers.ButtonUpdateListenerHandler;
 
 public class RobotHandler {
     
@@ -11,13 +12,12 @@ public class RobotHandler {
 
     public FunctionListenerHandler functionListenerHandler;
     public SetupHandler setupHandler;
-    public ButtonListenerHandler buttonListenerHandler;
-    public ButtonHandler buttonHandler;
+    public ButtonUpdateListenerHandler buttonUpdateListenerHandler;
     public JoystickHandler joystickHandler;
     public ShuffleboardHandler shuffleboardHandler;
     public FalconTestHandler falconTestHandler;
-    //public DriveHandler driveHandler;
-    //public BallSystemHandler ballSystemHandler;
+    public DriveHandler driveHandler;
+    public BallSystemHandler ballSystemHandler;
 
     public RobotHandler(Robot robot)
     {
@@ -27,13 +27,12 @@ public class RobotHandler {
 
         functionListenerHandler = new FunctionListenerHandler(this);
         setupHandler = new SetupHandler(this);
-        buttonListenerHandler = new ButtonListenerHandler(this);
-        buttonHandler = new ButtonHandler(this);
+        buttonUpdateListenerHandler = new ButtonUpdateListenerHandler(this);
         joystickHandler = new JoystickHandler(this);
         shuffleboardHandler = new ShuffleboardHandler(this);
         falconTestHandler = new FalconTestHandler(this);
-        //driveHandler = new DriveHandler(this);
-        //ballSystemHandler = new BallSystemHandler(this);
+        driveHandler = new DriveHandler(this);
+        ballSystemHandler = new BallSystemHandler(this);
     }
 
     public void robotInit()

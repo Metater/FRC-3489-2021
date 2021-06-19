@@ -50,7 +50,7 @@ public class RobotHandler {
         autoHandler = new AutoHandler(this, AutoType.HyperPathA); // Set the auto type with suffleboard or something
 
         shuffleboardHandler = new ShuffleboardHandler(this);
-        //cameraHandler = new CameraHandler(this);
+        cameraHandler = new CameraHandler(this);
 
         recordingAndPlaybackHandler = new RecordingAndPlaybackHandler(this);
 

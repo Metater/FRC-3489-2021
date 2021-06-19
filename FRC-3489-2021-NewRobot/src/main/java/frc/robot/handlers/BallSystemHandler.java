@@ -3,21 +3,12 @@ package frc.robot.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.interfaces.IButtonListener;
-import frc.robot.interfaces.IDisabledListener;
-import frc.robot.interfaces.IRobotListener;
-import frc.robot.interfaces.ITeleopListener;
-import frc.robot.types.ButtonLocation;
-import frc.robot.types.ButtonPress;
-import frc.robot.types.JoystickType;
-import frc.robot.types.PeriodicType;
-import frc.robot.types.buttonTriggerCriteria.BaseButtonTriggerCriteria;
-import frc.robot.types.buttonTriggerCriteria.RawButtonTriggerCriteria;
-import frc.robot.utils.FileUtils;
+import frc.robot.shared.interfaces.*;
+import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
+import frc.robot.shared.utils.FileUtils;
+
 
 public class BallSystemHandler extends BaseHandler implements IRobotListener, IDisabledListener, ITeleopListener, IButtonListener {
 
@@ -172,12 +163,14 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
         }
     }
 
+    /*
     private void tryAim()
     {
 
     }
+    */
 
-    public void buttonTriggered(ButtonPress buttonPress)
+    public void update(BaseButtonUpdate update)
     {
         
     }

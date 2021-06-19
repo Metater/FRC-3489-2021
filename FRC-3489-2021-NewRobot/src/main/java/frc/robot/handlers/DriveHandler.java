@@ -2,10 +2,14 @@ package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.interfaces.IButtonListener;
-import frc.robot.interfaces.ITeleopListener;
-import frc.robot.types.ButtonPress;
-import frc.robot.types.JoystickType;
+import frc.robot.shared.interfaces.IButtonListener;
+import frc.robot.shared.interfaces.ITeleopListener;
+import frc.robot.shared.types.input.ButtonLocation;
+import frc.robot.shared.types.input.ButtonUpdateEventType;
+import frc.robot.shared.types.input.JoystickType;
+import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
+import frc.robot.shared.types.input.buttonUpdate.RawButtonUpdate;
+import frc.robot.shared.types.robot.PeriodicType;
 
 public class DriveHandler extends BaseHandler implements ITeleopListener, IButtonListener {
 
@@ -18,6 +22,10 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
     {
         this.robotHandler = robotHandler;
         robotHandler.functionListenerHandler.addTeleopListener(this);
+        RawButtonUpdate switchFrontLeft = new RawButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(7, JoystickType.DriveLeft));
+        RawButtonUpdate switchFrontRight = new RawButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(7, JoystickType.DriveRight));
+        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(switchFrontLeft);
+        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
         differentialDrive = new DifferentialDrive(robotHandler.deviceContainer.driveFrontLeft, robotHandler.deviceContainer.driveFrontRight);
     }
 
@@ -41,11 +49,9 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
         }
     }
 
-    public void buttonTriggered(ButtonPress buttonPress)
+    public void update(BaseButtonUpdate update)
     {
-        boolean leftSwitchForward = buttonPress.buttonTriggerCriteria.buttonLocation.compare(7, JoystickType.DriveLeft);
-        boolean rightSwitchForward = buttonPress.buttonTriggerCriteria.buttonLocation.compare(7, JoystickType.DriveRight);
-        if ((leftSwitchForward || rightSwitchForward) && Timer.getFPGATimestamp() - lastForwardSwitchTime > 0.5)
+        if (update.buttonUpdateName == "SwitchFront" && update.buttonUpdateEventType == ButtonUpdateEventType.On && Timer.getFPGATimestamp() - lastForwardSwitchTime > 0.5)
         {
             lastForwardSwitchTime = Timer.getFPGATimestamp();
             forwardSwitched = !forwardSwitched;

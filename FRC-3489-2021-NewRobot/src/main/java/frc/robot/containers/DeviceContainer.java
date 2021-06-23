@@ -13,6 +13,7 @@ public class DeviceContainer {
     public Joystick joystickManipulator = new Joystick(2);
 
     // Motors
+    public WPI_TalonSRX intake = new WPI_TalonSRX(8);
     public WPI_TalonSRX driveFrontLeft = new WPI_TalonSRX(7);
     public WPI_TalonSRX driveFrontRight = new WPI_TalonSRX(4);
     public WPI_TalonSRX driveBackLeft = new WPI_TalonSRX(5);

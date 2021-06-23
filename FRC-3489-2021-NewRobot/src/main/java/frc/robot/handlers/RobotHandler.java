@@ -3,6 +3,7 @@ package frc.robot.handlers;
 import frc.robot.Robot;
 import frc.robot.containers.DeviceContainer;
 import frc.robot.shared.handlers.ButtonUpdateListenerHandler;
+import frc.robot.shared.handlers.FunctionListenerHandler;
 
 public class RobotHandler {
     
@@ -11,13 +12,14 @@ public class RobotHandler {
     public DeviceContainer deviceContainer;
 
     public FunctionListenerHandler functionListenerHandler;
-    public SetupHandler setupHandler;
+    //public SetupHandler setupHandler;
     public ButtonUpdateListenerHandler buttonUpdateListenerHandler;
-    public JoystickHandler joystickHandler;
-    public ShuffleboardHandler shuffleboardHandler;
-    public FalconTestHandler falconTestHandler;
-    public DriveHandler driveHandler;
-    public BallSystemHandler ballSystemHandler;
+    //public JoystickHandler joystickHandler;
+    //public ShuffleboardHandler shuffleboardHandler;
+    //public FalconTestHandler falconTestHandler;
+    //public DriveHandler driveHandler;
+    //public BallSystemHandler ballSystemHandler;
+    public IntakeHandler intakeHandler;
 
     public RobotHandler(Robot robot)
     {
@@ -26,13 +28,14 @@ public class RobotHandler {
         deviceContainer = new DeviceContainer();
 
         functionListenerHandler = new FunctionListenerHandler(this);
-        setupHandler = new SetupHandler(this);
+        //setupHandler = new SetupHandler(this);
         buttonUpdateListenerHandler = new ButtonUpdateListenerHandler(this);
-        joystickHandler = new JoystickHandler(this);
-        shuffleboardHandler = new ShuffleboardHandler(this);
-        falconTestHandler = new FalconTestHandler(this);
-        driveHandler = new DriveHandler(this);
-        ballSystemHandler = new BallSystemHandler(this);
+        //joystickHandler = new JoystickHandler(this);
+        //shuffleboardHandler = new ShuffleboardHandler(this);
+        //falconTestHandler = new FalconTestHandler(this);
+        //driveHandler = new DriveHandler(this);
+        //ballSystemHandler = new BallSystemHandler(this);
+        intakeHandler = new IntakeHandler(this);
     }
 
     public void robotInit()

@@ -1,6 +1,7 @@
 package frc.robot.handlers;
 
 import frc.robot.Constants;
+import frc.robot.shared.handlers.BaseHandler;
 
 public class JoystickHandler extends BaseHandler {
     

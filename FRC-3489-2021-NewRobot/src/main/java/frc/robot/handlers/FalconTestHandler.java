@@ -1,5 +1,6 @@
 package frc.robot.handlers;
 
+import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
 import frc.robot.shared.types.input.ButtonLocation;

@@ -2,6 +2,7 @@ package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
 import frc.robot.shared.types.input.ButtonLocation;
@@ -36,6 +37,7 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
 
     public void teleopPeriodic()
     {
+        /*
         double leftDriveTrain = robotHandler.joystickHandler.getLeftDriveTrain();
         double rightDriveTrain = robotHandler.joystickHandler.getRightDriveTrain();
 
@@ -47,6 +49,7 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
         {
             differentialDrive.tankDrive(rightDriveTrain * -1, leftDriveTrain * -1);
         }
+        */
     }
 
     public void update(BaseButtonUpdate update)

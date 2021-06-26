@@ -1,6 +1,9 @@
 package frc.robot.handlers;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -16,6 +19,10 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
     public double shooterSpeed = 0;
 
     private NetworkTableEntry toggleTestEntry;
+
+    public DigitalInput digitalInput = new DigitalInput(9);
+
+    public WPI_TalonSRX test = new WPI_TalonSRX(19);
 
     public ShooterHandler(RobotHandler robotHandler)
     {
@@ -36,6 +43,14 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void teleopPeriodic()
     {
+        if (!digitalInput.get())
+        {
+            test.set(1);
+        }
+        else
+        {
+            test.set(0);
+        }
         shooterSpeed += robotHandler.joystickHandler.getShooterAdjust();
         setShooter(shooterSpeed);
         robotHandler.deviceContainer.turretRotate.set(robotHandler.joystickHandler.getTurretRotateSpeed());

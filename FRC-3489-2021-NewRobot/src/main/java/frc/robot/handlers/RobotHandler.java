@@ -18,7 +18,7 @@ public class RobotHandler {
     public JoystickHandler joystickHandler;
     public ShuffleboardHandler shuffleboardHandler;
     //public FalconTestHandler falconTestHandler;
-      //public DriveHandler driveHandler;
+    public DriveHandler driveHandler;
     //public BallSystemHandler ballSystemHandler;
     public IntakeHandler intakeHandler;
     public ShooterHandler shooterHandler;
@@ -36,7 +36,7 @@ public class RobotHandler {
         joystickHandler = new JoystickHandler(this);
         shuffleboardHandler = new ShuffleboardHandler(this);
         //falconTestHandler = new FalconTestHandler(this);
-          //driveHandler = new DriveHandler(this);
+        driveHandler = new DriveHandler(this);
         //ballSystemHandler = new BallSystemHandler(this);
         intakeHandler = new IntakeHandler(this);
         shooterHandler = new ShooterHandler(this);

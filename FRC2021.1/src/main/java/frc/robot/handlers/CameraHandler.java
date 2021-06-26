@@ -20,6 +20,7 @@ public class CameraHandler {
 
     public CameraHandler(RobotHandler robotHandler)
     {
+        /*
         this.robotHandler = robotHandler;
 
         frontCam = CameraServer.getInstance().startAutomaticCapture(1);
@@ -32,13 +33,16 @@ public class CameraHandler {
         tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
     
         server.setSource(frontCam);
+        */
     }
 
     public void updateCameraDirection()
     {
+        /*
         if (robotHandler.stateHandler.isIntakeSideFront)
             server.setSource(frontCam);
         else
             server.setSource(rearCam);
+        */
     }
 }

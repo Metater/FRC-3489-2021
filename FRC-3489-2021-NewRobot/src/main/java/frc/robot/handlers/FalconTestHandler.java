@@ -28,7 +28,7 @@ public class FalconTestHandler extends BaseHandler implements ITeleopListener, I
 
     public void teleopPeriodic()
     {
-        System.out.println(robotHandler.deviceContainer.turretShooterLeft.getTemperature() + "::" + robotHandler.deviceContainer.turretShooterRight.getTemperature());
+        System.out.println(robotHandler.deviceContainer.shooterLeft.getTemperature() + "::" + robotHandler.deviceContainer.shooterRight.getTemperature());
     }
 
     public void update(BaseButtonUpdate update)
@@ -37,13 +37,13 @@ public class FalconTestHandler extends BaseHandler implements ITeleopListener, I
         {
             if (update.buttonUpdateEventType == ButtonUpdateEventType.On)
             {
-                robotHandler.deviceContainer.turretShooterLeft.set(-1);
-                robotHandler.deviceContainer.turretShooterRight.set(1);
+                robotHandler.deviceContainer.shooterLeft.set(-1);
+                robotHandler.deviceContainer.shooterRight.set(1);
             }
             else if (update.buttonUpdateEventType == ButtonUpdateEventType.Off)
             {
-                robotHandler.deviceContainer.turretShooterLeft.stopMotor();
-                robotHandler.deviceContainer.turretShooterRight.stopMotor();
+                robotHandler.deviceContainer.shooterLeft.stopMotor();
+                robotHandler.deviceContainer.shooterRight.stopMotor();
             }
         }
     }

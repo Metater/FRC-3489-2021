@@ -13,16 +13,16 @@ public class DeviceContainer {
     public Joystick joystickManipulator = new Joystick(2);
 
     // Motors
-    public WPI_TalonSRX intake = new WPI_TalonSRX(8);
-    public WPI_TalonSRX driveFrontLeft = new WPI_TalonSRX(7);
-    public WPI_TalonSRX driveFrontRight = new WPI_TalonSRX(4);
-    public WPI_TalonSRX driveBackLeft = new WPI_TalonSRX(5);
-    public WPI_TalonSRX driveBackRight = new WPI_TalonSRX(2);
+    public WPI_TalonSRX driveFrontLeft = new WPI_TalonSRX(1);
+    public WPI_TalonSRX driveFrontRight = new WPI_TalonSRX(2);
+    public WPI_TalonSRX driveBackLeft = new WPI_TalonSRX(3);
+    public WPI_TalonSRX driveBackRight = new WPI_TalonSRX(4);
 
-    public WPI_TalonSRX turretCellevator = new WPI_TalonSRX(1);
+    public WPI_TalonSRX intake = new WPI_TalonSRX(8);
+    public WPI_TalonSRX cellevator = new WPI_TalonSRX(2);
     public WPI_TalonSRX turretRotate = new WPI_TalonSRX(6);
-    public WPI_TalonFX turretShooterLeft = new WPI_TalonFX(11);
-    public WPI_TalonFX turretShooterRight = new WPI_TalonFX(10);
+    public WPI_TalonFX shooterLeft = new WPI_TalonFX(11);
+    public WPI_TalonFX shooterRight = new WPI_TalonFX(10);
 
     public WPI_TalonFX falcon = new WPI_TalonFX(6);
 }

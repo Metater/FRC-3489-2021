@@ -3,6 +3,7 @@ package frc.robot.shared.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.handlers.RobotHandler;
 import frc.robot.shared.interfaces.IRobotListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -11,6 +12,7 @@ import frc.robot.shared.types.input.ButtonLocation;
 import frc.robot.shared.types.input.ButtonUpdateEventType;
 import frc.robot.shared.types.input.JoystickType;
 import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
+import frc.robot.shared.types.input.buttonUpdate.ToggleButtonUpdate;
 import frc.robot.shared.types.robot.PeriodicType;
 
 public class ButtonUpdateListenerHandler extends BaseHandler implements IRobotListener, ITeleopListener, ITestListener {
@@ -49,6 +51,14 @@ public class ButtonUpdateListenerHandler extends BaseHandler implements IRobotLi
                     case Raw:
                         buttonUpdate.update(ButtonUpdateEventType.On);
                         break;
+                    case Toggle:
+                        ToggleButtonUpdate toggleButtonUpdate = (ToggleButtonUpdate)buttonUpdate;
+                        if (Timer.getFPGATimestamp() > toggleButtonUpdate.lastUpdateTime + toggleButtonUpdate.triggerCooldown && !toggleButtonUpdate.lastState)
+                        {
+                            buttonUpdate.update(ButtonUpdateEventType.RisingEdge);
+                        }
+                        toggleButtonUpdate.lastState = true;
+                        break;
                 }
             }
             else
@@ -57,6 +67,10 @@ public class ButtonUpdateListenerHandler extends BaseHandler implements IRobotLi
                 {
                     case Raw:
                         buttonUpdate.update(ButtonUpdateEventType.Off);
+                        break;
+                    case Toggle:
+                        ToggleButtonUpdate toggleButtonUpdate = (ToggleButtonUpdate)buttonUpdate;
+                        toggleButtonUpdate.lastState = false;
                         break;
                 }
             }

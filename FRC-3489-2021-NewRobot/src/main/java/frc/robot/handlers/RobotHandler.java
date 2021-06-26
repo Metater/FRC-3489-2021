@@ -12,14 +12,16 @@ public class RobotHandler {
     public DeviceContainer deviceContainer;
 
     public FunctionListenerHandler functionListenerHandler;
-    //public SetupHandler setupHandler;
     public ButtonUpdateListenerHandler buttonUpdateListenerHandler;
-    //public JoystickHandler joystickHandler;
-    //public ShuffleboardHandler shuffleboardHandler;
+
+    public SetupHandler setupHandler;
+    public JoystickHandler joystickHandler;
+    public ShuffleboardHandler shuffleboardHandler;
     //public FalconTestHandler falconTestHandler;
-    //public DriveHandler driveHandler;
+      //public DriveHandler driveHandler;
     //public BallSystemHandler ballSystemHandler;
     public IntakeHandler intakeHandler;
+    public ShooterHandler shooterHandler;
 
     public RobotHandler(Robot robot)
     {
@@ -28,14 +30,16 @@ public class RobotHandler {
         deviceContainer = new DeviceContainer();
 
         functionListenerHandler = new FunctionListenerHandler(this);
-        //setupHandler = new SetupHandler(this);
         buttonUpdateListenerHandler = new ButtonUpdateListenerHandler(this);
-        //joystickHandler = new JoystickHandler(this);
-        //shuffleboardHandler = new ShuffleboardHandler(this);
+
+        setupHandler = new SetupHandler(this);
+        joystickHandler = new JoystickHandler(this);
+        shuffleboardHandler = new ShuffleboardHandler(this);
         //falconTestHandler = new FalconTestHandler(this);
-        //driveHandler = new DriveHandler(this);
+          //driveHandler = new DriveHandler(this);
         //ballSystemHandler = new BallSystemHandler(this);
         intakeHandler = new IntakeHandler(this);
+        shooterHandler = new ShooterHandler(this);
     }
 
     public void robotInit()

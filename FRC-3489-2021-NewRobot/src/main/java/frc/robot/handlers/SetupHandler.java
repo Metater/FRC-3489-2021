@@ -28,8 +28,8 @@ public class SetupHandler extends BaseHandler implements IRobotListener {
         deviceContainer.driveBackLeft.setSafetyEnabled(Constants.SafetiesEnabled);
         deviceContainer.driveBackRight.setSafetyEnabled(Constants.SafetiesEnabled);
         deviceContainer.turretRotate.setSafetyEnabled(Constants.SafetiesEnabled);
-        deviceContainer.turretShooterLeft.setSafetyEnabled(Constants.SafetiesEnabled);
-        deviceContainer.turretShooterRight.setSafetyEnabled(Constants.SafetiesEnabled);
+        deviceContainer.shooterLeft.setSafetyEnabled(Constants.SafetiesEnabled);
+        deviceContainer.shooterRight.setSafetyEnabled(Constants.SafetiesEnabled);
     }
 
     public void robotPeriodic()

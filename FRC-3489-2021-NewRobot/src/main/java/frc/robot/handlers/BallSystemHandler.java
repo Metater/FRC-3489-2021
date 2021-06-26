@@ -80,7 +80,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
 
     public void teleopPeriodic()
     {
-        double shooterStatorCurrent = (robotHandler.deviceContainer.turretShooterLeft.getStatorCurrent() + robotHandler.deviceContainer.turretShooterRight.getStatorCurrent())/2;
+        double shooterStatorCurrent = (robotHandler.deviceContainer.shooterLeft.getStatorCurrent() + robotHandler.deviceContainer.shooterRight.getStatorCurrent())/2;
         double rotateStatorCurrent = robotHandler.deviceContainer.turretRotate.getStatorCurrent();
         System.out.println("SC:" + shooterStatorCurrent + " RC:" + rotateStatorCurrent);
 
@@ -95,18 +95,18 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
                 if (robotHandler.deviceContainer.joystickManipulator.getRawButton(1))
                 {
                     turretState = TurretState.Activated;
-                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                    robotHandler.deviceContainer.cellevator.set(Constants.Turret.CellavatorWaitSpeed);
                 }
                 else
                 {
-                    robotHandler.deviceContainer.turretCellevator.stopMotor();
+                    robotHandler.deviceContainer.cellevator.stopMotor();
                     setTurret(0);
                 }
                 break;
             case Activated:
-                double cellavatorCurrent = robotHandler.deviceContainer.turretCellevator.getStatorCurrent();
+                double cellavatorCurrent = robotHandler.deviceContainer.cellevator.getStatorCurrent();
                 if (cellavatorCurrent < Constants.Turret.BallEntryCurrent)
-                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                    robotHandler.deviceContainer.cellevator.set(Constants.Turret.CellavatorWaitSpeed);
                 else
                 {
                     turretState = TurretState.LoggingCurrent;
@@ -118,8 +118,8 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
             case LoggingCurrent:
                 if (Timer.getFPGATimestamp() - logCurrentStartTime < Constants.Turret.CellavatorLoggingPeriod)
                 {
-                    robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorLogSpeed);
-                    double loggedCurrent = robotHandler.deviceContainer.turretCellevator.getStatorCurrent();
+                    robotHandler.deviceContainer.cellevator.set(Constants.Turret.CellavatorLogSpeed);
+                    double loggedCurrent = robotHandler.deviceContainer.cellevator.getStatorCurrent();
                     cellavatorLoggedCurrents.add(loggedCurrent);
                 }
                 else
@@ -137,7 +137,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
                     else
                         lastDetectedBallCondition = BallCondition.Bad;
                     turretState = TurretState.TurretAccelerating;
-                    robotHandler.deviceContainer.turretCellevator.stopMotor();
+                    robotHandler.deviceContainer.cellevator.stopMotor();
                     accelerateStartTime = Timer.getFPGATimestamp();
                 }
 				break;
@@ -151,7 +151,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
                     if (robotHandler.deviceContainer.joystickManipulator.getRawButton(1))
                     {
                         turretState = TurretState.Activated;
-                        robotHandler.deviceContainer.turretCellevator.set(Constants.Turret.CellavatorWaitSpeed);
+                        robotHandler.deviceContainer.cellevator.set(Constants.Turret.CellavatorWaitSpeed);
                     }
                     else
                     {
@@ -195,7 +195,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
 
     private void setTurret(double speed)
     {
-        robotHandler.deviceContainer.turretShooterLeft.set(-speed);
-        robotHandler.deviceContainer.turretShooterRight.set(speed);
+        robotHandler.deviceContainer.shooterLeft.set(-speed);
+        robotHandler.deviceContainer.shooterRight.set(speed);
     }
 }

@@ -1,6 +1,5 @@
 package frc.robot.handlers;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.ITeleopListener;
 

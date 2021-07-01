@@ -52,6 +52,9 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         robotHandler.shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
         robotHandler.shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
         robotHandler.shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
+
+        double distance = getDistanceEstimate();
+        robotHandler.shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
     }
 
     public void setLimelight(boolean value)
@@ -60,5 +63,12 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         if (limelightActivated) pipeline.setNumber(0);
         else pipeline.setNumber(5);
         robotHandler.shuffleboardHandler.displayBool("Limelight Activated", limelightActivated);
+    }
+
+    private double getDistanceEstimate()
+    {
+        double angle = 31.5 + targetY.getDouble(0);
+        double distance = (90.75 - 20) / Math.tan(angle);
+        return distance;
     }
 }

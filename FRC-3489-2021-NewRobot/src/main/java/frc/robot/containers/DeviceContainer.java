@@ -3,6 +3,7 @@ package frc.robot.containers;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class DeviceContainer {
@@ -24,5 +25,8 @@ public class DeviceContainer {
     public WPI_TalonFX shooterLeft = new WPI_TalonFX(8);
     public WPI_TalonFX shooterRight = new WPI_TalonFX(9);
 
-    public WPI_TalonFX falcon = new WPI_TalonFX(6);
+    // Limit Switch
+    public DigitalInput turretStopLeft = new DigitalInput(0);
+    public DigitalInput turretStopRight = new DigitalInput(1);
+    
 }

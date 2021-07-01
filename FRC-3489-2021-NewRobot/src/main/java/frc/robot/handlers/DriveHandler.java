@@ -3,6 +3,7 @@ package frc.robot.handlers;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
+import frc.robot.shared.interfaces.IRobotListener;
 import frc.robot.shared.interfaces.ITeleopListener;
 import frc.robot.shared.types.input.ButtonLocation;
 import frc.robot.shared.types.input.ButtonUpdateEventType;
@@ -11,7 +12,7 @@ import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
 import frc.robot.shared.types.input.buttonUpdate.ToggleButtonUpdate;
 import frc.robot.shared.types.robot.PeriodicType;
 
-public class DriveHandler extends BaseHandler implements ITeleopListener, IButtonListener {
+public class DriveHandler extends BaseHandler implements IButtonListener, IRobotListener, ITeleopListener {
 
     public DifferentialDrive differentialDrive;
 
@@ -28,6 +29,23 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
         robotHandler.buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
 
         differentialDrive = new DifferentialDrive(robotHandler.deviceContainer.driveFrontLeft, robotHandler.deviceContainer.driveFrontRight);
+    }
+
+    public void robotInit()
+    {
+
+    }
+
+    public void robotPeriodic()
+    {
+        double leftEncoderPos = robotHandler.deviceContainer.driveFrontLeft.getSelectedSensorPosition();
+        double rightEncoderPos = robotHandler.deviceContainer.driveFrontRight.getSelectedSensorPosition();
+        robotHandler.shuffleboardHandler.displayDouble("Left Drive Encoder Position", leftEncoderPos);
+        robotHandler.shuffleboardHandler.displayDouble("Right Drive Encoder Position", rightEncoderPos);
+        double leftEncoderVel = robotHandler.deviceContainer.driveFrontLeft.getSelectedSensorVelocity();
+        double rightEncoderVel = robotHandler.deviceContainer.driveFrontRight.getSelectedSensorVelocity();
+        robotHandler.shuffleboardHandler.displayDouble("Left Drive Train Velocity", leftEncoderVel);
+        robotHandler.shuffleboardHandler.displayDouble("Right Drivev Train Velocity", rightEncoderVel);
     }
 
     public void teleopInit()
@@ -53,6 +71,9 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
     public void update(BaseButtonUpdate update)
     {
         if (update.buttonUpdateName == "SwitchFront" && update.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
+        {
             forwardSwitched = !forwardSwitched;
+            robotHandler.shuffleboardHandler.displayBool("Forward Switched", forwardSwitched);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package frc.robot.handlers;
 
-import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -40,8 +39,9 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
         if (buttonUpdate.buttonUpdateName == "ToggleIntake" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             intakeActivated = !intakeActivated;
-            if (intakeActivated) robotHandler.deviceContainer.intake.set(1);
+            if (intakeActivated) robotHandler.deviceContainer.intake.set(-1);
             else robotHandler.deviceContainer.intake.stopMotor();
+            robotHandler.shuffleboardHandler.displayBool("Intake Activated", intakeActivated);
         }
     }
 

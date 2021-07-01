@@ -1,9 +1,5 @@
 package frc.robot.handlers;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -12,17 +8,14 @@ import frc.robot.shared.types.input.ButtonUpdateEventType;
 import frc.robot.shared.types.input.JoystickType;
 import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
 import frc.robot.shared.types.input.buttonUpdate.RawButtonUpdate;
+import frc.robot.shared.types.input.buttonUpdate.ToggleButtonUpdate;
 import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
 
     public double shooterSpeed = 0;
 
-    private NetworkTableEntry toggleTestEntry;
-
-    public DigitalInput digitalInput = new DigitalInput(9);
-
-    public WPI_TalonSRX test = new WPI_TalonSRX(19);
+    public boolean shooting = false;
 
     public ShooterHandler(RobotHandler robotHandler)
     {
@@ -30,10 +23,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         robotHandler.functionListenerHandler.addTeleopListener(this);
         RawButtonUpdate resetShooter = new RawButtonUpdate(this, PeriodicType.Teleop, "ResetShooter", new ButtonLocation(12, JoystickType.Manipulator));
         robotHandler.buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
-        RawButtonUpdate cellavator = new RawButtonUpdate(this, PeriodicType.Teleop, "Cellevator", new ButtonLocation(1, JoystickType.Manipulator));
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(cellavator);
-
-        toggleTestEntry = robotHandler.shuffleboardHandler.tab.add("Toggle Test", true).getEntry();
+        ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(1, JoystickType.Manipulator), 0.05);
+        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(shoot);
     }
 
     public void teleopInit()
@@ -43,17 +34,34 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void teleopPeriodic()
     {
-        if (!digitalInput.get())
+        if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += robotHandler.joystickHandler.getShooterAdjust();
+        setShooter(shooterSpeed);
+        setTurretRotate();
+
+        double shooterCurrent = (robotHandler.deviceContainer.shooterLeft.getStatorCurrent() + robotHandler.deviceContainer.shooterRight.getStatorCurrent()) / 2d;
+        robotHandler.shuffleboardHandler.displayDouble("Shooter Current", shooterCurrent);
+        double shooterTemp = (robotHandler.deviceContainer.shooterLeft.getTemperature() + robotHandler.deviceContainer.shooterRight.getTemperature()) / 2d;
+        robotHandler.shuffleboardHandler.displayDouble("Shooter Temp", shooterTemp);
+        double shooterVelocity = (robotHandler.deviceContainer.shooterLeft.getSelectedSensorVelocity() + robotHandler.deviceContainer.shooterRight.getSelectedSensorVelocity()) / 2d;
+        robotHandler.shuffleboardHandler.displayDouble("Shooter Velocity", shooterVelocity);
+        double cellevatorCurrent = robotHandler.deviceContainer.cellevator.getStatorCurrent();
+        robotHandler.shuffleboardHandler.displayDouble("Cellevator Current", cellevatorCurrent);
+        double cellevatorVelocity = robotHandler.deviceContainer.cellevator.getSelectedSensorVelocity();
+        robotHandler.shuffleboardHandler.displayDouble("Cellevator Velocity", cellevatorVelocity);
+    }
+
+    private void setTurretRotate()
+    {
+        double turretRotateSpeed = robotHandler.joystickHandler.getTurretRotateSpeed();
+        if ((turretRotateSpeed > 0 && robotHandler.deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && robotHandler.deviceContainer.turretStopRight.get()))
         {
-            test.set(1);
+            robotHandler.deviceContainer.turretRotate.set(turretRotateSpeed);
         }
         else
         {
-            test.set(0);
+            robotHandler.deviceContainer.turretRotate.stopMotor();
         }
-        shooterSpeed += robotHandler.joystickHandler.getShooterAdjust();
-        setShooter(shooterSpeed);
-        robotHandler.deviceContainer.turretRotate.set(robotHandler.joystickHandler.getTurretRotateSpeed());
+        robotHandler.shuffleboardHandler.displayDouble("Turret Rotate Speed", turretRotateSpeed);
     }
 
     public void update(BaseButtonUpdate buttonUpdate)
@@ -62,23 +70,29 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         {
             shooterSpeed = 0;
         }
-        if (buttonUpdate.buttonUpdateName == "Cellevator")
+        if (buttonUpdate.buttonUpdateName == "Shoot")
         {
-            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
             {
-                robotHandler.deviceContainer.cellevator.set(1);
-                toggleTestEntry.setBoolean(true);
-            }
-            else
-            {
-                robotHandler.deviceContainer.cellevator.stopMotor();   
-                toggleTestEntry.setBoolean(false);
+                shooting = !shooting;
+                if (shooting)
+                {
+                    robotHandler.deviceContainer.cellevator.set(1);
+                    robotHandler.shuffleboardHandler.displayBool("Is Shooting", true);
+                    if (shooterSpeed < 0.3) shooterSpeed = 0.9;
+                }
+                else
+                {
+                    robotHandler.deviceContainer.cellevator.stopMotor();
+                    robotHandler.shuffleboardHandler.displayBool("Is Shooting", false);
+                }
             }
         }
     }
 
     private void setShooter(double speed)
     {
+        robotHandler.shuffleboardHandler.displayDouble("Shooter Speed", speed);
         robotHandler.deviceContainer.shooterLeft.set(-speed);
         robotHandler.deviceContainer.shooterRight.set(speed);
     }

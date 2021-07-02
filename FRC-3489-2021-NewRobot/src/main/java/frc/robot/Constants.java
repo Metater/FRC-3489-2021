@@ -18,6 +18,24 @@ public final class Constants
     public static final double DriveJoystickThreshold = 0.15;
     public static final double ManipulatorJoystickThreshold = 0.15;
 
+    public final class Buttons
+    {
+        // Manipulator
+        public static final int ToggleLimelight = 8;
+
+        public static final int ResetShooter = 12;
+        public static final int Shoot = 1;
+
+        public static final int ToggleIntake = 2;
+        public static final int ToggleIntakeExtension = 3;
+
+
+        // Drive
+        public static final int SwitchFront = 7;
+
+        
+    }
+
     public final class Turret
     {
         public static final double CellavatorWaitSpeed = 0.5;

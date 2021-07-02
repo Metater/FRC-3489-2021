@@ -36,6 +36,6 @@ public class JoystickHandler extends BaseHandler {
     {
         if (Math.abs(robotHandler.deviceContainer.joystickManipulator.getZ()) < Constants.ManipulatorJoystickThreshold)
             return 0;
-        return -0.4 * robotHandler.deviceContainer.joystickManipulator.getZ();
+        return -0.2 * robotHandler.deviceContainer.joystickManipulator.getZ();
     }
 }

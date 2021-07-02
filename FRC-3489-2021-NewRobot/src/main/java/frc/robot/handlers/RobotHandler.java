@@ -17,11 +17,12 @@ public class RobotHandler {
     public SetupHandler setupHandler;
     public JoystickHandler joystickHandler;
     public ShuffleboardHandler shuffleboardHandler;
-    //public FalconTestHandler falconTestHandler;
+    public CameraHandler cameraHandler;
     public DriveHandler driveHandler;
     //public BallSystemHandler ballSystemHandler;
     public IntakeHandler intakeHandler;
     public ShooterHandler shooterHandler;
+    public LimelightHandler limelightHandler;
 
     public RobotHandler(Robot robot)
     {
@@ -35,11 +36,12 @@ public class RobotHandler {
         setupHandler = new SetupHandler(this);
         joystickHandler = new JoystickHandler(this);
         shuffleboardHandler = new ShuffleboardHandler(this);
-        //falconTestHandler = new FalconTestHandler(this);
+        cameraHandler = new CameraHandler(this);
         driveHandler = new DriveHandler(this);
         //ballSystemHandler = new BallSystemHandler(this);
         intakeHandler = new IntakeHandler(this);
         shooterHandler = new ShooterHandler(this);
+        limelightHandler = new LimelightHandler(this);
     }
 
     public void robotInit()

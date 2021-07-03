@@ -1,7 +1,6 @@
 package frc.robot.handlers;
 
 import frc.robot.Constants;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
 import frc.robot.shared.types.input.ButtonLocation;
@@ -19,8 +18,7 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
 
     public IntakeHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addTeleopListener(this);
+        addReferences(robotHandler);
 
         ToggleButtonUpdate toggleIntake = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntake", new ButtonLocation(Constants.Buttons.ToggleIntake, JoystickType.Manipulator), 0.05);
         robotHandler.buttonUpdateListenerHandler.addButtonUpdate(toggleIntake);

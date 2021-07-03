@@ -2,7 +2,6 @@ package frc.robot.handlers;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.IRobotListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -21,8 +20,7 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
     
     public DriveHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addTeleopListener(this);
+        addReferences(robotHandler);
 
         ToggleButtonUpdate switchFrontLeft = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveLeft), 0.5);
         ToggleButtonUpdate switchFrontRight = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveRight), 0.5);

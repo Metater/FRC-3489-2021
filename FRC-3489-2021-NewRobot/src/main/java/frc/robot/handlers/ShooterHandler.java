@@ -1,7 +1,6 @@
 package frc.robot.handlers;
 
 import frc.robot.Constants;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.ITeleopListener;
 import frc.robot.shared.types.input.ButtonLocation;
@@ -20,8 +19,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public ShooterHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addTeleopListener(this);
+        addReferences(robotHandler);
+        
         RawButtonUpdate resetShooter = new RawButtonUpdate(this, PeriodicType.Teleop, "ResetShooter", new ButtonLocation(Constants.Buttons.ResetShooter, JoystickType.Manipulator));
         robotHandler.buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
         ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator), 0.05);

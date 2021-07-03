@@ -6,8 +6,6 @@ import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.shared.handlers.BaseHandler;
-import frc.robot.shared.interfaces.IRobotListener;
 
 public class CameraHandler extends BaseHandler {
     
@@ -16,7 +14,7 @@ public class CameraHandler extends BaseHandler {
 
     public CameraHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
+        addReferences(robotHandler);
 
         camera = CameraServer.getInstance().startAutomaticCapture(0);
         server = CameraServer.getInstance().getServer();

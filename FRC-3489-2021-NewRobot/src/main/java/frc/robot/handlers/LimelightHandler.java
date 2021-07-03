@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.IRobotListener;
 import frc.robot.shared.interfaces.ITeleopListener;
@@ -29,9 +28,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public LimelightHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addRobotListener(this);
-        robotHandler.functionListenerHandler.addTeleopListener(this);
+        addReferences(robotHandler);
 
         ToggleButtonUpdate toggleLimelight = new ToggleButtonUpdate(this, PeriodicType.Robot, "ToggleLimelight", new ButtonLocation(Constants.Buttons.ToggleLimelight, JoystickType.Manipulator), 0.05);
         robotHandler.buttonUpdateListenerHandler.addButtonUpdate(toggleLimelight);

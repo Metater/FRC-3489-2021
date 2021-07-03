@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.*;
 import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
 import frc.robot.shared.utils.FileUtils;
@@ -40,15 +39,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, ID
 
     public BallSystemHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addRobotListener(this);
-        robotHandler.functionListenerHandler.addDisabledListener(this);
-        robotHandler.functionListenerHandler.addTeleopListener(this);
-        /*
-        BaseButtonTriggerCriteria triggerCriteria = new RawButtonTriggerCriteria(this, PeriodicType.Teleop, "ShootPressed", new ButtonLocation(1, JoystickType.Manipulator));
-        robotHandler.buttonListenerHandler.addButtonTriggerCriteria(triggerCriteria);
-        */
-        //robotHandler.shuffleboardHandler.addEntry(robotHandler.shuffleboardHandler.tab.add("Shooter Speed", 0).getEntry());
+        addReferences(robotHandler);
     }
 
     public void robotInit()

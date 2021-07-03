@@ -3,6 +3,7 @@ package frc.robot.shared.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.handlers.BaseHandler;
 import frc.robot.handlers.RobotHandler;
 import frc.robot.shared.interfaces.*;
 
@@ -16,7 +17,7 @@ public class FunctionListenerHandler extends BaseHandler {
 
     public FunctionListenerHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
+        addRobotHandlerReference(robotHandler);
     }
 
     public void addRobotListener(IRobotListener robotListener)

@@ -1,8 +1,6 @@
 package frc.robot.handlers;
 
 import frc.robot.Constants;
-import frc.robot.containers.DeviceContainer;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.*;
 
 public class SetupHandler extends BaseHandler implements IRobotListener {
@@ -10,14 +8,11 @@ public class SetupHandler extends BaseHandler implements IRobotListener {
 
     public SetupHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addRobotListener(this);
+        addReferences(robotHandler);
     }
 
     public void robotInit()
     {
-        DeviceContainer deviceContainer =  robotHandler.deviceContainer;
-
         // Follow Motors
         deviceContainer.driveBackLeft.follow(deviceContainer.driveFrontLeft);
         deviceContainer.driveBackRight.follow(deviceContainer.driveFrontRight);

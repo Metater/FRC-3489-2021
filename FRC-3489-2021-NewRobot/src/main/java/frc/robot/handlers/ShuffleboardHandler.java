@@ -7,7 +7,6 @@ import java.util.List;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.shared.handlers.BaseHandler;
 import frc.robot.shared.interfaces.IRobotListener;
 
 public class ShuffleboardHandler extends BaseHandler implements IRobotListener {
@@ -20,8 +19,7 @@ public class ShuffleboardHandler extends BaseHandler implements IRobotListener {
     
     public ShuffleboardHandler(RobotHandler robotHandler)
     {
-        this.robotHandler = robotHandler;
-        robotHandler.functionListenerHandler.addRobotListener(this);
+        addReferences(robotHandler);
     }
 
     public void robotInit()

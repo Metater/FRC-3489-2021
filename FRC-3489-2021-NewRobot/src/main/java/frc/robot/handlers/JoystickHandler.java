@@ -11,14 +11,14 @@ public class JoystickHandler extends BaseHandler {
 
     public double getLeftDriveTrain()
     {
-        double trainRaw = robotHandler.deviceContainer.joystickDriveLeft.getY();
+        double trainRaw = deviceContainer.joystickDriveLeft.getY();
         if (Math.abs(trainRaw) < Constants.DriveJoystickThreshold)
             return 0;
         return -trainRaw;
     }
     public double getRightDriveTrain()
     {
-        double trainRaw = robotHandler.deviceContainer.joystickDriveRight.getY();
+        double trainRaw = deviceContainer.joystickDriveRight.getY();
         if (Math.abs(trainRaw) < Constants.DriveJoystickThreshold)
             return 0;
         return -trainRaw;
@@ -26,15 +26,15 @@ public class JoystickHandler extends BaseHandler {
 
     public double getShooterAdjust()
     {
-        if (Math.abs(robotHandler.deviceContainer.joystickManipulator.getY()) < Constants.ManipulatorJoystickThreshold)
+        if (Math.abs(deviceContainer.joystickManipulator.getY()) < Constants.ManipulatorJoystickThreshold)
             return 0;
-        return -0.005 * robotHandler.deviceContainer.joystickManipulator.getY();
+        return -0.005 * deviceContainer.joystickManipulator.getY();
     }
 
     public double getTurretRotateSpeed()
     {
-        if (Math.abs(robotHandler.deviceContainer.joystickManipulator.getZ()) < Constants.ManipulatorJoystickThreshold)
+        if (Math.abs(deviceContainer.joystickManipulator.getZ()) < Constants.ManipulatorJoystickThreshold)
             return 0;
-        return -0.2 * robotHandler.deviceContainer.joystickManipulator.getZ();
+        return -0.2 * deviceContainer.joystickManipulator.getZ();
     }
 }

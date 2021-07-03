@@ -24,10 +24,10 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
 
         ToggleButtonUpdate switchFrontLeft = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveLeft), 0.5);
         ToggleButtonUpdate switchFrontRight = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveRight), 0.5);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(switchFrontLeft);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
+        buttonUpdateListenerHandler.addButtonUpdate(switchFrontLeft);
+        buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
 
-        differentialDrive = new DifferentialDrive(robotHandler.deviceContainer.driveFrontLeft, robotHandler.deviceContainer.driveFrontRight);
+        differentialDrive = new DifferentialDrive(deviceContainer.driveFrontLeft, deviceContainer.driveFrontRight);
     }
 
     public void robotInit()
@@ -37,14 +37,14 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
 
     public void robotPeriodic()
     {
-        double leftEncoderPos = robotHandler.deviceContainer.driveFrontLeft.getSelectedSensorPosition();
-        double rightEncoderPos = robotHandler.deviceContainer.driveFrontRight.getSelectedSensorPosition();
-        robotHandler.shuffleboardHandler.displayDouble("Left Drive Encoder Position", leftEncoderPos);
-        robotHandler.shuffleboardHandler.displayDouble("Right Drive Encoder Position", rightEncoderPos);
-        double leftEncoderVel = robotHandler.deviceContainer.driveFrontLeft.getSelectedSensorVelocity();
-        double rightEncoderVel = robotHandler.deviceContainer.driveFrontRight.getSelectedSensorVelocity();
-        robotHandler.shuffleboardHandler.displayDouble("Left Drive Train Velocity", leftEncoderVel);
-        robotHandler.shuffleboardHandler.displayDouble("Right Drivev Train Velocity", rightEncoderVel);
+        double leftEncoderPos = deviceContainer.driveFrontLeft.getSelectedSensorPosition();
+        double rightEncoderPos = deviceContainer.driveFrontRight.getSelectedSensorPosition();
+        shuffleboardHandler.displayDouble("Left Drive Encoder Position", leftEncoderPos);
+        shuffleboardHandler.displayDouble("Right Drive Encoder Position", rightEncoderPos);
+        double leftEncoderVel = deviceContainer.driveFrontLeft.getSelectedSensorVelocity();
+        double rightEncoderVel = deviceContainer.driveFrontRight.getSelectedSensorVelocity();
+        shuffleboardHandler.displayDouble("Left Drive Train Velocity", leftEncoderVel);
+        shuffleboardHandler.displayDouble("Right Drivev Train Velocity", rightEncoderVel);
     }
 
     public void teleopInit()
@@ -54,8 +54,8 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
 
     public void teleopPeriodic()
     {
-        double leftDriveTrain = robotHandler.joystickHandler.getLeftDriveTrain();
-        double rightDriveTrain = robotHandler.joystickHandler.getRightDriveTrain();
+        double leftDriveTrain = joystickHandler.getLeftDriveTrain();
+        double rightDriveTrain = joystickHandler.getRightDriveTrain();
 
         if (!forwardSwitched)
         {
@@ -72,7 +72,7 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
         if (update.buttonUpdateName == "SwitchFront" && update.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             forwardSwitched = !forwardSwitched;
-            robotHandler.shuffleboardHandler.displayBool("Forward Switched", forwardSwitched);
+            shuffleboardHandler.displayBool("Forward Switched", forwardSwitched);
         }
     }
 }

@@ -22,9 +22,9 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         addReferences(robotHandler);
         
         RawButtonUpdate resetShooter = new RawButtonUpdate(this, PeriodicType.Teleop, "ResetShooter", new ButtonLocation(Constants.Buttons.ResetShooter, JoystickType.Manipulator));
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
+        buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
         ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator), 0.05);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(shoot);
+        buttonUpdateListenerHandler.addButtonUpdate(shoot);
     }
 
     public void teleopInit()

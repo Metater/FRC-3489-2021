@@ -21,10 +21,10 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
         addReferences(robotHandler);
 
         ToggleButtonUpdate toggleIntake = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntake", new ButtonLocation(Constants.Buttons.ToggleIntake, JoystickType.Manipulator), 0.05);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(toggleIntake);
+        buttonUpdateListenerHandler.addButtonUpdate(toggleIntake);
 
         ToggleButtonUpdate toggleIntakeExtension = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntakeExtension", new ButtonLocation(Constants.Buttons.ToggleIntakeExtension, JoystickType.Manipulator), 0.05);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(toggleIntakeExtension);
+        buttonUpdateListenerHandler.addButtonUpdate(toggleIntakeExtension);
     }
 
     public void teleopInit()
@@ -34,8 +34,8 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
 
     public void teleopPeriodic()
     {
-        //robotHandler.deviceContainer.intake.set(robotHandler.deviceContainer.joystickManipulator.getY());
-        //System.out.println(robotHandler.deviceContainer.joystickManipulator.getY());
+        //deviceContainer.intake.set(deviceContainer.joystickManipulator.getY());
+        //System.out.println(deviceContainer.joystickManipulator.getY());
     }
 
     public void update(BaseButtonUpdate buttonUpdate)
@@ -50,19 +50,19 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
             }
 
             intakeActivated = !intakeActivated;
-            if (intakeActivated) robotHandler.deviceContainer.intake.set(-1);
-            else robotHandler.deviceContainer.intake.stopMotor();
-            robotHandler.shuffleboardHandler.displayBool("Intake Activated", intakeActivated);
+            if (intakeActivated) deviceContainer.intake.set(-1);
+            else deviceContainer.intake.stopMotor();
+            shuffleboardHandler.displayBool("Intake Activated", intakeActivated);
         }
 
         if (buttonUpdate.buttonUpdateName == "ToggleIntakeExtension" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             intakeExtended = !intakeExtended;
-            if (intakeActivated) robotHandler.deviceContainer.intake.stopMotor();
-            robotHandler.shuffleboardHandler.displayBool("Intake Activated", false);
+            if (intakeActivated) deviceContainer.intake.stopMotor();
+            shuffleboardHandler.displayBool("Intake Activated", false);
 
             setIntakePnuematics(intakeExtended);
-            robotHandler.shuffleboardHandler.displayBool("Intake Extended", intakeExtended);
+            shuffleboardHandler.displayBool("Intake Extended", intakeExtended);
         }
     }
 

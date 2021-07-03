@@ -31,7 +31,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         addReferences(robotHandler);
 
         ToggleButtonUpdate toggleLimelight = new ToggleButtonUpdate(this, PeriodicType.Robot, "ToggleLimelight", new ButtonLocation(Constants.Buttons.ToggleLimelight, JoystickType.Manipulator), 0.05);
-        robotHandler.buttonUpdateListenerHandler.addButtonUpdate(toggleLimelight);
+        buttonUpdateListenerHandler.addButtonUpdate(toggleLimelight);
 
         setLimelight(false);
     }
@@ -52,16 +52,16 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public void robotPeriodic()
     {
-        robotHandler.shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
-        robotHandler.shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
-        robotHandler.shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
+        shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
+        shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
+        shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
 
         double distance = getDistanceEstimate();
         if (distance >= 0)
         {
             if (distance < 120 || distance > 700)
                 lastValidDistance = distance;
-            robotHandler.shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
+            shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
         }
         else
             distance = lastValidDistance;
@@ -76,19 +76,19 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (targetX.getDouble(0) > 1)
         {
-            if (targetX.getDouble(0) > 5) robotHandler.deviceContainer.turretRotate.set(-0.16);
-            else if (targetX.getDouble(0) > 12) robotHandler.deviceContainer.turretRotate.set(-0.2);
-            else robotHandler.deviceContainer.turretRotate.set(-0.14);
+            if (targetX.getDouble(0) > 5) deviceContainer.turretRotate.set(-0.16);
+            else if (targetX.getDouble(0) > 12) deviceContainer.turretRotate.set(-0.2);
+            else deviceContainer.turretRotate.set(-0.14);
         }
         else if (targetX.getDouble(0) < -1)
         {
-            if (targetX.getDouble(0) < -5) robotHandler.deviceContainer.turretRotate.set(0.16);
-            else if (targetX.getDouble(0) < -12) robotHandler.deviceContainer.turretRotate.set(0.2);
-            else robotHandler.deviceContainer.turretRotate.set(0.14);
+            if (targetX.getDouble(0) < -5) deviceContainer.turretRotate.set(0.16);
+            else if (targetX.getDouble(0) < -12) deviceContainer.turretRotate.set(0.2);
+            else deviceContainer.turretRotate.set(0.14);
         }
         else
         {
-            robotHandler.deviceContainer.turretRotate.stopMotor();
+            deviceContainer.turretRotate.stopMotor();
         }
     }
 
@@ -97,7 +97,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         limelightActivated = value;
         if (limelightActivated) pipeline.setNumber(0);
         else pipeline.setNumber(5);
-        robotHandler.shuffleboardHandler.displayBool("Limelight Activated", limelightActivated);
+        shuffleboardHandler.displayBool("Limelight Activated", limelightActivated);
     }
 
     private double getDistanceEstimate()

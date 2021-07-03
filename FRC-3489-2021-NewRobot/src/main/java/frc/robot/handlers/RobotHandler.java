@@ -42,6 +42,8 @@ public class RobotHandler {
         intakeHandler = new IntakeHandler(this);
         shooterHandler = new ShooterHandler(this);
         limelightHandler = new LimelightHandler(this);
+
+        // Recheck all references inside all of the handlers here
     }
 
     public void robotInit()

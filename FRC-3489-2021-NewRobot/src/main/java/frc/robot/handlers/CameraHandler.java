@@ -21,7 +21,7 @@ public class CameraHandler extends BaseHandler {
 
         camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-        ShuffleboardTab tab = robotHandler.shuffleboardHandler.tab;
+        ShuffleboardTab tab = shuffleboardHandler.tab;
 
         tab.add(server.getSource()).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4).withPosition(2, 0);
 

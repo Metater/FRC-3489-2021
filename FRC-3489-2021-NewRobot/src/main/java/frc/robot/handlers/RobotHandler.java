@@ -1,5 +1,8 @@
 package frc.robot.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import frc.robot.Robot;
 import frc.robot.containers.DeviceContainer;
 import frc.robot.shared.handlers.ButtonUpdateListenerHandler;
@@ -24,6 +27,8 @@ public class RobotHandler {
     public ShooterHandler shooterHandler;
     public LimelightHandler limelightHandler;
 
+    public List<BaseHandler> handlers = new ArrayList<BaseHandler>();
+
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
@@ -43,7 +48,10 @@ public class RobotHandler {
         shooterHandler = new ShooterHandler(this);
         limelightHandler = new LimelightHandler(this);
 
-        // Recheck all references inside all of the handlers here
+        for (BaseHandler handler : handlers)
+        {
+            handler.ensureReferences(this);
+        }
     }
 
     public void robotInit()

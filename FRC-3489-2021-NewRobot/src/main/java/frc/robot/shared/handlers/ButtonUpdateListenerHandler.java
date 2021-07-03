@@ -88,15 +88,15 @@ public class ButtonUpdateListenerHandler extends BaseHandler implements IRobotLi
     {
         if (buttonLocation.joystickType == JoystickType.DriveLeft)
         {
-            return robotHandler.deviceContainer.joystickDriveLeft.getRawButton(buttonLocation.buttonIndex);
+            return deviceContainer.joystickDriveLeft.getRawButton(buttonLocation.buttonIndex);
         }
         else if (buttonLocation.joystickType == JoystickType.DriveRight)
         {
-            return robotHandler.deviceContainer.joystickDriveRight.getRawButton(buttonLocation.buttonIndex);
+            return deviceContainer.joystickDriveRight.getRawButton(buttonLocation.buttonIndex);
         }
         else
         {
-            return robotHandler.deviceContainer.joystickManipulator.getRawButton(buttonLocation.buttonIndex);
+            return deviceContainer.joystickManipulator.getRawButton(buttonLocation.buttonIndex);
         }
     }
 }

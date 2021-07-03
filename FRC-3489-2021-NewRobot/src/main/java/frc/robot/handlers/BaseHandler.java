@@ -31,12 +31,20 @@ public abstract class BaseHandler {
     protected void addRobotHandlerReference(RobotHandler robotHandler)
     {
         this.robotHandler = robotHandler;
+        robotHandler.handlers.add(this);
     }
 
     protected void addReferences(RobotHandler robotHandler)
     {
         addRobotHandlerReference(robotHandler);
 
+        ensureReferences(robotHandler);
+
+        enforceFunctionSubscriptions();
+    }
+
+    public void ensureReferences(RobotHandler robotHandler)
+    {
         deviceContainer = robotHandler.deviceContainer;
 
         functionListenerHandler = robotHandler.functionListenerHandler;
@@ -51,8 +59,6 @@ public abstract class BaseHandler {
         intakeHandler = robotHandler.intakeHandler;
         shooterHandler = robotHandler.shooterHandler;
         limelightHandler = robotHandler.limelightHandler;
-
-        enforceFunctionSubscriptions();
     }
 
     private void enforceFunctionSubscriptions()

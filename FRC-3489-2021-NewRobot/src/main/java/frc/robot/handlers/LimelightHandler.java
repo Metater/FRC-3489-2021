@@ -22,7 +22,8 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     NetworkTableEntry targetY = limelight.getEntry("ty");
     NetworkTableEntry targetArea = limelight.getEntry("ta");
 
-    private boolean limelightActivated = false;
+    public boolean limelightActivated = false;
+    public boolean autoAimActivated = false;
 
     private double lastValidDistance = 0;
 
@@ -33,6 +34,9 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         ToggleButtonUpdate toggleLimelight = new ToggleButtonUpdate(this, PeriodicType.Robot, "ToggleLimelight", new ButtonLocation(Constants.Buttons.ToggleLimelight, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(toggleLimelight);
 
+        ToggleButtonUpdate toggleAutoAim = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleAutoAim", new ButtonLocation(Constants.Buttons.ToggleAutoAim, JoystickType.Manipulator), 0.05);
+        buttonUpdateListenerHandler.addButtonUpdate(toggleAutoAim);
+
         setLimelight(false);
     }
 
@@ -42,6 +46,20 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         {
             limelightActivated = !limelightActivated;
             setLimelight(limelightActivated);
+            if (!limelightActivated)
+            {
+                autoAimActivated = false;
+            }
+        }
+        if (buttonUpdate.buttonUpdateName == "ToggleAutoAim" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
+        {
+            autoAimActivated = !autoAimActivated;
+
+            if (!limelightActivated && autoAimActivated)
+            {
+                limelightActivated = true;
+                setLimelight(true);
+            }
         }
     }
 
@@ -74,21 +92,24 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public void teleopPeriodic()
     {
-        if (targetX.getDouble(0) > 1)
+        if (autoAimActivated)
         {
-            if (targetX.getDouble(0) > 5) deviceContainer.turretRotate.set(-0.16);
-            else if (targetX.getDouble(0) > 12) deviceContainer.turretRotate.set(-0.2);
-            else deviceContainer.turretRotate.set(-0.14);
-        }
-        else if (targetX.getDouble(0) < -1)
-        {
-            if (targetX.getDouble(0) < -5) deviceContainer.turretRotate.set(0.16);
-            else if (targetX.getDouble(0) < -12) deviceContainer.turretRotate.set(0.2);
-            else deviceContainer.turretRotate.set(0.14);
-        }
-        else
-        {
-            deviceContainer.turretRotate.stopMotor();
+            if (targetX.getDouble(0) > 1)
+            {
+                if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.16);
+                else if (targetX.getDouble(0) > 12) shooterHandler.setTurretRotate(-0.2);
+                else shooterHandler.setTurretRotate(-0.14);
+            }
+            else if (targetX.getDouble(0) < -1)
+            {
+                if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.16);
+                else if (targetX.getDouble(0) < -12) shooterHandler.setTurretRotate(0.2);
+                else shooterHandler.setTurretRotate(0.14);
+            }
+            else
+            {
+                shooterHandler.setTurretRotate(0);
+            }
         }
     }
 

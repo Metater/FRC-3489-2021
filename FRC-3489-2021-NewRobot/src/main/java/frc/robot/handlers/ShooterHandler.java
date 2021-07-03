@@ -34,34 +34,37 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void teleopPeriodic()
     {
-        if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += robotHandler.joystickHandler.getShooterAdjust();
+        if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += joystickHandler.getShooterAdjust();
         setShooter(shooterSpeed);
         setTurretRotate();
 
-        double shooterCurrent = (robotHandler.deviceContainer.shooterLeft.getStatorCurrent() + robotHandler.deviceContainer.shooterRight.getStatorCurrent()) / 2d;
-        robotHandler.shuffleboardHandler.displayDouble("Shooter Current", shooterCurrent);
-        double shooterTemp = (robotHandler.deviceContainer.shooterLeft.getTemperature() + robotHandler.deviceContainer.shooterRight.getTemperature()) / 2d;
-        robotHandler.shuffleboardHandler.displayDouble("Shooter Temp", shooterTemp);
-        double shooterVelocity = (robotHandler.deviceContainer.shooterLeft.getSelectedSensorVelocity() + robotHandler.deviceContainer.shooterRight.getSelectedSensorVelocity()) / 2d;
-        robotHandler.shuffleboardHandler.displayDouble("Shooter Velocity", shooterVelocity);
-        double cellevatorCurrent = robotHandler.deviceContainer.cellevator.getStatorCurrent();
-        robotHandler.shuffleboardHandler.displayDouble("Cellevator Current", cellevatorCurrent);
-        double cellevatorVelocity = robotHandler.deviceContainer.cellevator.getSelectedSensorVelocity();
-        robotHandler.shuffleboardHandler.displayDouble("Cellevator Velocity", cellevatorVelocity);
+        double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;
+        shuffleboardHandler.displayDouble("Shooter Current", shooterCurrent);
+        double shooterTemp = (deviceContainer.shooterLeft.getTemperature() + deviceContainer.shooterRight.getTemperature()) / 2d;
+        shuffleboardHandler.displayDouble("Shooter Temp", shooterTemp);
+        double shooterVelocity = (deviceContainer.shooterLeft.getSelectedSensorVelocity() + deviceContainer.shooterRight.getSelectedSensorVelocity()) / 2d;
+        shuffleboardHandler.displayDouble("Shooter Velocity", shooterVelocity);
+        double cellevatorCurrent = deviceContainer.cellevator.getStatorCurrent();
+        shuffleboardHandler.displayDouble("Cellevator Current", cellevatorCurrent);
+        double cellevatorVelocity = deviceContainer.cellevator.getSelectedSensorVelocity();
+        shuffleboardHandler.displayDouble("Cellevator Velocity", cellevatorVelocity);
     }
 
     private void setTurretRotate()
     {
-        double turretRotateSpeed = robotHandler.joystickHandler.getTurretRotateSpeed();
-        if ((turretRotateSpeed > 0 && robotHandler.deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && robotHandler.deviceContainer.turretStopRight.get()))
+        if (limelightHandler.autoAimActivated)
         {
-            robotHandler.deviceContainer.turretRotate.set(turretRotateSpeed);
+
+        }
+        double turretRotateSpeed = joystickHandler.getTurretRotateSpeed();
+        if ((turretRotateSpeed > 0 && deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && deviceContainer.turretStopRight.get()))
+        {
+            setTurretRotate(turretRotateSpeed);
         }
         else
         {
-            robotHandler.deviceContainer.turretRotate.stopMotor();
+            setTurretRotate(0);
         }
-        robotHandler.shuffleboardHandler.displayDouble("Turret Rotate Speed", turretRotateSpeed);
     }
 
     public void update(BaseButtonUpdate buttonUpdate)
@@ -77,14 +80,14 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                 shooting = !shooting;
                 if (shooting)
                 {
-                    robotHandler.deviceContainer.cellevator.set(1);
-                    robotHandler.shuffleboardHandler.displayBool("Is Shooting", true);
+                    deviceContainer.cellevator.set(1);
+                    shuffleboardHandler.displayBool("Is Shooting", true);
                     if (shooterSpeed < 0.3) shooterSpeed = 0.9;
                 }
                 else
                 {
-                    robotHandler.deviceContainer.cellevator.stopMotor();
-                    robotHandler.shuffleboardHandler.displayBool("Is Shooting", false);
+                    deviceContainer.cellevator.stopMotor();
+                    shuffleboardHandler.displayBool("Is Shooting", false);
                 }
             }
         }
@@ -92,9 +95,15 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     private void setShooter(double speed)
     {
-        robotHandler.shuffleboardHandler.displayDouble("Shooter Speed", speed);
-        robotHandler.deviceContainer.shooterLeft.set(-speed);
-        robotHandler.deviceContainer.shooterRight.set(speed);
+        shuffleboardHandler.displayDouble("Shooter Speed", speed);
+        deviceContainer.shooterLeft.set(-speed);
+        deviceContainer.shooterRight.set(speed);
+    }
+
+    public void setTurretRotate(double speed)
+    {
+        shuffleboardHandler.displayDouble("Turret Rotate Speed", speed);
+        deviceContainer.turretRotate.set(speed);
     }
 
 

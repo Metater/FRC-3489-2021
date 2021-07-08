@@ -3,6 +3,7 @@ package frc.robot.handlers;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.IRobotListener;
@@ -26,6 +27,8 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     public boolean autoAimActivated = false;
 
     private double lastValidDistance = 0;
+
+    private long run = 0;
 
     public LimelightHandler(RobotHandler robotHandler)
     {
@@ -70,19 +73,16 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public void robotPeriodic()
     {
-        shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
-        shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
-        shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
-
-        double distance = getDistanceEstimate();
-        if (distance >= 0)
+        if (run % 50 == 0)
         {
-            if (distance < 120 || distance > 700)
-                lastValidDistance = distance;
+            shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
+            shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
+            shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
+    
+            double distance = getDistanceEstimate();
             shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
         }
-        else
-            distance = lastValidDistance;
+        run++;
     }
 
     public void teleopInit()
@@ -123,8 +123,11 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     private double getDistanceEstimate()
     {
-        double angle = 31.5 + targetY.getDouble(0);
-        double distance = (90.75 - 20) / Math.tan(angle);
+        double targetYOffset = targetY.getDouble(0);
+        if (targetYOffset == 0) return -1;
+        //double angle = 31.5d + targetYOffset;
+        double distance = 70.75d / Math.tan(31.5d + targetYOffset);
+        System.out.println(targetYOffset + ":::" + distance + ":::" + Math.tan(31.5d + targetYOffset));
         return distance;
     }
 }

@@ -22,7 +22,7 @@ public final class Constants
     {
         // Manipulator
         public static final int ToggleLimelight = 8;
-        public static final int ToggleAutoAim = -1;
+        public static final int ToggleAutoAim = 10;
 
         public static final int ResetShooter = 12;
         public static final int Shoot = 1;

@@ -26,6 +26,9 @@ public class SetupHandler extends BaseHandler implements IRobotListener {
         deviceContainer.shooterLeft.setSafetyEnabled(Constants.SafetiesEnabled);
         deviceContainer.shooterRight.setSafetyEnabled(Constants.SafetiesEnabled);
         deviceContainer.cellevator.setSafetyEnabled(Constants.SafetiesEnabled);
+
+        //Default Pneumatic Positions
+        deviceContainer.intakeArm.set(false);
     }
 
     public void robotPeriodic()

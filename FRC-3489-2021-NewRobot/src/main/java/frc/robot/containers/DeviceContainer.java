@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class DeviceContainer {
 
@@ -24,6 +25,9 @@ public class DeviceContainer {
     public WPI_TalonSRX intake = new WPI_TalonSRX(7);
     public WPI_TalonFX shooterLeft = new WPI_TalonFX(8);
     public WPI_TalonFX shooterRight = new WPI_TalonFX(9);
+
+    //Pneumatics
+    public Solenoid intakeArm = new Solenoid(19,0);
 
     // Limit Switch
     public DigitalInput turretStopLeft = new DigitalInput(0);

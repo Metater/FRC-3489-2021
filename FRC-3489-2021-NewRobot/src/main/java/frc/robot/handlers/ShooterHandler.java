@@ -38,16 +38,20 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         setShooter(shooterSpeed);
         setTurretRotate();
 
-        double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;
+      /*   double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;
         shuffleboardHandler.displayDouble("Shooter Current", shooterCurrent);
+        System.out.println("Shooter Current: " + shooterCurrent);
         double shooterTemp = (deviceContainer.shooterLeft.getTemperature() + deviceContainer.shooterRight.getTemperature()) / 2d;
         shuffleboardHandler.displayDouble("Shooter Temp", shooterTemp);
         double shooterVelocity = (deviceContainer.shooterLeft.getSelectedSensorVelocity() + deviceContainer.shooterRight.getSelectedSensorVelocity()) / 2d;
         shuffleboardHandler.displayDouble("Shooter Velocity", shooterVelocity);
+        System.out.println("Shooter Velocity: " + shooterVelocity);
         double cellevatorCurrent = deviceContainer.cellevator.getStatorCurrent();
         shuffleboardHandler.displayDouble("Cellevator Current", cellevatorCurrent);
+        System.out.println("Cellevator Current: " + cellevatorCurrent);
         double cellevatorVelocity = deviceContainer.cellevator.getSelectedSensorVelocity();
         shuffleboardHandler.displayDouble("Cellevator Velocity", cellevatorVelocity);
+        System.out.println("Cellevator Velocity: " + cellevatorVelocity); */
     }
 
     private void setTurretRotate()
@@ -72,6 +76,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         if (buttonUpdate.buttonUpdateName == "ResetShooter" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
         {
             shooterSpeed = 0;
+            System.out.println("Shooter speed 0");
         }
         if (buttonUpdate.buttonUpdateName == "Shoot")
         {
@@ -82,15 +87,80 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                 {
                     deviceContainer.cellevator.set(1);
                     shuffleboardHandler.displayBool("Is Shooting", true);
-                    if (shooterSpeed < 0.3) shooterSpeed = 0.9;
+                    System.out.println("Begin Shooting Sequence");
+                    if (shooterSpeed < 0.31) shooterSpeed = .9;
+
+                    //For Debugging
+                    System.out.println("Autothrottle would output: " + autoThrottle());
+                    System.out.println("hasNotShot would output: " + hasNotShot());
+
+                  /*  if (hasNotShot()) {
+                        System.out.println("Autothrottle engaged");
+                        shooterSpeed = autoThrottle();
+                    } */
                 }
                 else
                 {
                     deviceContainer.cellevator.stopMotor();
+                    shooterSpeed = Constants.Turret.ShooterIdleSpeed;
                     shuffleboardHandler.displayBool("Is Shooting", false);
+                    System.out.println("Finished Shooting Sequence");
                 }
             }
         }
+    }
+
+    private double autoThrottle()
+    {
+        String balltype = "";
+        //Get Current Value
+        double cellevatorCurrent = deviceContainer.cellevator.getStatorCurrent();
+
+        //Determine ball type
+        if (cellevatorCurrent > Constants.Turret.GoodBallMinCurrentAvg ){
+            balltype = "good";
+        } 
+        else if(cellevatorCurrent <= Constants.Turret.MediumBallMinCurrentAvg && cellevatorCurrent >= Constants.Turret.BadBallMinCurrentAvg)
+        {
+            balltype = "medium";
+        }
+        else {
+            balltype = "bad";
+        }
+        System.out.println("Ball type detected: " + balltype + "; Detected current: " + cellevatorCurrent);
+
+        //Set shooter speed
+        switch (balltype) {
+            case "good":
+                return Constants.Turret.GoodBallSpeed;
+            case "medium":
+                return Constants.Turret.MediumBallSpeed;
+            case "bad":
+                return Constants.Turret.BadBallSpeed;
+            default:
+                break;
+        }
+        return 0;
+    }
+
+    private boolean hasNotShot()
+    {
+        
+        //Default ball has not shot yet
+        boolean hasNotShot = true;
+        double cellevatorCurrent = deviceContainer.cellevator.getStatorCurrent();
+
+        //Check for current spike to indicate ball has been shot
+        if (cellevatorCurrent > Constants.Turret.BadBallMinCurrentAvg) 
+        {
+            hasNotShot = false;
+            System.out.println("Shot detected: " + cellevatorCurrent);
+        }
+        else {
+            System.out.println("Nothing shot yet: " + cellevatorCurrent);
+        }
+        
+        return hasNotShot;
     }
 
     private void setShooter(double speed)

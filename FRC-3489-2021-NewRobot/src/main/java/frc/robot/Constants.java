@@ -44,9 +44,14 @@ public final class Constants
         public static final double BallEntryCurrent = 15;
         public static final double CellavatorLoggingPeriod = 0.3;
         public static final double TurretAcceleratePeriod = 0.5;
+        public static final double ShooterIdleSpeed = 0.3;
 
         public static final double GoodBallMinCurrentAvg = 25;
         public static final double MediumBallMinCurrentAvg = 20;
         public static final double BadBallMinCurrentAvg = 15;
+
+        public static final double GoodBallSpeed = .85;
+        public static final double MediumBallSpeed = .87;
+        public static final double BadBallSpeed = .89;
     }
 }

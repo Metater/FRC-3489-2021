@@ -72,6 +72,6 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
         deviceContainer.intakeArm.set(state);
     }
 
-
+    
 
 }

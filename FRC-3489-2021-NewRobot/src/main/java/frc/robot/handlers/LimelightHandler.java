@@ -126,8 +126,9 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         double targetYOffset = targetY.getDouble(0);
         if (targetYOffset == 0) return -1;
         //double angle = 31.5d + targetYOffset;
-        double distance = 70.75d / Math.tan(31.5d + targetYOffset);
-        System.out.println(targetYOffset + ":::" + distance + ":::" + Math.tan(31.5d + targetYOffset));
+       // double distance = 70.75d / Math.tan(31.5d + targetYOffset);
+       double distance = 70.75d / Math.sin(31.5d + targetYOffset); 
+       System.out.println("Y offset:" + targetYOffset + ":Distance:" + distance + ":Formula:" + Math.sin(31.5d + targetYOffset));
         return distance;
     }
 }

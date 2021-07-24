@@ -25,6 +25,7 @@ public class DeviceContainer {
     public WPI_TalonSRX intake = new WPI_TalonSRX(7);
     public WPI_TalonFX shooterLeft = new WPI_TalonFX(8);
     public WPI_TalonFX shooterRight = new WPI_TalonFX(9);
+    public WPI_TalonSRX hopperMover = new WPI_TalonSRX(10);
 
     //Pneumatics
     public Solenoid intakeArm = new Solenoid(19,0);

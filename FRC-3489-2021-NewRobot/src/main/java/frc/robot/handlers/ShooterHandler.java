@@ -86,6 +86,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                 if (shooting)
                 {
                     deviceContainer.cellevator.set(1);
+                    deviceContainer.hopperMover.set(.5);
                     shuffleboardHandler.displayBool("Is Shooting", true);
                     System.out.println("Begin Shooting Sequence");
                     if (shooterSpeed < 0.31) shooterSpeed = .9;
@@ -102,6 +103,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                 else
                 {
                     deviceContainer.cellevator.stopMotor();
+                    deviceContainer.hopperMover.stopMotor();
                     shooterSpeed = Constants.Turret.ShooterIdleSpeed;
                     shuffleboardHandler.displayBool("Is Shooting", false);
                     System.out.println("Finished Shooting Sequence");

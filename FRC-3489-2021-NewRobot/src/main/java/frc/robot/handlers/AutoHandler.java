@@ -1,9 +1,11 @@
 package frc.robot.handlers;
 
+import frc.robot.auto.AutoInterpreter;
 import frc.robot.shared.interfaces.IAutoListener;
 
 public class AutoHandler extends BaseHandler implements IAutoListener {
 
+    public AutoInterpreter autoInterpreter = new AutoInterpreter();
 
     public AutoHandler(RobotHandler robotHandler)
     {
@@ -11,7 +13,8 @@ public class AutoHandler extends BaseHandler implements IAutoListener {
     }
 
     @Override
-    public void autonomousInit() {
+    public void autonomousInit()
+    {
         //Get the selected auto thing
 
         //Do the selected auto thing
@@ -19,12 +22,14 @@ public class AutoHandler extends BaseHandler implements IAutoListener {
     }
 
     @Override
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic()
+    {
         // TODO Auto-generated method stub
 
     }
 
-    private void autoProgram1(){
+    private void autoProgram1()
+    {
         //Do the auto thing
     }
 }

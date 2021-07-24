@@ -1,27 +1,40 @@
 package frc.robot.handlers;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.auto.AutoInterpreter;
 import frc.robot.shared.interfaces.IAutoListener;
+import frc.robot.shared.interfaces.IRobotListener;
 
-public class AutoHandler extends BaseHandler implements IAutoListener {
+public class AutoHandler extends BaseHandler implements IRobotListener, IAutoListener {
 
-    public AutoInterpreter autoInterpreter = new AutoInterpreter();
+    public AutoInterpreter autoInterpreter;
+
+    public SendableChooser<String> autoChooser;
 
     public AutoHandler(RobotHandler robotHandler)
     {
         addReferences(robotHandler);
     }
 
-    @Override
-    public void autonomousInit()
+    public void robotInit()
     {
-        //Get the selected auto thing
-
-        //Do the selected auto thing
-        
+        autoChooser = new SendableChooser<String>();
+        autoChooser.setDefaultOption("1: Test Auto", "test");
+        autoChooser.addOption("2: Drive Off Line", "driveOffLine");
+        shuffleboardHandler.autoTab.add(autoChooser).withSize(2, 1);
     }
 
-    @Override
+    public void robotPeriodic()
+    {
+
+    }
+
+    public void autonomousInit()
+    {
+        String selectedAutoString = autoChooser.getSelected();
+        autoInterpreter = new AutoInterpreter(selectedAutoString);
+    }
+
     public void autonomousPeriodic()
     {
         // TODO Auto-generated method stub

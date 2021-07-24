@@ -1,0 +1,6 @@
+print(Test auto program running!)
+delay(2000)
+// direction, speedLeft, speedRight, time
+moveSeconds(FORWARD, 60, 60, 2)
+delay(1000)
+moveClicks(FORWARD, )

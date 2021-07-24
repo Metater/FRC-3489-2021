@@ -1,14 +1,22 @@
 package frc.robot.auto;
 
-import frc.robot.handlers.BaseHandler;
-import frc.robot.handlers.RobotHandler;
-import frc.robot.shared.interfaces.IAutoListener;
+import java.util.ArrayList;
+
+import frc.robot.shared.utils.FileUtils;
 
 public class AutoInterpreter {
-    
 
-    public AutoInterpreter()
+    private ArrayList<String> autoTextFileLines;
+
+    public AutoInterpreter(String autoFileName)
     {
+        autoTextFileLines = FileUtils.readLocalFile(autoFileName + ".auto");
 
+        System.out.println("Start auto load");
+        for (String line : autoTextFileLines)
+        {
+            System.out.println(line);
+        }
+        System.out.println("End auto load");
     }
 }

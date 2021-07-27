@@ -6,7 +6,7 @@ import java.util.Scanner; // Import the Scanner class to read text files
 
 public class FileUtils {
 
-    public static List<String> GetLines(String filePath)
+    public static List<String> getLines(String filePath)
     {
         List<String> lines = new ArrayList<String>();
         try
@@ -16,7 +16,7 @@ public class FileUtils {
             while (myReader.hasNextLine())
             {
                 String data = myReader.nextLine();
-                System.out.println(data);
+                //System.out.println(data);
                 lines.add(data);
             }
             myReader.close();

@@ -18,11 +18,13 @@ public class App {
 
         autoParser = new AutoParser(codeLines);
 
+        /*
         AutoToken token = autoParser.lexer.getNextToken();
-        while (token.type != "|eof|")
+        while (token.type != "eof")
         {
             System.out.println(token.type + "   " + token.value);
             token = autoParser.lexer.getNextToken();
         }
+        */
     }
 }

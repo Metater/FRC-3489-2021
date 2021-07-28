@@ -117,6 +117,6 @@ public class AutoLexer {
             }
         }
         Object o = null;
-        return new AutoToken("|eof|", o);
+        return new AutoToken("eof", o);
     }
 }

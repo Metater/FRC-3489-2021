@@ -1,11 +1,11 @@
 import java.util.List;
-
-import auto.AutoInterpreter;
+import auto.AutoParser;
+import auto.AutoToken;
 
 public class App {
     public static void main(String[] args) throws Exception
     {
-        AutoInterpreter autoInterpreter;
+        AutoParser autoParser;
 
         List<String> codeLines = FileUtils.getLines(System.getProperty("user.dir") + "/Vanilla/src/test.auto");
         System.out.println("--------------------------------");
@@ -16,6 +16,13 @@ public class App {
         System.out.println("--------------------------------");
 
 
-        autoInterpreter = new AutoInterpreter(codeLines);
+        autoParser = new AutoParser(codeLines);
+
+        AutoToken token = autoParser.lexer.getNextToken();
+        while (token.type != "|eof|")
+        {
+            System.out.println(token.type + "   " + token.value);
+            token = autoParser.lexer.getNextToken();
+        }
     }
 }

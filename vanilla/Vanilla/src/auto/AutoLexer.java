@@ -46,6 +46,77 @@ public class AutoLexer {
     {
         String result = "";
         boolean isDecimal = false;
-        while ((Character.isDigit(currentChar)))
+        while ((Character.isDigit(currentChar) || (currentChar == '.' && !isDecimal)) && !eof)
+        {
+            if (currentChar == '.') isDecimal = true;
+            result += currentChar;
+            advance(1);
+        }
+        if (isDecimal)
+            return new AutoToken("double", Float.parseFloat(result));
+        return new AutoToken("integer", Integer.parseInt(result));
+    }
+
+    private AutoToken readIdentifier()
+    {
+        String result = "";
+        while (Character.isLetterOrDigit(currentChar) && !eof)
+        {
+            result += currentChar;
+            advance(1);
+        }
+        return new AutoToken("identifier", result);
+    }
+
+    private AutoToken readString()
+    {
+        String result = "";
+        advance(1);
+        while (currentChar != '\"')
+        {
+            result += currentChar;
+            advance(1);
+        }
+        advance(1);
+        return new AutoToken("string", result);
+    }
+
+    private AutoToken readConstant()
+    {
+        String result = "";
+        advance(1);
+        while (currentChar != '\'')
+        {
+            result += currentChar;
+            advance(1);
+        }
+        advance(1);
+        return new AutoToken("constant", result);
+    }
+
+    public AutoToken getNextToken()
+    {
+        while (!eof)
+        {
+            if (currentChar == ' ')
+                skipWhitespace();
+            else if (Character.isLetter(currentChar))
+                return readIdentifier();
+            else if (Character.isDigit(currentChar))
+                return readNumeric();
+            else if (currentChar == '\"')
+                return readString();
+            else if (currentChar == '\'')
+                return readConstant();
+            else
+            {
+                char c = currentChar;
+                Object o = null;
+                advance(1);
+                return new AutoToken(Character.toString(c), o);
+            }
+        }
+        Object o = null;
+        return new AutoToken("|eof|", o);
     }
 }

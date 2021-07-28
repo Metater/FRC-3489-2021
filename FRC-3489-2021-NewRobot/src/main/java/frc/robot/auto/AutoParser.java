@@ -1,11 +1,11 @@
-package auto;
+package frc.robot.auto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutoParser {
 
-    public AutoLexer lexer;
+    private AutoLexer lexer;
 
     private List<AutoInstruction> instructions = new ArrayList<AutoInstruction>();
     private AutoInstruction workingInstruction = new AutoInstruction();
@@ -30,7 +30,7 @@ public class AutoParser {
         generateInstructions();
     }
 
-    private List<AutoInstruction> getInstructions()
+    public List<AutoInstruction> getInstructions()
     {
         return instructions;
     }
@@ -40,8 +40,9 @@ public class AutoParser {
         currentToken = lexer.getNextToken();
     }
     
-    public static void error()
+    public static void error(String message)
     {
+        System.out.println(message);
         int error = 1/0;
     }
 
@@ -52,8 +53,7 @@ public class AutoParser {
         else
         {
             String message = "ERROR: Unexpected token: " + currentToken.type + "\nERROR: Expected token: " + tokenType;
-            System.out.println(message);
-            error();
+            error(message);
         }
     }
 
@@ -62,8 +62,7 @@ public class AutoParser {
         if (!currentToken.type.equals(tokenType))
         {
             String message = "ERROR: Unexpected token: " + currentToken.type + "\nERROR: Expected token: " + tokenType;
-            System.out.println(message);
-            error();
+            error(message);
         }
     }
 
@@ -93,7 +92,8 @@ public class AutoParser {
                 workingInstruction.loadArgument(new AutoInstructionArg(AutoInstructionArg.ArgType.Identifier, (String)currentToken.value));
                 break;
             default:
-                error();
+                String message = "ERROR: Unexpected token: " + currentToken.type + "\nERROR: Expected a token that can be an argument!";
+                error(message);
                 break;
         }
         next();

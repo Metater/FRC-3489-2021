@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.first.wpilibj.Filesystem;
 
@@ -32,9 +33,9 @@ public class FileUtils {
             e.printStackTrace();  
         }
     }
-    public static ArrayList<String> readLocalFile(String fileName)
+    public static List<String> readLocalFile(String fileName)
     {
-        ArrayList<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<String>();
         try  
         {
             File file = new File(getUsedDirAndFile(fileName));    //creates a new file instance  

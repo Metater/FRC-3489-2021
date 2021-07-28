@@ -1,13 +1,17 @@
 package frc.robot.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.auto.AutoInstruction;
 import frc.robot.auto.AutoInterpreter;
 import frc.robot.shared.interfaces.IAutoListener;
 import frc.robot.shared.interfaces.IRobotListener;
 
 public class AutoHandler extends BaseHandler implements IRobotListener, IAutoListener {
 
-    public AutoInterpreter autoInterpreter;
+    public AutoInterpreter interpreter;;
 
     public SendableChooser<String> autoChooser;
 
@@ -32,7 +36,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
     public void autonomousInit()
     {
         String selectedAutoString = autoChooser.getSelected();
-        autoInterpreter = new AutoInterpreter(selectedAutoString);
+        interpreter = new AutoInterpreter(selectedAutoString);
     }
 
     public void autonomousPeriodic()

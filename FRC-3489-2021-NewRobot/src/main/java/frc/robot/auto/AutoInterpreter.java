@@ -1,24 +1,19 @@
 package frc.robot.auto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import frc.robot.shared.utils.FileUtils;
 
 public class AutoInterpreter {
 
-    private ArrayList<String> autoTextFileLines;
-    private AutoTokenizer autoTokenizer = new AutoTokenizer();
+    private List<AutoInstruction> instructions;
 
     public AutoInterpreter(String autoFileName)
     {
-        autoTextFileLines = FileUtils.readLocalFile(autoFileName + ".auto");
-
-        System.out.println("Start auto load");
-        for (String line : autoTextFileLines)
-        {
-            autoTokenizer.tokenizeLine(line);
-            System.out.println(line);
-        }
-        System.out.println("End auto load");
+        System.out.println("Start auto load, lex and parse");
+        List<String> codeLines = FileUtils.readLocalFile(autoFileName + ".auto");
+        AutoParser autoParser = new AutoParser(codeLines);
+        instructions = autoParser.getInstructions();
+        System.out.println("End auto load, lex and parse");
     }
 }

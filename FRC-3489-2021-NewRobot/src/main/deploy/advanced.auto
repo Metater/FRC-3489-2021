@@ -7,7 +7,7 @@ delay(1000)
 moveSeconds(FORWARD, 40, 60, 2)
 
 // async function with exit action body, having an exit body makes it async, reaching the end brace kills the thread
-async:delay(2000)
+delay(2000)
 {
     signal(signalA)
 }

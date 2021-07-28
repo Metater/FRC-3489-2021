@@ -30,6 +30,9 @@ public final class Constants
         public static final int ToggleIntake = 2;
         public static final int ToggleIntakeExtension = 3;
 
+        public static final int ResetColorSpinnerStage1 = 6;
+        public static final int ResetColorSpinnerStage2 = 9;
+
 
         // Drive
         public static final int SwitchFront = 7;

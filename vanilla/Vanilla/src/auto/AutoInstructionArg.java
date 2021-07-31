@@ -5,7 +5,7 @@ public class AutoInstructionArg {
     public enum ArgType
     {
         Integer,
-        Float,
+        Double,
         String,
         Constant,
         Identifier
@@ -14,7 +14,7 @@ public class AutoInstructionArg {
     public ArgType argType;
 
     public int _integer;
-    public float _float;
+    public double _double;
     public String _string;
     public String _constant;
     public String _identifier;
@@ -24,10 +24,10 @@ public class AutoInstructionArg {
         this.argType = argType;
         this._integer = _integer;
     }
-    public AutoInstructionArg(ArgType argType, float _float)
+    public AutoInstructionArg(ArgType argType, double _double)
     {
         this.argType = argType;
-        this._float = _float;
+        this._double = _double;
     }
     public AutoInstructionArg(ArgType argType, String str)
     {

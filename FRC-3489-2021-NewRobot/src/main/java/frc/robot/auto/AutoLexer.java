@@ -53,7 +53,7 @@ public class AutoLexer {
             advance(1);
         }
         if (isDecimal)
-            return new AutoToken("double", Float.parseFloat(result));
+            return new AutoToken("double", Double.parseDouble(result));
         return new AutoToken("integer", Integer.parseInt(result));
     }
 

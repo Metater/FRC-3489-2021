@@ -28,6 +28,7 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
         buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
 
         differentialDrive = new DifferentialDrive(deviceContainer.driveFrontLeft, deviceContainer.driveFrontRight);
+        differentialDrive.setSafetyEnabled(Constants.SafetiesEnabled);
     }
 
     public void robotInit()

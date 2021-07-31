@@ -11,22 +11,23 @@ import frc.robot.shared.interfaces.ITestListener;
 
 public abstract class BaseHandler {
 
-    protected RobotHandler robotHandler;
+    public RobotHandler robotHandler;
 
-    protected DeviceContainer deviceContainer;
+    public DeviceContainer deviceContainer;
 
-    protected FunctionListenerHandler functionListenerHandler;
-    protected ButtonUpdateListenerHandler buttonUpdateListenerHandler;
+    public FunctionListenerHandler functionListenerHandler;
+    public ButtonUpdateListenerHandler buttonUpdateListenerHandler;
 
-    protected SetupHandler setupHandler;
-    protected JoystickHandler joystickHandler;
-    protected ShuffleboardHandler shuffleboardHandler;
-    protected CameraHandler cameraHandler;
-    protected DriveHandler driveHandler;
-    //protected BallSystemHandler ballSystemHandler;
-    protected IntakeHandler intakeHandler;
-    protected ShooterHandler shooterHandler;
-    protected LimelightHandler limelightHandler;
+    public SetupHandler setupHandler;
+    public JoystickHandler joystickHandler;
+    public ShuffleboardHandler shuffleboardHandler;
+    public CameraHandler cameraHandler;
+    public DriveHandler driveHandler;
+    //public BallSystemHandler ballSystemHandler;
+    public IntakeHandler intakeHandler;
+    public ShooterHandler shooterHandler;
+    public LimelightHandler limelightHandler;
+    public AutoHandler autoHandler;
 
     protected void addRobotHandlerReference(RobotHandler robotHandler)
     {
@@ -59,6 +60,7 @@ public abstract class BaseHandler {
         intakeHandler = robotHandler.intakeHandler;
         shooterHandler = robotHandler.shooterHandler;
         limelightHandler = robotHandler.limelightHandler;
+        autoHandler = robotHandler.autoHandler;
     }
 
     private void enforceFunctionSubscriptions()

@@ -165,7 +165,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         return hasNotShot;
     }
 
-    private void setShooter(double speed)
+    public void setShooter(double speed)
     {
         shuffleboardHandler.displayDouble("Shooter Speed", speed);
         deviceContainer.shooterLeft.set(-speed);

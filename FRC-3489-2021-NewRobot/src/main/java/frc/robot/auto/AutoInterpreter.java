@@ -12,6 +12,8 @@ public class AutoInterpreter {
 
     private int currentInstruction = 0;
 
+    public boolean finished = false;
+
     public AutoInterpreter(AutoHandler autoHandler, String autoFileName)
     {
         this.autoHandler = autoHandler;
@@ -21,5 +23,58 @@ public class AutoInterpreter {
         AutoParser autoParser = new AutoParser(codeLines);
         instructions = autoParser.getInstructions();
         System.out.println("End auto load, lex and parse");
+    }
+
+    public void finished()
+    {
+        System.out.println("Finished instruction: " + currentInstruction);
+        currentInstruction++;
+    }
+
+    public void cycle()
+    {
+        if (instructions.size() > currentInstruction)
+        {
+            run(instructions.get(currentInstruction));
+        }
+    }
+
+    private void run(AutoInstruction instruction)
+    {
+        //try
+        //{
+            switch (instruction.instructionName) {
+                case "print":
+                    autoHandler.print(instruction);
+                    break;
+                case "aim":
+                    autoHandler.aim(instruction);
+                    break;
+                case "setShooter":
+                    autoHandler.setShooter(instruction);
+                    break;
+                case "shoot":
+                    autoHandler.shoot(instruction);
+                    break;
+                case "delay":
+                    autoHandler.delay(instruction);
+                    break;
+                case "moveForSeconds":
+                    autoHandler.moveForSeconds(instruction);
+                    break;
+                case "dropIntake":
+                    autoHandler.dropIntake(instruction);
+                    break;
+                default:
+                    AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
+                    break;
+            }
+            /*
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        */
     }
 }

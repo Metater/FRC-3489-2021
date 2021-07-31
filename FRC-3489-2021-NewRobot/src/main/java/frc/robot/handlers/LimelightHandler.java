@@ -3,7 +3,6 @@ package frc.robot.handlers;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.shared.interfaces.IButtonListener;
 import frc.robot.shared.interfaces.IRobotListener;
@@ -94,22 +93,30 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (autoAimActivated)
         {
-            if (targetX.getDouble(0) > 1)
-            {
-                if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.16);
-                else if (targetX.getDouble(0) > 12) shooterHandler.setTurretRotate(-0.2);
-                else shooterHandler.setTurretRotate(-0.14);
-            }
-            else if (targetX.getDouble(0) < -1)
-            {
-                if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.16);
-                else if (targetX.getDouble(0) < -12) shooterHandler.setTurretRotate(0.2);
-                else shooterHandler.setTurretRotate(0.14);
-            }
-            else
-            {
-                shooterHandler.setTurretRotate(0);
-            }
+            autoAim();
+        }
+    }
+
+    public int autoAim()
+    {
+        if (targetX.getDouble(0) > 1)
+        {
+            if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.16);
+            else if (targetX.getDouble(0) > 12) shooterHandler.setTurretRotate(-0.2);
+            else shooterHandler.setTurretRotate(-0.14);
+            return 1;
+        }
+        else if (targetX.getDouble(0) < -1)
+        {
+            if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.16);
+            else if (targetX.getDouble(0) < -12) shooterHandler.setTurretRotate(0.2);
+            else shooterHandler.setTurretRotate(0.14);
+            return -1;
+        }
+        else
+        {
+            shooterHandler.setTurretRotate(0);
+            return 0;
         }
     }
 
@@ -125,10 +132,10 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         double targetYOffset = targetY.getDouble(0);
         if (targetYOffset == 0) return -1;
-        //double angle = 31.5d + targetYOffset;
-       // double distance = 70.75d / Math.tan(31.5d + targetYOffset);
-       double distance = 70.75d / Math.sin(31.5d + targetYOffset); 
-       System.out.println("Y offset:" + targetYOffset + ":Distance:" + distance + ":Formula:" + Math.sin(31.5d + targetYOffset));
+        // double angle = 31.5d + targetYOffset;
+        // double distance = 70.75d / Math.tan(31.5d + targetYOffset);
+        double distance = 70.75d / Math.sin(31.5d + targetYOffset);
+        //System.out.println("Y offset:" + targetYOffset + ":Distance:" + distance + ":Formula:" + Math.sin(31.5d + targetYOffset));
         return distance;
     }
 }

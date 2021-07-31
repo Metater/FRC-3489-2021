@@ -79,8 +79,8 @@ public class AutoParser {
             case "integer":
                 workingInstruction.loadArgument(new AutoInstructionArg(AutoInstructionArg.ArgType.Integer, (int)currentToken.value));
                 break;
-            case "float":
-                workingInstruction.loadArgument(new AutoInstructionArg(AutoInstructionArg.ArgType.Float, (float)currentToken.value));
+            case "double":
+                workingInstruction.loadArgument(new AutoInstructionArg(AutoInstructionArg.ArgType.Double, (double)currentToken.value));
                 break;
             case "string":
                 workingInstruction.loadArgument(new AutoInstructionArg(AutoInstructionArg.ArgType.String, (String)currentToken.value));
@@ -109,16 +109,24 @@ public class AutoParser {
         eat("(");
         readArgs();
         instructions.add(workingInstruction);
-        System.out.println((instructions.size()-1) + ": " + workingInstruction.instructionName);
+        System.out.println((instructions.size()-1) + ": " + workingInstruction.instructionName + " Arg Count: " + workingInstruction.arguments.size());
+        System.out.print("Arg types: ");
+        for (int i = 0; i < workingInstruction.arguments.size() - 1; i++)
+        {
+            System.out.print(workingInstruction.arguments.get(i).argType.toString() + ", ");
+        }
+        if (workingInstruction.arguments.size() > 0) System.out.print(workingInstruction.arguments.get(workingInstruction.arguments.size() - 1).argType.toString());
+        System.out.println();
         workingInstruction = new AutoInstruction();
     }
 
     private void generateInstructions()
     {
+        System.out.println("Start generating instructions!");
         while (!currentToken.type.equals("eof"))
         {
             generateInstruction();
         }
-        System.out.println("EEEE");
+        System.out.println("Done generating instructions!");
     }
 }

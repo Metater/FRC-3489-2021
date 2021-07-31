@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.deser.std.PrimitiveArrayDeserializers;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,7 +26,8 @@ public class AutoHandler {
         HyperPathA,
         HyperPathB,
         TestAuto,
-        Lightspeed
+        Lightspeed,
+        DriveDump
     }
 
     private RobotHandler robotHandler;
@@ -61,6 +60,8 @@ public class AutoHandler {
         autos.put(AutoType.HyperPathA, autoHyperPathA);
         autos.put(AutoType.HyperPathB, autoHyperPathB);
         autos.put(AutoType.TestAuto, autoTestAuto);
+        autos.put(AutoType.DriveDump, driveDump);
+
         //iautos.put(AutoType.Lightspeed, lightspeed);
     }
 
@@ -86,9 +87,8 @@ public class AutoHandler {
 
         }
 
-        //System.out.println(currentStep);
+        System.out.println(currentStep);
 
-        /*
         for(AutoInstruction additionalInstruction : additionalInstructions)
         {
             if (!additionalInstruction.isFinished)
@@ -96,7 +96,6 @@ public class AutoHandler {
             else 
                 additionalInstructions.remove(additionalInstruction);
         }
-        */
     }
 
 
@@ -112,6 +111,16 @@ public class AutoHandler {
     public void tryStopInstruction(AutoInstruction instruction) {
         
     }
+
+    public AutoInstruction[] driveDump = {
+        waitFor(3),
+        drive(-0.65, 18100),
+        stop(),
+        bleh(1, 2),
+        waitFor(1),
+        drive(0.65, 18100),
+        stop()
+    };
 
   /*  public AutoInstruction[] lightspeed  = {
 

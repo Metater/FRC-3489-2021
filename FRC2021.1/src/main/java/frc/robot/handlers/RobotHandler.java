@@ -47,7 +47,7 @@ public class RobotHandler {
         ballSystemHandler = new BallSystemHandler(this);
         hookHandler = new HookHandler(this);
 
-        autoHandler = new AutoHandler(this, AutoType.HyperPathA); // Set the auto type with suffleboard or something
+        autoHandler = new AutoHandler(this, AutoType.DriveDump); // Set the auto type with suffleboard or something
 
         shuffleboardHandler = new ShuffleboardHandler(this);
         cameraHandler = new CameraHandler(this);
@@ -59,12 +59,14 @@ public class RobotHandler {
         colorSpinnerHandler = new ColorSpinnerHandler(this);
     }
 
-    public void robotInit()
+
+    public void robotInit() 
     {
         shuffleboardHandler.printBooleanToWidget("Recording", false);
         shuffleboardHandler.printBooleanToWidget("Playing", false);
-
         colorSpinnerHandler.robotInit();
+
+        
     }
     public void robotPeriodic()
     {
@@ -111,13 +113,13 @@ public class RobotHandler {
     {
         robotMode = RobotMode.Autonomous;
 
-        //autoHandler.autonomousInit();
-        recordingAndPlaybackHandler.autonomousInit();
+        autoHandler.autonomousInit();
+        //recordingAndPlaybackHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
-        //autoHandler.autonomousPeriodic();
-        recordingAndPlaybackHandler.autonomousPeriodic();
+        autoHandler.autonomousPeriodic();
+        //recordingAndPlaybackHandler.autonomousPeriodic();
     }
 }

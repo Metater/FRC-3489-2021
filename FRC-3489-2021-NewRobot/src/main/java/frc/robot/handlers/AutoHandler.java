@@ -26,6 +26,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
     {
         autoChooser = new SendableChooser<String>();
         SendableRegistry.setName(autoChooser, "Auto Chooser");
+        autoChooser.setDefaultOption("0: None", "none");
         autoChooser.addOption("1: Drive Off Line", "driveOffLine");
         autoChooser.addOption("2: Shoot Off Line", "shootOffLine");
         autoChooser.addOption("3: No Aim Shoot Off Line", "noAimShootOffLine");

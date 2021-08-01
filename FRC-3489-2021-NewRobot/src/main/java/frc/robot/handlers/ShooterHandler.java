@@ -13,7 +13,7 @@ import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
 
-    public double shooterSpeed = 0.9;
+    public double shooterSpeed = 0;
 
     public boolean shooting = false;
 
@@ -27,8 +27,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
         ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(shoot);
-        ToggleButtonUpdate toggleShooter = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleShooter", new ButtonLocation(Constants.Buttons.ToggleShooter, JoystickType.Manipulator), 0.05);
-        buttonUpdateListenerHandler.addButtonUpdate(toggleShooter);
+        //ToggleButtonUpdate toggleShooter = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleShooter", new ButtonLocation(Constants.Buttons.ToggleShooter, JoystickType.Manipulator), 0.05);
+        //buttonUpdateListenerHandler.addButtonUpdate(toggleShooter);
     }
 
     public void teleopInit()
@@ -38,9 +38,11 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void teleopPeriodic()
     {
+        System.out.println(shooterSpeed);
         if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += joystickHandler.getShooterAdjust();
-        if (shooterToggled) setShooter(shooterSpeed);
-        else setShooter(0);
+        //if (shooterToggled) 
+        setShooter(shooterSpeed);
+        //else setShooter(0);
         setTurretRotate();
 
       /*   double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;

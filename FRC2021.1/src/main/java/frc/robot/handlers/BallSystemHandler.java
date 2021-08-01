@@ -93,7 +93,7 @@ public class BallSystemHandler {
     private void intakeManual()
     {
         double manStickSpeed = robotHandler.inputHandler.getManStickSpeed();
-        intakeBeltFront.set(manStickSpeed * -1);
+        intakeBeltFront.set(manStickSpeed);
         intakeBeltRear.set(manStickSpeed);
 
         ballCount = 0;
@@ -135,7 +135,7 @@ public class BallSystemHandler {
         }
         else // Intake is still waiting
         {
-            intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
+            intakeBeltFront.set(-Constants.INTAKE_BELT_FRONT_SPEED);
         }
         tryStopIntakeBeltRear();
     }
@@ -149,7 +149,7 @@ public class BallSystemHandler {
         }
         else // Intake hasn't hit encoder targer, keep indexing
         {
-            intakeBeltFront.set(Constants.INTAKE_BELT_FRONT_SPEED);
+            intakeBeltFront.set(-Constants.INTAKE_BELT_FRONT_SPEED);
             intakeBeltRear.set(Constants.INTAKE_BELT_REAR_SPEED);
         }
     }

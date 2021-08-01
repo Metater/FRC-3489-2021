@@ -31,6 +31,8 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public LimelightHandler(RobotHandler robotHandler)
     {
+
+        
         addReferences(robotHandler);
 
         ToggleButtonUpdate toggleLimelight = new ToggleButtonUpdate(this, PeriodicType.Robot, "ToggleLimelight", new ButtonLocation(Constants.Buttons.ToggleLimelight, JoystickType.Manipulator), 0.05);

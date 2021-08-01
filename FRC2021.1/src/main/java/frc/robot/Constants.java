@@ -47,7 +47,7 @@ public final class Constants {
         public static final int TOGGLE_SPEED_SCALE = 5;
         public static final int TOGGLE_RECORDING = 6;
         public static final int TOGGLE_PLAYBACK = 4;
-        public static final int SCISSOR_LIFT = 2;
+        //public static final int SCISSOR_LIFT = 2;
 
     }
 

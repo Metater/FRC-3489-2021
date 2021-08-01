@@ -60,7 +60,7 @@ public class InputHandler {
 
     public boolean shouldScissorLift()
     {
-        boolean bothButtonsPressed = joystickDriveLeft.getRawButton(Constants.Buttons.SCISSOR_LIFT) && joystickDriveRight.getRawButton(Constants.Buttons.SCISSOR_LIFT);
+        boolean bothButtonsPressed = joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_LEFT) && joystickManipulator.getRawButton(Constants.Buttons.SCISSOR_LIFT_RIGHT);
         return bothButtonsPressed;
     }
     public boolean shouldToggleIntake()

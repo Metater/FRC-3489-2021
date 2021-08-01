@@ -26,6 +26,7 @@ public final class Constants
 
         public static final int ResetShooter = 12;
         public static final int Shoot = 1;
+        public static final int ToggleShooter = 4;
 
         public static final int ToggleIntake = 2;
         public static final int ToggleIntakeExtension = 3;

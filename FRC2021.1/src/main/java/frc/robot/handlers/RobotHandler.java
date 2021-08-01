@@ -2,6 +2,10 @@ package frc.robot.handlers;
 
 import frc.robot.handlers.AutoHandler.AutoType;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import frc.robot.*;
 
 public class RobotHandler {
@@ -59,13 +63,21 @@ public class RobotHandler {
         colorSpinnerHandler = new ColorSpinnerHandler(this);
     }
 
+    public ShuffleboardTab autoTab = Shuffleboard.getTab("3489 Ion V Auto");
+    public SendableChooser<String> autoChooser;
+
 
     public void robotInit() 
     {
-        shuffleboardHandler.printBooleanToWidget("Recording", false);
-        shuffleboardHandler.printBooleanToWidget("Playing", false);
-        colorSpinnerHandler.robotInit();
 
+        autoChooser = new SendableChooser<String>();
+        SendableRegistry.setName(autoChooser, "Auto Will Run");
+        autoChooser.setDefaultOption("Yes", "yes");
+        autoChooser.addOption("No", "no");
+        autoTab.add(autoChooser).withSize(2, 1);
+        //shuffleboardHandler.printBooleanToWidget("Recording", false);
+        //shuffleboardHandler.printBooleanToWidget("Playing", false);
+        colorSpinnerHandler.robotInit();
         
     }
     public void robotPeriodic()
@@ -91,11 +103,12 @@ public class RobotHandler {
 
     public void teleopPeriodic()
     {
+        robotMode = RobotMode.Teleop;
         colorSpinnerHandler.teleopPeriodic();
-        if (!recordingAndPlaybackHandler.player.isPlaying)
-        {
+        //if (!recordingAndPlaybackHandler.player.isPlaying)
+        //{
             driveHandler.teleopPeriodic();
-        }
+        //}
         ballSystemHandler.teleopPeriodic();
         hookHandler.teleopPeriodic();
         recordingAndPlaybackHandler.teleopPeriodic();
@@ -111,15 +124,23 @@ public class RobotHandler {
 
     public void autonomousInit() 
     {
-        robotMode = RobotMode.Autonomous;
-
-        autoHandler.autonomousInit();
+        String selectedAutoString = autoChooser.getSelected();
+        if (selectedAutoString.equals("yes"))
+        {
+            robotMode = RobotMode.Autonomous;
+            autoHandler.autonomousInit();
+        }
         //recordingAndPlaybackHandler.autonomousInit();
     }
 
     public void autonomousPeriodic()
     {
-        autoHandler.autonomousPeriodic();
+        String selectedAutoString = autoChooser.getSelected();
+        if (selectedAutoString.equals("yes"))
+        {
+            robotMode = RobotMode.Autonomous;
+            autoHandler.autonomousPeriodic();
+        }
         //recordingAndPlaybackHandler.autonomousPeriodic();
     }
 }

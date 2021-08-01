@@ -74,12 +74,12 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (run % 50 == 0)
         {
-            shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
-            shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
-            shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
+            //shuffleboardHandler.displayDouble("Target X Offset", targetX.getDouble(0));
+            //shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
+            //shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
     
-            double distance = getDistanceEstimate();
-            shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
+            //double distance = getDistanceEstimate();
+            //shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
         }
         run++;
     }
@@ -101,16 +101,16 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (targetX.getDouble(0) > 1)
         {
-            if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.16);
+            if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.17); // was 16
             else if (targetX.getDouble(0) > 12) shooterHandler.setTurretRotate(-0.2);
-            else shooterHandler.setTurretRotate(-0.14);
+            else shooterHandler.setTurretRotate(-0.1525); // was 14
             return 1;
         }
         else if (targetX.getDouble(0) < -1)
         {
-            if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.16);
+            if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.17); // was 16
             else if (targetX.getDouble(0) < -12) shooterHandler.setTurretRotate(0.2);
-            else shooterHandler.setTurretRotate(0.14);
+            else shooterHandler.setTurretRotate(0.1525); // was 14
             return -1;
         }
         else

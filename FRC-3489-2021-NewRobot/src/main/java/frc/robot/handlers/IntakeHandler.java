@@ -68,7 +68,7 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
 
     public void setIntakePnuematics(boolean state)
     {
-        shuffleboardHandler.displayBool("Intake arm state", state);
+        shuffleboardHandler.displayBool("Intake Arm State", state);
         deviceContainer.intakeArm.set(state);
     }
 

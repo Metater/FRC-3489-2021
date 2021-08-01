@@ -94,13 +94,13 @@ public class ColorSpinnerHandler {
 
         previousColor = colorToFind;
 
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Red", detectedColor.red);
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Green", detectedColor.green);
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Blue", detectedColor.blue);
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Confidence", match.confidence);
-        robotHandler.shuffleboardHandler.printStringToWidget("Detected Color", colorString);
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Red", detectedColor.red);
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Green", detectedColor.green);
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Blue", detectedColor.blue);
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Confidence", match.confidence);
+        //robotHandler.shuffleboardHandler.printStringToWidget("Detected Color", colorString);
         robotHandler.shuffleboardHandler.printDoubleToWidget("Red-yellow passes", redYellowPasses);
-        robotHandler.shuffleboardHandler.printDoubleToWidget("Spinner current", colorSpinner.getStatorCurrent());
+        //robotHandler.shuffleboardHandler.printDoubleToWidget("Spinner current", colorSpinner.getStatorCurrent());
         robotHandler.shuffleboardHandler.printStringToWidget("Stage", stage.toString());
         robotHandler.shuffleboardHandler.printStringToWidget("Game Data", DriverStation.getInstance().getGameSpecificMessage());
 

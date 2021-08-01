@@ -29,7 +29,7 @@ public class ShuffleboardHandler {
     {
         this.robotHandler = robotHandler;
         recordingChooser.setDefaultOption("i^2", -1);
-        tab.add(recordingChooser).withSize(2, 1);
+        //tab.add(recordingChooser).withSize(2, 1);
     }
 
     public int getSelectedRecording()

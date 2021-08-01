@@ -13,9 +13,11 @@ import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
 
-    public double shooterSpeed = 0;
+    public double shooterSpeed = 0.9;
 
     public boolean shooting = false;
+
+    public boolean shooterToggled = false;
 
     public ShooterHandler(RobotHandler robotHandler)
     {
@@ -25,6 +27,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
         ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(shoot);
+        ToggleButtonUpdate toggleShooter = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleShooter", new ButtonLocation(Constants.Buttons.ToggleShooter, JoystickType.Manipulator), 0.05);
+        buttonUpdateListenerHandler.addButtonUpdate(toggleShooter);
     }
 
     public void teleopInit()
@@ -35,7 +39,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
     public void teleopPeriodic()
     {
         if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += joystickHandler.getShooterAdjust();
-        setShooter(shooterSpeed);
+        if (shooterToggled) setShooter(shooterSpeed);
+        else setShooter(0);
         setTurretRotate();
 
       /*   double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;
@@ -78,6 +83,12 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
             shooterSpeed = 0;
             System.out.println("Shooter speed 0");
         }
+        if (buttonUpdate.buttonUpdateName == "ToggleShooter")
+        {
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
+                shooterToggled = !shooterToggled;
+            shuffleboardHandler.displayBool("Shooter Spinning", shooterToggled);
+        }
         if (buttonUpdate.buttonUpdateName == "Shoot")
         {
             if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
@@ -92,8 +103,8 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                     if (shooterSpeed < 0.31) shooterSpeed = .9;
 
                     //For Debugging
-                    System.out.println("Autothrottle would output: " + autoThrottle());
-                    System.out.println("hasNotShot would output: " + hasNotShot());
+                    //System.out.println("Autothrottle would output: " + autoThrottle());
+                    //System.out.println("hasNotShot would output: " + hasNotShot());
 
                   /*  if (hasNotShot()) {
                         System.out.println("Autothrottle engaged");
@@ -174,7 +185,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void setTurretRotate(double speed)
     {
-        shuffleboardHandler.displayDouble("Turret Rotate Speed", speed);
+        //shuffleboardHandler.displayDouble("Turret Rotate Speed", speed);
         deviceContainer.turretRotate.set(speed);
     }
 

@@ -26,9 +26,9 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
     {
         autoChooser = new SendableChooser<String>();
         SendableRegistry.setName(autoChooser, "Auto Chooser");
-        autoChooser.setDefaultOption("1: Test Auto", "test");
-        autoChooser.addOption("2: Drive Off Line", "driveOffLine");
-        autoChooser.addOption("3: Shoot Off Line", "shootOffLine");
+        autoChooser.addOption("1: Drive Off Line", "driveOffLine");
+        autoChooser.addOption("2: Shoot Off Line", "shootOffLine");
+        autoChooser.addOption("3: No Aim Shoot Off Line", "noAimShootOffLine");
         shuffleboardHandler.autoTab.add(autoChooser).withSize(2, 1);
     }
 

@@ -64,24 +64,12 @@ public class ColorSpinnerHandler {
         trySpinAndLiftColor();
 
         Color detectedColor = colorSensor.getColor();
-        String colorString;
         ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
-        if (match.color == blueTarget) {
-          colorString = "Blue";
-          colorToFind = 'B';
-        } else if (match.color == redTarget) {
-          colorString = "Red";
-          colorToFind = 'R';
-        } else if (match.color == greenTarget) {
-          colorString = "Green";
-          colorToFind = 'G';
-        } else if (match.color == yellowTarget) {
-          colorString = "Yellow";
-          colorToFind = 'Y';
-        } else {
-          colorString = "Unknown";
-          colorToFind = '?';
-        }
+        if (match.color == blueTarget) colorToFind = 'B';
+        else if (match.color == redTarget) colorToFind = 'R';
+        else if (match.color == greenTarget) colorToFind = 'G';
+        else if (match.color == yellowTarget) colorToFind = 'Y';
+        else colorToFind = '?';
 
         tryStage1();
 

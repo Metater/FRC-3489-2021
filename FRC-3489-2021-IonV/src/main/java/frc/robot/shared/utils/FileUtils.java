@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.first.wpilibj.Filesystem;
 
@@ -15,7 +16,7 @@ public class FileUtils {
     
     public static void printAllDirs()
     {
-        String[] fileNames = getFileNamesInDir(Filesystem.getOperatingDirectory());
+        String[] fileNames = getFileNamesInDir(Filesystem.getDeployDirectory());
         for (String fileName : fileNames)
         {
             System.out.println(fileName);
@@ -32,9 +33,9 @@ public class FileUtils {
             e.printStackTrace();  
         }
     }
-    public static ArrayList<String> readLocalFile(String fileName)
+    public static List<String> readLocalFile(String fileName)
     {
-        ArrayList<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<String>();
         try  
         {
             File file = new File(getUsedDirAndFile(fileName));    //creates a new file instance  
@@ -56,7 +57,7 @@ public class FileUtils {
 
     public static String getUsedDirAndFile(String fileName)
     {
-        return Filesystem.getOperatingDirectory().toPath().toString() + "/" + fileName;
+        return Filesystem.getDeployDirectory().toPath().toString() + "/" + fileName;
     }
 
     public static String[] getFileNamesInDir(File fileInDir)
@@ -68,7 +69,7 @@ public class FileUtils {
 
     public static boolean fileExists(String fileName)
     {
-        File tempDir = new File(Filesystem.getOperatingDirectory().toPath().toString() + "/" + fileName);
+        File tempDir = new File(Filesystem.getDeployDirectory().toPath().toString() + "/" + fileName);
         return tempDir.exists();
     }
 
@@ -76,7 +77,7 @@ public class FileUtils {
     {
         try
         {
-            File f = new File(Filesystem.getOperatingDirectory().toPath().toString() + "/" + fileName);
+            File f = new File(Filesystem.getDeployDirectory().toPath().toString() + "/" + fileName);
             f.createNewFile();
         }
         catch (IOException e)

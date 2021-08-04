@@ -121,7 +121,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         }
         else
         {
-            driveHandler.differentialDrive.tankDrive(-instruction.arguments.get(0)._double, -instruction.arguments.get(1)._double);
+            driveHandler.differentialDrive.tankDrive(instruction.arguments.get(0)._double, instruction.arguments.get(1)._double);
         }
     }
 }

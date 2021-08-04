@@ -13,22 +13,23 @@ import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
 
-    public double shooterSpeed = 0;
+    public double shooterSpeed = 0.9;
 
     public boolean shooting = false;
-
-    public boolean shooterToggled = false;
 
     public ShooterHandler(RobotHandler robotHandler)
     {
         addReferences(robotHandler);
         
-        RawButtonUpdate resetShooter = new RawButtonUpdate(this, PeriodicType.Teleop, "ResetShooter", new ButtonLocation(Constants.Buttons.ResetShooter, JoystickType.Manipulator));
-        buttonUpdateListenerHandler.addButtonUpdate(resetShooter);
-        ToggleButtonUpdate shoot = new ToggleButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator), 0.05);
+        RawButtonUpdate shoot = new RawButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator));
         buttonUpdateListenerHandler.addButtonUpdate(shoot);
-        //ToggleButtonUpdate toggleShooter = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleShooter", new ButtonLocation(Constants.Buttons.ToggleShooter, JoystickType.Manipulator), 0.05);
-        //buttonUpdateListenerHandler.addButtonUpdate(toggleShooter);
+
+        RawButtonUpdate closePreset = new RawButtonUpdate(this, PeriodicType.Teleop, "ClosePreset", new ButtonLocation(Constants.Buttons.ShooterPresetClose, JoystickType.Manipulator));
+        RawButtonUpdate midPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "MidPreset", new ButtonLocation(Constants.Buttons.ShooterPresetMid, JoystickType.Manipulator));
+        RawButtonUpdate farPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "FarPreset", new ButtonLocation(Constants.Buttons.ShooterPresetFar, JoystickType.Manipulator));
+        buttonUpdateListenerHandler.addButtonUpdate(closePreset);
+        buttonUpdateListenerHandler.addButtonUpdate(midPreset);
+        buttonUpdateListenerHandler.addButtonUpdate(farPreset);
     }
 
     public void teleopInit()
@@ -38,90 +39,88 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void teleopPeriodic()
     {
-        System.out.println(shooterSpeed);
-        if (shooterSpeed > 0 && shooterSpeed <= 1) shooterSpeed += joystickHandler.getShooterAdjust();
-        //if (shooterToggled) 
-        setShooter(shooterSpeed);
-        //else setShooter(0);
-        setTurretRotate();
-
-      /*   double shooterCurrent = (deviceContainer.shooterLeft.getStatorCurrent() + deviceContainer.shooterRight.getStatorCurrent()) / 2d;
-        shuffleboardHandler.displayDouble("Shooter Current", shooterCurrent);
-        System.out.println("Shooter Current: " + shooterCurrent);
-        double shooterTemp = (deviceContainer.shooterLeft.getTemperature() + deviceContainer.shooterRight.getTemperature()) / 2d;
-        shuffleboardHandler.displayDouble("Shooter Temp", shooterTemp);
-        double shooterVelocity = (deviceContainer.shooterLeft.getSelectedSensorVelocity() + deviceContainer.shooterRight.getSelectedSensorVelocity()) / 2d;
-        shuffleboardHandler.displayDouble("Shooter Velocity", shooterVelocity);
-        System.out.println("Shooter Velocity: " + shooterVelocity);
-        double cellevatorCurrent = deviceContainer.cellevator.getStatorCurrent();
-        shuffleboardHandler.displayDouble("Cellevator Current", cellevatorCurrent);
-        System.out.println("Cellevator Current: " + cellevatorCurrent);
-        double cellevatorVelocity = deviceContainer.cellevator.getSelectedSensorVelocity();
-        shuffleboardHandler.displayDouble("Cellevator Velocity", cellevatorVelocity);
-        System.out.println("Cellevator Velocity: " + cellevatorVelocity); */
-    }
-
-    private void setTurretRotate()
-    {
-        if (limelightHandler.autoAimActivated)
+        int pov = deviceContainer.joystickManipulator.getPOV();
+        if (pov == 90) shooterSpeed = 1; 
+        else if (pov == 270) shooterSpeed = 0.9;
+        if (pov == 180 || pov == 225 || pov == 135)
         {
-
+            setShooter(0);
+            shooting = false;
         }
-        double turretRotateSpeed = joystickHandler.getTurretRotateSpeed();
-        if ((turretRotateSpeed > 0 && deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && deviceContainer.turretStopRight.get()))
+        else if (pov == 0 || pov == 45 || pov == 315)
         {
-            setTurretRotate(turretRotateSpeed);
+            if (shooterSpeed < 0.5) shooterSpeed = 0.9;
+            setShooter(shooterSpeed);
+            shooting = true;
         }
         else
         {
-            setTurretRotate(0);
+            double adjust = joystickHandler.getShooterAdjust();
+            if (adjust > 0)
+            {
+                if (shooterSpeed <= 1) shooterSpeed += adjust;
+            }
+            else if (adjust < 0)
+            {
+                if (shooterSpeed > 0) shooterSpeed += adjust;
+            }
+            if (shooting) setShooter(shooterSpeed);
         }
+        shuffleboardHandler.displayDouble("Shooter Speed", shooterSpeed);
+        if (!limelightHandler.autoAimActivated) setTurretRotation();
+    }
+
+    private void setTurretRotation()
+    {
+        double turretRotateSpeed = joystickHandler.getTurretRotateSpeed();
+        if ((turretRotateSpeed > 0 && deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && deviceContainer.turretStopRight.get()))
+            setTurretRotate(turretRotateSpeed);
+        else setTurretRotate(0);
     }
 
     public void update(BaseButtonUpdate buttonUpdate)
     {
-        if (buttonUpdate.buttonUpdateName == "ResetShooter" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
-        {
-            shooterSpeed = 0;
-            System.out.println("Shooter speed 0");
-        }
-        if (buttonUpdate.buttonUpdateName == "ToggleShooter")
-        {
-            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
-                shooterToggled = !shooterToggled;
-            shuffleboardHandler.displayBool("Shooter Spinning", shooterToggled);
-        }
         if (buttonUpdate.buttonUpdateName == "Shoot")
         {
-            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
             {
-                shooting = !shooting;
                 if (shooting)
                 {
                     deviceContainer.cellevator.set(1);
                     deviceContainer.hopperMover.set(.5);
                     shuffleboardHandler.displayBool("Is Shooting", true);
-                    System.out.println("Begin Shooting Sequence");
-                    if (shooterSpeed < 0.31) shooterSpeed = .9;
-
-                    //For Debugging
-                    //System.out.println("Autothrottle would output: " + autoThrottle());
-                    //System.out.println("hasNotShot would output: " + hasNotShot());
-
-                  /*  if (hasNotShot()) {
-                        System.out.println("Autothrottle engaged");
-                        shooterSpeed = autoThrottle();
-                    } */
                 }
                 else
                 {
                     deviceContainer.cellevator.stopMotor();
                     deviceContainer.hopperMover.stopMotor();
-                    shooterSpeed = Constants.Turret.ShooterIdleSpeed;
                     shuffleboardHandler.displayBool("Is Shooting", false);
-                    System.out.println("Finished Shooting Sequence");
                 }
             }
+            else if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.Off)
+            {
+                deviceContainer.cellevator.stopMotor();
+                deviceContainer.hopperMover.stopMotor();
+                shuffleboardHandler.displayBool("Is Shooting", false);
+            }
+        }
+        else if (buttonUpdate.buttonUpdateName == "ClosePreset")
+        {
+            shooterSpeed = 0.86;
+            setShooter(shooterSpeed);
+            shooting = true;
+        }
+        else if (buttonUpdate.buttonUpdateName == "MidPreset")
+        {
+            shooterSpeed = 0.92;
+            setShooter(shooterSpeed);
+            shooting = true;
+        }
+        else if (buttonUpdate.buttonUpdateName == "FarPreset")
+        {
+            shooterSpeed = 1;
+            setShooter(shooterSpeed);
+            shooting = true;
         }
     }
 
@@ -180,14 +179,12 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void setShooter(double speed)
     {
-        shuffleboardHandler.displayDouble("Shooter Speed", speed);
         deviceContainer.shooterLeft.set(-speed);
         deviceContainer.shooterRight.set(speed);
     }
 
     public void setTurretRotate(double speed)
     {
-        //shuffleboardHandler.displayDouble("Turret Rotate Speed", speed);
         deviceContainer.turretRotate.set(speed);
     }
 

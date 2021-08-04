@@ -21,18 +21,20 @@ public final class Constants
     public final class Buttons
     {
         // Manipulator
-        public static final int ToggleLimelight = 8;
-        public static final int ToggleAutoAim = 10;
+        public static final int ToggleAutoAim = 7;
 
-        public static final int ResetShooter = 12;
         public static final int Shoot = 1;
         public static final int ToggleShooter = 4;
 
         public static final int ToggleIntake = 2;
         public static final int ToggleIntakeExtension = 3;
 
-        public static final int ResetColorSpinnerStage1 = 6;
-        public static final int ResetColorSpinnerStage2 = 9;
+        public static final int ResetColorSpinnerStage1 = 9;
+        public static final int ResetColorSpinnerStage2 = 11;
+
+        public static final int ShooterPresetClose = 8;
+        public static final int ShooterPresetMid = 10;
+        public static final int ShooterPresetFar = 12;
 
 
         // Drive

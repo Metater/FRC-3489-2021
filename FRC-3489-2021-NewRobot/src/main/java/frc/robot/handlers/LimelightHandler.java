@@ -22,10 +22,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     NetworkTableEntry targetY = limelight.getEntry("ty");
     NetworkTableEntry targetArea = limelight.getEntry("ta");
 
-    public boolean limelightActivated = false;
     public boolean autoAimActivated = false;
-
-    private double lastValidDistance = 0;
 
     private long run = 0;
 
@@ -35,9 +32,6 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         
         addReferences(robotHandler);
 
-        ToggleButtonUpdate toggleLimelight = new ToggleButtonUpdate(this, PeriodicType.Robot, "ToggleLimelight", new ButtonLocation(Constants.Buttons.ToggleLimelight, JoystickType.Manipulator), 0.05);
-        buttonUpdateListenerHandler.addButtonUpdate(toggleLimelight);
-
         ToggleButtonUpdate toggleAutoAim = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleAutoAim", new ButtonLocation(Constants.Buttons.ToggleAutoAim, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(toggleAutoAim);
 
@@ -46,30 +40,16 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public void update(BaseButtonUpdate buttonUpdate)
     {
-        if (buttonUpdate.buttonUpdateName == "ToggleLimelight" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
-        {
-            limelightActivated = !limelightActivated;
-            setLimelight(limelightActivated);
-            if (!limelightActivated)
-            {
-                autoAimActivated = false;
-            }
-        }
         if (buttonUpdate.buttonUpdateName == "ToggleAutoAim" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             autoAimActivated = !autoAimActivated;
-
-            if (!limelightActivated && autoAimActivated)
-            {
-                limelightActivated = true;
-                setLimelight(true);
-            }
+            setLimelight(autoAimActivated);
         }
     }
 
     public void robotInit()
     {
-
+        setLimelight(false);
     }
 
     public void robotPeriodic()
@@ -80,15 +60,16 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
             //shuffleboardHandler.displayDouble("Target Y Offset", targetY.getDouble(0));
             //shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
     
-            //double distance = getDistanceEstimate();
-            //shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
+            double distance = getDistanceEstimate();
+            shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
         }
         run++;
     }
 
     public void teleopInit()
     {
-
+        autoAimActivated = false;
+        setLimelight(autoAimActivated);
     }
 
     public void teleopPeriodic()
@@ -124,10 +105,9 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
     public void setLimelight(boolean value)
     {
-        limelightActivated = value;
-        if (limelightActivated) pipeline.setNumber(0);
+        if (value) pipeline.setNumber(0);
         else pipeline.setNumber(5);
-        shuffleboardHandler.displayBool("Limelight Activated", limelightActivated);
+        shuffleboardHandler.displayBool("Limelight Activated", value);
     }
 
     private double getDistanceEstimate()

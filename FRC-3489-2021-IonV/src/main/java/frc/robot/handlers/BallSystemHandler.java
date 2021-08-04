@@ -55,6 +55,10 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, IT
         if (joystickHandler.getManStickSpeed() != 0)
             intakeState = IntakeStateType.Manual;
 
+        if (deviceContainer.intakeSolenoid.get())
+            deviceContainer.intakeRoller.set(Constants.MotorSpeed.IntakeRoller);
+        else deviceContainer.intakeRoller.stopMotor();
+
         switch(intakeState)
         {
             case Manual:
@@ -78,15 +82,7 @@ public class BallSystemHandler extends BaseHandler implements IRobotListener, IT
     public void update(BaseButtonUpdate buttonUpdate)
     {
         if (buttonUpdate.buttonUpdateName == "ToggleIntake" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
-            toggleIntake();
-    }
-
-    private void toggleIntake()
-    {
-        deviceContainer.intakeSolenoid.toggle();
-        if (deviceContainer.intakeSolenoid.get())
-            deviceContainer.intakeRoller.set(Constants.MotorSpeed.IntakeRoller);
-        else deviceContainer.intakeRoller.stopMotor();
+            deviceContainer.intakeSolenoid.toggle();
     }
 
     private void intakeManual()

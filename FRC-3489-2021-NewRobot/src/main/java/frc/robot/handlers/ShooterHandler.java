@@ -20,12 +20,12 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
     {
         addReferences(robotHandler);
         
-        RawButtonUpdate shoot = new RawButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Buttons.Shoot, JoystickType.Manipulator));
+        RawButtonUpdate shoot = new RawButtonUpdate(this, PeriodicType.Teleop, "Shoot", new ButtonLocation(Constants.Button.Shoot, JoystickType.Manipulator));
         buttonUpdateListenerHandler.addButtonUpdate(shoot);
 
-        RawButtonUpdate closePreset = new RawButtonUpdate(this, PeriodicType.Teleop, "ClosePreset", new ButtonLocation(Constants.Buttons.ShooterPresetClose, JoystickType.Manipulator));
-        RawButtonUpdate midPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "MidPreset", new ButtonLocation(Constants.Buttons.ShooterPresetMid, JoystickType.Manipulator));
-        RawButtonUpdate farPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "FarPreset", new ButtonLocation(Constants.Buttons.ShooterPresetFar, JoystickType.Manipulator));
+        RawButtonUpdate closePreset = new RawButtonUpdate(this, PeriodicType.Teleop, "ClosePreset", new ButtonLocation(Constants.Button.ShooterPresetClose, JoystickType.Manipulator));
+        RawButtonUpdate midPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "MidPreset", new ButtonLocation(Constants.Button.ShooterPresetMid, JoystickType.Manipulator));
+        RawButtonUpdate farPreset = new RawButtonUpdate(this, PeriodicType.Teleop, "FarPreset", new ButtonLocation(Constants.Button.ShooterPresetFar, JoystickType.Manipulator));
         buttonUpdateListenerHandler.addButtonUpdate(closePreset);
         buttonUpdateListenerHandler.addButtonUpdate(midPreset);
         buttonUpdateListenerHandler.addButtonUpdate(farPreset);
@@ -87,20 +87,20 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
                 {
                     deviceContainer.cellevator.set(1);
                     deviceContainer.hopperMover.set(.5);
-                    shuffleboardHandler.displayBool("Is Shooting", true);
+                    shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Is Shooting", true);
                 }
                 else
                 {
                     deviceContainer.cellevator.stopMotor();
                     deviceContainer.hopperMover.stopMotor();
-                    shuffleboardHandler.displayBool("Is Shooting", false);
+                    shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Is Shooting", false);
                 }
             }
             else if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.Off)
             {
                 deviceContainer.cellevator.stopMotor();
                 deviceContainer.hopperMover.stopMotor();
-                shuffleboardHandler.displayBool("Is Shooting", false);
+                shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Is Shooting", false);
             }
         }
         else if (buttonUpdate.buttonUpdateName == "ClosePreset")

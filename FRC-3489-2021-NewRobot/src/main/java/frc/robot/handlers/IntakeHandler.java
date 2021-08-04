@@ -20,10 +20,10 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
     {
         addReferences(robotHandler);
 
-        ToggleButtonUpdate toggleIntake = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntake", new ButtonLocation(Constants.Buttons.ToggleIntake, JoystickType.Manipulator), 0.05);
+        ToggleButtonUpdate toggleIntake = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntake", new ButtonLocation(Constants.Button.ToggleIntake, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(toggleIntake);
 
-        ToggleButtonUpdate toggleIntakeExtension = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntakeExtension", new ButtonLocation(Constants.Buttons.ToggleIntakeExtension, JoystickType.Manipulator), 0.05);
+        ToggleButtonUpdate toggleIntakeExtension = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleIntakeExtension", new ButtonLocation(Constants.Button.ToggleIntakeExtension, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(toggleIntakeExtension);
     }
 

@@ -22,8 +22,8 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
     {
         addReferences(robotHandler);
 
-        ToggleButtonUpdate switchFrontLeft = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveLeft), 0.5);
-        ToggleButtonUpdate switchFrontRight = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Buttons.SwitchFront, JoystickType.DriveRight), 0.5);
+        ToggleButtonUpdate switchFrontLeft = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Button.SwitchFront, JoystickType.DriveLeft), 0.5);
+        ToggleButtonUpdate switchFrontRight = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Button.SwitchFront, JoystickType.DriveRight), 0.5);
         buttonUpdateListenerHandler.addButtonUpdate(switchFrontLeft);
         buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
 

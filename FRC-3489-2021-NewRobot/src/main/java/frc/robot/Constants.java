@@ -18,13 +18,12 @@ public final class Constants
     public static final double DriveJoystickThreshold = 0.15;
     public static final double ManipulatorJoystickThreshold = 0.3;
 
-    public final class Buttons
+    public final class Button
     {
         // Manipulator
         public static final int ToggleAutoAim = 7;
 
         public static final int Shoot = 1;
-        public static final int ToggleShooter = 4;
 
         public static final int ToggleIntake = 2;
         public static final int ToggleIntakeExtension = 3;
@@ -35,6 +34,8 @@ public final class Constants
         public static final int ShooterPresetClose = 8;
         public static final int ShooterPresetMid = 10;
         public static final int ShooterPresetFar = 12;
+
+        public static final int SpinCPSpinner = 4;
 
 
         // Drive

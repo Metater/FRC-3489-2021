@@ -107,6 +107,20 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         interpreter.finished();
     }
 
+    public void runIntake(AutoInstruction instruction)
+    {
+        String input = instruction.arguments.get(0)._constant;
+        if (input.equals("BEGIN"))
+        {
+            deviceContainer.intake.set(-1);
+        }
+        else if (input.equals("END"))
+        {
+            deviceContainer.intake.stopMotor();;
+        }
+        interpreter.finished();
+    }
+
     public void moveForSeconds(AutoInstruction instruction)
     {
         if (!instruction.runtimeData.init)

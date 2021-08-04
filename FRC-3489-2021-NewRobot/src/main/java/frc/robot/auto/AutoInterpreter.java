@@ -63,6 +63,9 @@ public class AutoInterpreter {
             case "dropIntake":
                 autoHandler.dropIntake(instruction);
                 break;
+            case "runIntake":
+                autoHandler.runIntake(instruction);
+                break;
             default:
                 AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
                 break;

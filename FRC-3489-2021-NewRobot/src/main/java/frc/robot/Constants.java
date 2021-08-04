@@ -16,7 +16,7 @@ public final class Constants
 {
     public static final boolean SafetiesEnabled = false;
     public static final double DriveJoystickThreshold = 0.15;
-    public static final double ManipulatorJoystickThreshold = 0.15;
+    public static final double ManipulatorJoystickThreshold = 0.3;
 
     public final class Buttons
     {

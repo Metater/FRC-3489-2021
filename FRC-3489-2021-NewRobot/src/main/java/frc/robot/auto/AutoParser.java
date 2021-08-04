@@ -43,7 +43,7 @@ public class AutoParser {
     public static void error(String message)
     {
         System.out.println(message);
-        int error = 1/0;
+        System.out.println(1/0);
     }
 
     private void eat(String tokenType)

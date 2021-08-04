@@ -23,6 +23,7 @@ public class AutoLexer {
             eof = true;
     }
 
+    /*
     private char peek(int depth)
     {
         int peekPos = readPos + depth;
@@ -30,11 +31,14 @@ public class AutoLexer {
             return ' ';
         else return code.toCharArray()[peekPos];
     }
+    */
 
+    /*
     private boolean peekIsEof(int depth)
     {
         return readPos + depth > code.length() - 1;
     }
+    */
 
     private void skipWhitespace()
     {

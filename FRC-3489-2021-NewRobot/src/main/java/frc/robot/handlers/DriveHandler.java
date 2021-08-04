@@ -38,12 +38,12 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
 
     public void robotPeriodic()
     {
-        double leftEncoderPos = deviceContainer.driveFrontLeft.getSelectedSensorPosition();
-        double rightEncoderPos = deviceContainer.driveFrontRight.getSelectedSensorPosition();
+        //double leftEncoderPos = deviceContainer.driveFrontLeft.getSelectedSensorPosition();
+        //double rightEncoderPos = deviceContainer.driveFrontRight.getSelectedSensorPosition();
         //shuffleboardHandler.displayDouble("Left Drive Encoder Position", leftEncoderPos);
         //shuffleboardHandler.displayDouble("Right Drive Encoder Position", rightEncoderPos);
-        double leftEncoderVel = deviceContainer.driveFrontLeft.getSelectedSensorVelocity();
-        double rightEncoderVel = deviceContainer.driveFrontRight.getSelectedSensorVelocity();
+        //double leftEncoderVel = deviceContainer.driveFrontLeft.getSelectedSensorVelocity();
+        //double rightEncoderVel = deviceContainer.driveFrontRight.getSelectedSensorVelocity();
         //shuffleboardHandler.displayDouble("Left Drive Train Velocity", leftEncoderVel);
         //shuffleboardHandler.displayDouble("Right Drivev Train Velocity", rightEncoderVel);
     }

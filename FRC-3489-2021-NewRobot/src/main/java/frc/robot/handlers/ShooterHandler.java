@@ -8,7 +8,6 @@ import frc.robot.shared.types.input.ButtonUpdateEventType;
 import frc.robot.shared.types.input.JoystickType;
 import frc.robot.shared.types.input.buttonUpdate.BaseButtonUpdate;
 import frc.robot.shared.types.input.buttonUpdate.RawButtonUpdate;
-import frc.robot.shared.types.input.buttonUpdate.ToggleButtonUpdate;
 import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
@@ -124,6 +123,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         }
     }
 
+    /*
     private double autoThrottle()
     {
         String balltype = "";
@@ -156,7 +156,9 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         }
         return 0;
     }
+    */
 
+    /*
     private boolean hasNotShot()
     {
         
@@ -176,6 +178,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         
         return hasNotShot;
     }
+    */
 
     public void setShooter(double speed)
     {

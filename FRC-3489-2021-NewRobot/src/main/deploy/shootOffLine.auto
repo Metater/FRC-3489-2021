@@ -24,7 +24,7 @@
 //  Turn on intake to push stuck balls in
 print("Running Shoot Off Line!")
 // Begin Reverse
-dropIntake(null)
+extendIntake('BEGIN')
 moveForSeconds(-0.6  -0.6  1.275)
 delay(0.5)
 // End Reverse
@@ -41,5 +41,6 @@ delay(3.5)
 shoot('END')
 runIntake('END')
 setShooter(0.0)
+extendIntake('END')
 // End Shoot
 print("Autonomous Shoot Off Line Complete!")

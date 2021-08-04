@@ -101,9 +101,17 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         }
     }
 
-    public void dropIntake(AutoInstruction instruction)
+    public void extendIntake(AutoInstruction instruction)
     {
-        intakeHandler.setIntakePnuematics(true);
+        String input = instruction.arguments.get(0)._constant;
+        if (input.equals("BEGIN"))
+        {
+            intakeHandler.setIntakePnuematics(true);
+        }
+        else if (input.equals("END"))
+        {
+            intakeHandler.setIntakePnuematics(false);
+        }
         interpreter.finished();
     }
 
@@ -116,7 +124,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         }
         else if (input.equals("END"))
         {
-            deviceContainer.intake.stopMotor();;
+            deviceContainer.intake.stopMotor();
         }
         interpreter.finished();
     }

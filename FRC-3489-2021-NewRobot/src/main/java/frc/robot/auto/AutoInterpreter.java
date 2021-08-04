@@ -60,8 +60,8 @@ public class AutoInterpreter {
             case "moveForSeconds":
                 autoHandler.moveForSeconds(instruction);
                 break;
-            case "dropIntake":
-                autoHandler.dropIntake(instruction);
+            case "extendIntake":
+                autoHandler.extendIntake(instruction);
                 break;
             case "runIntake":
                 autoHandler.runIntake(instruction);

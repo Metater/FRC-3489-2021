@@ -60,7 +60,6 @@ public class ControlPanelHandler extends BaseHandler implements IRobotListener, 
         colorMatcher.addColorMatch(yellowTarget);
         colorMatcher.addColorMatch(greenTarget);
         colorMatcher.addColorMatch(redTarget);
-        resetStage(ControlPanelStageType.Stage1);
     }
 
     public void robotPeriodic()
@@ -70,7 +69,7 @@ public class ControlPanelHandler extends BaseHandler implements IRobotListener, 
 
     public void teleopInit()
     {
-
+        resetStage(ControlPanelStageType.Stage1);
     }
 
     public void teleopPeriodic()

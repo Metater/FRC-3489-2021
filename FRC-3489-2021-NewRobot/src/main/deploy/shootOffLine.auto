@@ -1,6 +1,6 @@
 
 
-// Shoot Off Line v1
+// Shoot Off Line v0
 //print("Running Shoot Off Line!")
 //moveForSeconds(0.6  0.6  1.275)
 //delay(0.5)
@@ -15,7 +15,7 @@
 //print("Autonomous Shoot Off Line Complete!")
 
 
-// Shoot Off Line v2
+// Shoot Off Line v1
 // Differences:
 //  Drop intake first
 //  Speed up shooter while aiming to save time

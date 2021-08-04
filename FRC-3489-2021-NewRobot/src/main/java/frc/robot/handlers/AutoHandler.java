@@ -39,6 +39,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
     public void autonomousInit()
     {
         String selectedAutoString = autoChooser.getSelected();
+        if (selectedAutoString.equals("none")) return;
         interpreter = new AutoInterpreter(this, selectedAutoString);
         System.out.println("Started running auto: " + selectedAutoString);
     }
@@ -93,9 +94,9 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         if (!instruction.runtimeData.init)
         {
             instruction.runtimeData.init = true;
-            instruction.runtimeData.delayStartTime = Timer.getFPGATimestamp();
+            instruction.runtimeData.time = Timer.getFPGATimestamp();
         }
-        if (Timer.getFPGATimestamp() >= instruction.runtimeData.delayStartTime + instruction.arguments.get(0)._double)
+        if (Timer.getFPGATimestamp() >= instruction.runtimeData.time + instruction.arguments.get(0)._double)
         {
             interpreter.finished();
         }
@@ -134,9 +135,9 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         if (!instruction.runtimeData.init)
         {
             instruction.runtimeData.init = true;
-            instruction.runtimeData.moveStartTime = Timer.getFPGATimestamp();
+            instruction.runtimeData.time = Timer.getFPGATimestamp();
         }
-        if (Timer.getFPGATimestamp() >= instruction.runtimeData.moveStartTime + instruction.arguments.get(2)._double)
+        if (Timer.getFPGATimestamp() >= instruction.runtimeData.time + instruction.arguments.get(2)._double)
         {
             driveHandler.differentialDrive.stopMotor();
             interpreter.finished();

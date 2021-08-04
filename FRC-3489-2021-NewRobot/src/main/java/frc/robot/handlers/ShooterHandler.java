@@ -65,7 +65,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
             }
             if (shooting) setShooter(shooterSpeed);
         }
-        shuffleboardHandler.displayDouble("Shooter Speed", shooterSpeed);
+        shuffleboardHandler.displayDouble(shuffleboardHandler.tab, "Shooter Speed", shooterSpeed);
         if (!limelightHandler.autoAimActivated) setTurretRotation();
     }
 

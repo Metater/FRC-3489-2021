@@ -11,8 +11,8 @@ import frc.robot.shared.interfaces.IRobotListener;
 
 public class ShuffleboardHandler extends BaseHandler implements IRobotListener {
 
-    public ShuffleboardTab tab = Shuffleboard.getTab("3489 New Robot");
-    public ShuffleboardTab autoTab = Shuffleboard.getTab("3489 New Robot Auto");
+    public ShuffleboardTab tab = Shuffleboard.getTab("3489 Ion V");
+    public ShuffleboardTab autoTab = Shuffleboard.getTab("3489 Ion V Auto");
 
     private List<NetworkTableEntry> networkTableEntries = new ArrayList<NetworkTableEntry>();
 
@@ -33,34 +33,34 @@ public class ShuffleboardHandler extends BaseHandler implements IRobotListener {
 
     }
 
-    private NetworkTableEntry tryMakeEntry(String widgetName, Object value)
+    private NetworkTableEntry tryMakeEntry(ShuffleboardTab shuffleboardTab, String widgetName, Object value)
     {
         NetworkTableEntry entry;
-        if (simpleWidgets.containsKey(widgetName)) // Widget exists, display data
+        if (simpleWidgets.containsKey(widgetName))
         {
             entry = simpleWidgets.get(widgetName);
         }
-        else // Widget doesn't exist, create it, make reference and display data
+        else
         {
-            entry = tab.add(widgetName, value).getEntry();
+            entry = shuffleboardTab.add(widgetName, value).getEntry();
             simpleWidgets.put(widgetName, entry);
         }
         return entry;
     }
 
-    public void displayBool(String widgetName, boolean value)
+    public void displayBool(ShuffleboardTab shuffleboardTab, String widgetName, boolean value)
     {
-        tryMakeEntry(widgetName, value).setBoolean(value);
+        tryMakeEntry(shuffleboardTab, widgetName, value).setBoolean(value);
     }
 
-    public void displayDouble(String widgetName, double value)
+    public void displayDouble(ShuffleboardTab shuffleboardTab, String widgetName, double value)
     {
-        tryMakeEntry(widgetName, value).setDouble(value);
+        tryMakeEntry(shuffleboardTab, widgetName, value).setDouble(value);
     }
 
-    public void displayString(String widgetName, String value)
+    public void displayString(ShuffleboardTab shuffleboardTab, String widgetName, String value)
     {
-        tryMakeEntry(widgetName, value).setString(value);
+        tryMakeEntry(shuffleboardTab, widgetName, value).setString(value);
     }
 
     public void addEntry(NetworkTableEntry entry)

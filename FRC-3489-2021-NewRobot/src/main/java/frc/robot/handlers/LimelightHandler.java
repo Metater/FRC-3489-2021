@@ -61,7 +61,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
             //shuffleboardHandler.displayDouble("Target Area", targetArea.getDouble(0));
     
             double distance = getDistanceEstimate();
-            shuffleboardHandler.displayDouble("Distance to Target (in)", distance);
+            shuffleboardHandler.displayDouble(shuffleboardHandler.tab, "Distance to Target (in)", distance);
         }
         run++;
     }
@@ -107,7 +107,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (value) pipeline.setNumber(0);
         else pipeline.setNumber(5);
-        shuffleboardHandler.displayBool("Limelight Activated", value);
+        shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Limelight Activated", value);
     }
 
     private double getDistanceEstimate()

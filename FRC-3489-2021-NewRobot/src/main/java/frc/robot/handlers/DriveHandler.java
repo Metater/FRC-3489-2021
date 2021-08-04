@@ -73,7 +73,7 @@ public class DriveHandler extends BaseHandler implements IButtonListener, IRobot
         if (update.buttonUpdateName == "SwitchFront" && update.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             forwardSwitched = !forwardSwitched;
-            shuffleboardHandler.displayBool("Forward Switched", forwardSwitched);
+            shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Forward Switched", forwardSwitched);
         }
     }
 }

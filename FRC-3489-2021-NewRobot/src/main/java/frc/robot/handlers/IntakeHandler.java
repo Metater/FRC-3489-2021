@@ -46,29 +46,29 @@ public class IntakeHandler extends BaseHandler implements IButtonListener, ITele
             {
                 intakeExtended = true;
                 setIntakePnuematics(true);
-                robotHandler.shuffleboardHandler.displayBool("Intake Extended", true);
+                robotHandler.shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Intake Extended", true);
             }
 
             intakeActivated = !intakeActivated;
             if (intakeActivated) deviceContainer.intake.set(-1);
             else deviceContainer.intake.stopMotor();
-            shuffleboardHandler.displayBool("Intake Activated", intakeActivated);
+            shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Intake Activated", intakeActivated);
         }
 
         if (buttonUpdate.buttonUpdateName == "ToggleIntakeExtension" && buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.RisingEdge)
         {
             intakeExtended = !intakeExtended;
             if (intakeActivated) deviceContainer.intake.stopMotor();
-            shuffleboardHandler.displayBool("Intake Activated", false);
+            shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Intake Activated", false);
 
             setIntakePnuematics(intakeExtended);
-            shuffleboardHandler.displayBool("Intake Extended", intakeExtended);
+            shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Intake Extended", intakeExtended);
         }
     }
 
     public void setIntakePnuematics(boolean state)
     {
-        shuffleboardHandler.displayBool("Intake Arm State", state);
+        shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Intake Arm State", state);
         deviceContainer.intakeArm.set(state);
     }
 

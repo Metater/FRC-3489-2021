@@ -50,6 +50,8 @@ public class AutoLexer {
     {
         String result = "";
         boolean isDecimal = false;
+        if (currentChar == '-') result += currentChar;
+        advance(1);
         while ((Character.isDigit(currentChar) || (currentChar == '.' && !isDecimal)) && !eof)
         {
             if (currentChar == '.') isDecimal = true;
@@ -106,7 +108,7 @@ public class AutoLexer {
                 skipWhitespace();
             else if (Character.isLetter(currentChar))
                 return readIdentifier();
-            else if (Character.isDigit(currentChar))
+            else if (Character.isDigit(currentChar) || currentChar == '-')
                 return readNumeric();
             else if (currentChar == '\"')
                 return readString();

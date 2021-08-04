@@ -101,7 +101,8 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
                 driveHandler.differentialDrive.tankDrive(speed, speed);
             }
         }
-        double clicks = instruction.arguments.get(2)._double;
+        double clicks =  18100.0;
+        System.out.println("Speed: " + clicks);
         if (Math.abs(deviceContainer.driveLeftFront.getSelectedSensorPosition() - instruction.runtimeData.startClicks) >= clicks)
         {
             driveHandler.differentialDrive.stopMotor();
@@ -111,7 +112,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
 
     public void dump(AutoInstruction instruction)
     {
-        double speed = instruction.arguments.get(0)._double;
+        double speed = 1;
         if (!instruction.runtimeData.init)
         {
             instruction.runtimeData.init = true;
@@ -120,7 +121,9 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
             deviceContainer.intakeBeltFront.set(-speed);
             deviceContainer.intakeBeltRear.set(-speed);
         }
-        double dumpTime = instruction.arguments.get(1)._double;
+        System.out.println(Timer.getFPGATimestamp() + ":" + instruction.runtimeData.time);
+        double dumpTime = 2;
+        System.out.println(dumpTime);
         if (Timer.getFPGATimestamp() - instruction.runtimeData.time >= dumpTime)
         {
             deviceContainer.intakeBeltFront.stopMotor();

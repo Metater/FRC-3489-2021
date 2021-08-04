@@ -54,6 +54,9 @@ public class AutoInterpreter {
             case "move":
                 autoHandler.move(instruction);
                 break;
+            case "dump":
+                autoHandler.dump(instruction);
+                break;
             default:
                 AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
                 break;

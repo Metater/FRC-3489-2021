@@ -28,6 +28,8 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
         ToggleButtonUpdate switchFrontRight = new ToggleButtonUpdate(this, PeriodicType.Teleop, "SwitchFront", new ButtonLocation(Constants.Button.SwitchFront, JoystickType.DriveRight), 0.5);
         buttonUpdateListenerHandler.addButtonUpdate(switchFrontLeft);
         buttonUpdateListenerHandler.addButtonUpdate(switchFrontRight);
+
+        differentialDrive.setSafetyEnabled(false);
     }
 
     public void teleopInit() 

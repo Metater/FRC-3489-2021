@@ -57,7 +57,6 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
 
     public void aim(AutoInstruction instruction)
     {
-        limelightHandler.setLimelight(true);
         int code = limelightHandler.autoAim();
         if (code == 0)
         {

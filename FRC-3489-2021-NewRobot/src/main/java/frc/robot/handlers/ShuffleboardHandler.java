@@ -11,8 +11,8 @@ import frc.robot.shared.interfaces.IRobotListener;
 
 public class ShuffleboardHandler extends BaseHandler implements IRobotListener {
 
-    public ShuffleboardTab tab = Shuffleboard.getTab("3489 Ion V");
-    public ShuffleboardTab autoTab = Shuffleboard.getTab("3489 Ion V Auto");
+    public ShuffleboardTab tab = Shuffleboard.getTab("3489 Red Radar");
+    public ShuffleboardTab autoTab = Shuffleboard.getTab("3489 Red Radar Auto");
 
     private List<NetworkTableEntry> networkTableEntries = new ArrayList<NetworkTableEntry>();
 

@@ -12,7 +12,7 @@ import frc.robot.shared.types.robot.PeriodicType;
 
 public class ShooterHandler extends BaseHandler implements IButtonListener, ITeleopListener {
 
-    public double shooterSpeed = 0.9;
+    public double shooterSpeed = 0;
 
     public boolean shooting = false;
 
@@ -61,7 +61,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
             }
             else if (adjust < 0)
             {
-                if (shooterSpeed > 0) shooterSpeed += adjust;
+                if (shooterSpeed < 0) shooterSpeed += adjust;
             }
             if (shooting) setShooter(shooterSpeed);
         }
@@ -105,21 +105,30 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
         }
         else if (buttonUpdate.buttonUpdateName == "ClosePreset")
         {
-            shooterSpeed = 0.86;
-            setShooter(shooterSpeed);
-            shooting = true;
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
+            {
+                shooterSpeed = 0.86;
+                setShooter(shooterSpeed);
+                shooting = true;
+            }
         }
         else if (buttonUpdate.buttonUpdateName == "MidPreset")
         {
-            shooterSpeed = 0.92;
-            setShooter(shooterSpeed);
-            shooting = true;
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
+            {
+                shooterSpeed = 0.92;
+                setShooter(shooterSpeed);
+                shooting = true;
+            }
         }
         else if (buttonUpdate.buttonUpdateName == "FarPreset")
         {
-            shooterSpeed = 1;
-            setShooter(shooterSpeed);
-            shooting = true;
+            if (buttonUpdate.buttonUpdateEventType == ButtonUpdateEventType.On)
+            {
+                shooterSpeed = 1;
+                setShooter(shooterSpeed);
+                shooting = true;
+            }
         }
     }
 
@@ -182,6 +191,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
 
     public void setShooter(double speed)
     {
+        System.out.println(speed);
         deviceContainer.shooterLeft.set(-speed);
         deviceContainer.shooterRight.set(speed);
     }

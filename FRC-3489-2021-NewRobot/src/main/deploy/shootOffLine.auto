@@ -1,12 +1,45 @@
+
+
+// Shoot Off Line v1
+//print("Running Shoot Off Line!")
+//moveForSeconds(0.6  0.6  1.275)
+//delay(0.5)
+//dropIntake(null)
+//aim(null)
+//setShooter(1.0)
+//delay(1.0)
+//shoot('BEGIN')
+//delay(4.5)
+//setShooter(0.0)
+//shoot('END')
+//print("Autonomous Shoot Off Line Complete!")
+
+
+// Shoot Off Line v2
+// Differences:
+//  Drop intake first
+//  Speed up shooter while aiming to save time
+//  Give more time to speed up
+//  Lower set speed so balls don't hit the top of the goal
+//  Turn on intake to push stuck balls in
 print("Running Shoot Off Line!")
-moveForSeconds(0.6  0.6  1.275)
-delay(0.5)
+// Begin Reverse
 dropIntake(null)
+moveForSeconds(-0.6  -0.6  1.275)
+delay(0.5)
+// End Reverse
+// Begin Aim
+setShooter(0.97)
 aim(null)
-setShooter(1.0)
-delay(1.0)
+delay(1.75)
+// End Aim
+// Begin Shoot
 shoot('BEGIN')
-delay(4.5)
-setShooter(0.0)
+delay(1.0)
+runIntake('BEGIN')
+delay(3.5)
 shoot('END')
-print("Done!")
+runIntake('END')
+setShooter(0.0)
+// End Shoot
+print("Autonomous Shoot Off Line Complete!")

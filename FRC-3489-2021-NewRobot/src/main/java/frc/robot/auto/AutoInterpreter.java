@@ -41,40 +41,31 @@ public class AutoInterpreter {
 
     private void run(AutoInstruction instruction)
     {
-        //try
-        //{
-            switch (instruction.instructionName) {
-                case "print":
-                    autoHandler.print(instruction);
-                    break;
-                case "aim":
-                    autoHandler.aim(instruction);
-                    break;
-                case "setShooter":
-                    autoHandler.setShooter(instruction);
-                    break;
-                case "shoot":
-                    autoHandler.shoot(instruction);
-                    break;
-                case "delay":
-                    autoHandler.delay(instruction);
-                    break;
-                case "moveForSeconds":
-                    autoHandler.moveForSeconds(instruction);
-                    break;
-                case "dropIntake":
-                    autoHandler.dropIntake(instruction);
-                    break;
-                default:
-                    AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
-                    break;
-            }
-            /*
+        switch (instruction.instructionName) {
+            case "print":
+                autoHandler.print(instruction);
+                break;
+            case "aim":
+                autoHandler.aim(instruction);
+                break;
+            case "setShooter":
+                autoHandler.setShooter(instruction);
+                break;
+            case "shoot":
+                autoHandler.shoot(instruction);
+                break;
+            case "delay":
+                autoHandler.delay(instruction);
+                break;
+            case "moveForSeconds":
+                autoHandler.moveForSeconds(instruction);
+                break;
+            case "dropIntake":
+                autoHandler.dropIntake(instruction);
+                break;
+            default:
+                AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
+                break;
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        */
     }
 }

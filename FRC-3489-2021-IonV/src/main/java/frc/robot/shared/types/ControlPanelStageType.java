@@ -1,4 +1,4 @@
-package frc.robot.types;
+package frc.robot.shared.types;
 
 public enum ControlPanelStageType {
     Stage1,

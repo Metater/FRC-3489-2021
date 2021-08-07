@@ -34,8 +34,6 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
 
         ToggleButtonUpdate toggleAutoAim = new ToggleButtonUpdate(this, PeriodicType.Teleop, "ToggleAutoAim", new ButtonLocation(Constants.Button.ToggleAutoAim, JoystickType.Manipulator), 0.05);
         buttonUpdateListenerHandler.addButtonUpdate(toggleAutoAim);
-
-        setLimelight(false);
     }
 
     public void update(BaseButtonUpdate buttonUpdate)

@@ -46,7 +46,7 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
 
     public void autonomousPeriodic()
     {
-        if (!interpreter.finished) interpreter.cycle();
+        if (interpreter != null) if (!interpreter.finished) interpreter.cycle();
     }
 
     public void print(AutoInstruction instruction)

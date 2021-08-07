@@ -60,7 +60,6 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         int code = limelightHandler.autoAim();
         if (code == 0)
         {
-            limelightHandler.setLimelight(false);
             interpreter.finished();
         }
     }
@@ -145,5 +144,19 @@ public class AutoHandler extends BaseHandler implements IRobotListener, IAutoLis
         {
             driveHandler.differentialDrive.tankDrive(instruction.arguments.get(0)._double, instruction.arguments.get(1)._double);
         }
+    }
+
+    public void limelight(AutoInstruction instruction)
+    {
+        String input = instruction.arguments.get(0)._constant;
+        if (input.equals("BEGIN"))
+        {
+            limelightHandler.setLimelight(true);
+        }
+        else if (input.equals("END"))
+        {
+            limelightHandler.setLimelight(false);
+        }
+        interpreter.finished();
     }
 }

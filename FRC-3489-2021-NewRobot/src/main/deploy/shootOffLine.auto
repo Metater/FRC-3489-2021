@@ -25,6 +25,7 @@
 print("Running Shoot Off Line!")
 // Begin Reverse
 extendIntake('BEGIN')
+limelight('BEGIN')
 moveForSeconds(-0.6  -0.6  1.275)
 delay(0.5)
 // End Reverse
@@ -42,5 +43,6 @@ shoot('END')
 runIntake('END')
 setShooter(0.0)
 extendIntake('END')
+limelight('END')
 // End Shoot
 print("Autonomous Shoot Off Line Complete!")

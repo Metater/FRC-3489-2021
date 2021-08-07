@@ -66,6 +66,9 @@ public class AutoInterpreter {
             case "runIntake":
                 autoHandler.runIntake(instruction);
                 break;
+            case "limelight":
+                autoHandler.limelight(instruction);
+                break;
             default:
                 AutoParser.error("Unknown instruction: " + instruction.instructionName + " at index: " + currentInstruction);
                 break;

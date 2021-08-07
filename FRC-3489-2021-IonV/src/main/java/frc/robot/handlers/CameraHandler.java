@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 public class CameraHandler extends BaseHandler {
 
-    private UsbCamera frontCam = CameraServer.getInstance().startAutomaticCapture(1);
-    private UsbCamera rearCam = CameraServer.getInstance().startAutomaticCapture(0);
+    private UsbCamera frontCam = CameraServer.getInstance().startAutomaticCapture(0);
+    private UsbCamera rearCam = CameraServer.getInstance().startAutomaticCapture(1);
     private VideoSink server;
     
     public CameraHandler(RobotHandler robotHandler)

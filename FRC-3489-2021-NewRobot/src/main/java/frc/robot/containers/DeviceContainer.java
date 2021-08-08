@@ -22,7 +22,7 @@ public class DeviceContainer {
 
 
     // Ball System
-    public Solenoid intakeArm = new Solenoid(19,0);
+    public Solenoid intakeArm = new Solenoid(19, 0);
     public DigitalInput turretStopLeft = new DigitalInput(0);
     public DigitalInput turretStopRight = new DigitalInput(1);
     public WPI_TalonSRX turretRotate = new WPI_TalonSRX(5);
@@ -33,7 +33,7 @@ public class DeviceContainer {
     public WPI_TalonSRX hopperMover = new WPI_TalonSRX(10);
 
     // Control Panel
-    //public Solenoid controlPanelPnuematics = new Solenoid(11, 3);
-    //public WPI_TalonSRX controlPanelSpinner = new WPI_TalonSRX(6);
+    public Solenoid controlPanelPnuematics = new Solenoid(19, 1);
+    public WPI_TalonSRX controlPanelSpinner = new WPI_TalonSRX(11);
     
 }

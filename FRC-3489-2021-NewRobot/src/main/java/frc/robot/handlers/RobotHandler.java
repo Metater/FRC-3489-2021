@@ -27,6 +27,7 @@ public class RobotHandler {
     public ShooterHandler shooterHandler;
     public LimelightHandler limelightHandler;
     public AutoHandler autoHandler;
+    public ControlPanelHandler controlPanelHandler;
 
     public List<BaseHandler> handlers = new ArrayList<BaseHandler>();
 
@@ -49,6 +50,7 @@ public class RobotHandler {
         shooterHandler = new ShooterHandler(this);
         limelightHandler = new LimelightHandler(this);
         autoHandler = new AutoHandler(this);
+        controlPanelHandler = new ControlPanelHandler(this);
 
         for (BaseHandler handler : handlers)
         {

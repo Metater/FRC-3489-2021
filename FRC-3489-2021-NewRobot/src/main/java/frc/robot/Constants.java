@@ -28,8 +28,8 @@ public final class Constants
         public static final int ToggleIntake = 2;
         public static final int ToggleIntakeExtension = 3;
 
-        public static final int ResetColorSpinnerStage1 = 9;
-        public static final int ResetColorSpinnerStage2 = 11;
+        public static final int ResetCPStage1 = 9;
+        public static final int ResetCPStage2 = 11;
 
         public static final int ShooterPresetClose = 8;
         public static final int ShooterPresetMid = 10;

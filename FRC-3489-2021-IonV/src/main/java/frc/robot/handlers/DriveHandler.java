@@ -1,5 +1,6 @@
 package frc.robot.handlers;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.Constants;
 import frc.robot.shared.interfaces.IButtonListener;
@@ -41,6 +42,12 @@ public class DriveHandler extends BaseHandler implements ITeleopListener, IButto
     {
         double leftDriveTrain = joystickHandler.getLeftDriveTrain();
         double rightDriveTrain = joystickHandler.getRightDriveTrain();
+
+        if (DriverStation.getInstance().getLocation() == 2)
+        {
+            leftDriveTrain *= 0.5;
+            rightDriveTrain *= 0.5;
+        }
 
         if (!frontSwitched)
             differentialDrive.tankDrive(leftDriveTrain, rightDriveTrain);

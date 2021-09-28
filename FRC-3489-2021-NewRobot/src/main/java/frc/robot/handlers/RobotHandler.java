@@ -29,6 +29,8 @@ public class RobotHandler {
     public AutoHandler autoHandler;
     public ControlPanelHandler controlPanelHandler;
 
+    public boolean carnivalGameMode = false;
+
     public List<BaseHandler> handlers = new ArrayList<BaseHandler>();
 
     public RobotHandler(Robot robot)

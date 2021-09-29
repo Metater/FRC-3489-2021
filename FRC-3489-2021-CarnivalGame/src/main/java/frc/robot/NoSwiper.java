@@ -18,6 +18,10 @@ public class NoSwiper {
     public WPI_TalonSRX cellevator = new WPI_TalonSRX(6);
 
     public Joystick manipulator = new Joystick(2);
+
+    private int print = 0;
+    private final static double min = 0.55;
+    private final static double max = 0.9;
     
 
     public void robotInit()
@@ -33,27 +37,55 @@ public class NoSwiper {
 
     }
 
-    int print = 0;
     public void teleopPeriodic()
     {
+        cellevator();
+        rotate();
+        shoot();
+        print++;
+    }
+
+    private void cellevator()
+    {
         setCellevator(manipulator.getRawButton(1));
+    }
+
+    private void rotate()
+    {
         double speed = manipulator.getZ();
         if (Math.abs(speed) < 0.15) speed = 0;
         double rotate = -0.25 * speed;
         turretRotate.set(rotate);
+    }
+
+    private void shoot()
+    {
         double shootSpeed = -manipulator.getY();
+        if (shootSpeed < 0.15)
+        {
+            setCellevator(false);
+            shootSpeed = 0;
+        }
+        else shootSpeed = lerp(min, max, shootSpeed);
         setShooter(shootSpeed);
         if (print % 10 == 0)
         {
-            System.out.println("Rotate: " + rotate + " Shoot: " + (int)(shootSpeed * 100) + "%");
+            System.out.println("Shoot: " + (int)(shootSpeed * 100) + "%");
         }
-        print++;
     }
 
-    public static double lerp(double minClamp, double maxClamp, double a, double b, double t)
+    public static double lerp(double a, double b, double t)
     {
-        double unclamedLerp = a + t * (b - a);
-        return Math.max(minClamp, Math.min(maxClamp, unclamedLerp));
+        double lerp = a + t * (b - a);
+        return lerp;
+    }
+
+    public static double clerp(double minClamp, double maxClamp, double a, double b, double t, double tMin, double tMax)
+    {
+        double lerp = lerp(a, b, t);
+        if (t <= tMin) lerp = minClamp;
+        if (t >= tMax) lerp = maxClamp;
+        return lerp;
     }
 
     

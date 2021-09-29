@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
 
-  //Swiper swiper = new Swiper();
+  Swiper swiper = new Swiper();
 
-  NoSwiper swiperNoSwiping = new NoSwiper();
+  //NoSwiper swiperNoSwiping = new NoSwiper();
 
   @Override
   public void robotInit()
   {
-    //swiper.robotInit();
-    swiperNoSwiping.robotInit();
+    swiper.robotInit();
+    //swiperNoSwiping.robotInit();
   }
   @Override
   public void robotPeriodic()
@@ -48,14 +48,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit()
   {
-    //swiper.teleopInit();
-    swiperNoSwiping.teleopInit();
+    swiper.teleopInit();
+    //swiperNoSwiping.teleopInit();
   }
   @Override
   public void teleopPeriodic()
   {
-    //swiper.teleopPeriodic();
-    swiperNoSwiping.teleopPeriodic();
+    swiper.teleopPeriodic();
+    //swiperNoSwiping.teleopPeriodic();
 
   }
 

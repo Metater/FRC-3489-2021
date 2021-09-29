@@ -139,17 +139,17 @@ public class Swiper {
         {
             case 0:
                 //y = (1.9 * Math.pow(x - 0.2, 2)) - (1.2 * Math.pow(x, 3)) + 0.0139;
-                y = (-3 * Math.pow(x, 2)) + 0.09;
+                y = (-3 * Math.pow(x, 2)) + 0.07;
                 //y = 0.1;
                 break;
             case 1:
                 //y = (2 * Math.pow(x - 0.2, 2)) - (1.2 * Math.pow(x, 3)) + 0.0139;
-                y = (-12 * Math.pow(x, 2)) + 0.125;
+                y = (-12 * Math.pow(x, 2)) + 0.09;
                 //y = 0.15;
                 break;
             default:
                 //y = (2.5 * Math.pow(x - 0.2, 2)) - (1.2 * Math.pow(x, 3)) + 0.0139;\
-                y = (-16 * Math.pow(x, 2)) + 0.15;
+                y = (-16 * Math.pow(x, 2)) + 0.11;
                 //y = 0.2;
                 break;
         }

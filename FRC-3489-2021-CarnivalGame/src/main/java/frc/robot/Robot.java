@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
 
-  Swiper swiper = new Swiper();
+  Swiper2 swiper = new Swiper2();
+
+  //KeepSwiping keepSwiping = new KeepSwiping();
 
   //NoSwiper swiperNoSwiping = new NoSwiper();
 

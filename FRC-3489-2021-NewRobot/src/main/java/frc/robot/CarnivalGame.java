@@ -135,7 +135,7 @@ public class CarnivalGame {
         switch (difficulty)
         {
             case 0:
-                y = -0.01;
+                y = 0.044;
                 break;
             case 1:
                 //y = (1.9 * Math.pow(x - 0.2, 2)) - (1.2 * Math.pow(x, 3)) + 0.0139;
@@ -153,7 +153,7 @@ public class CarnivalGame {
                 //y = 0.2;
                 break;
         }
-        if (y < 0) y = 0;
+        if (y < 0 && difficulty != 0) y = 0;
         return y + 0.15;
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.MatchType;
-import frc.robot.CarnivalGame;
+//import frc.robot.CarnivalGame;
 import frc.robot.Robot;
 import frc.robot.containers.DeviceContainer;
 import frc.robot.shared.handlers.ButtonUpdateListenerHandler;
@@ -30,19 +30,19 @@ public class RobotHandler {
     public ShooterHandler shooterHandler;
     public LimelightHandler limelightHandler;
     public AutoHandler autoHandler;
-    //public ControlPanelHandler controlPanelHandler;
+    public ControlPanelHandler controlPanelHandler;
 
     public boolean carnivalGameMode = false;
 
     public List<BaseHandler> handlers = new ArrayList<BaseHandler>();
 
-    private CarnivalGame carnivalGame;
+    //private CarnivalGame carnivalGame;
 
     public RobotHandler(Robot robot)
     {
         this.robot = robot;
 
-        carnivalGame = new CarnivalGame(this);
+        //carnivalGame = new CarnivalGame(this);
 
         deviceContainer = new DeviceContainer();
 
@@ -59,7 +59,7 @@ public class RobotHandler {
         shooterHandler = new ShooterHandler(this);
         limelightHandler = new LimelightHandler(this);
         autoHandler = new AutoHandler(this);
-        //controlPanelHandler = new ControlPanelHandler(this);
+        controlPanelHandler = new ControlPanelHandler(this);
 
         for (BaseHandler handler : handlers)
         {
@@ -97,9 +97,9 @@ public class RobotHandler {
     }
     public void teleopPeriodic()
     {
-        if (DriverStation.getInstance().getLocation() == 2)
-            carnivalGame.teleopPeriodic();
-        else
+        //if (DriverStation.getInstance().getLocation() == 2)
+            //carnivalGame.teleopPeriodic();
+        //else
             functionListenerHandler.teleopPeriodic();
     }
     public void testInit()

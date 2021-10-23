@@ -28,7 +28,7 @@ public abstract class BaseHandler {
     public ShooterHandler shooterHandler;
     public LimelightHandler limelightHandler;
     public AutoHandler autoHandler;
-    //public ControlPanelHandler controlPanelHandler;
+    public ControlPanelHandler controlPanelHandler;
 
     protected void addRobotHandlerReference(RobotHandler robotHandler)
     {
@@ -62,7 +62,7 @@ public abstract class BaseHandler {
         shooterHandler = robotHandler.shooterHandler;
         limelightHandler = robotHandler.limelightHandler;
         autoHandler = robotHandler.autoHandler;
-        //controlPanelHandler = robotHandler.controlPanelHandler;
+        controlPanelHandler = robotHandler.controlPanelHandler;
     }
 
     private void enforceFunctionSubscriptions()

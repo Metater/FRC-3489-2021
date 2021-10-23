@@ -82,6 +82,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     {
         if (targetX.getDouble(0) > 1)
         {
+            System.out.println("Turn 0: " + targetX.getDouble(0));
             if (targetX.getDouble(0) > 5) shooterHandler.setTurretRotate(-0.17); // was 16
             else if (targetX.getDouble(0) > 12) shooterHandler.setTurretRotate(-0.2);
             else shooterHandler.setTurretRotate(-0.1525); // was 14
@@ -89,6 +90,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         }
         else if (targetX.getDouble(0) < -1)
         {
+            System.out.println("Turn 1");
             if (targetX.getDouble(0) < -5) shooterHandler.setTurretRotate(0.17); // was 16
             else if (targetX.getDouble(0) < -12) shooterHandler.setTurretRotate(0.2);
             else shooterHandler.setTurretRotate(0.1525); // was 14
@@ -96,6 +98,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
         }
         else
         {
+            System.out.println("No turn");
             shooterHandler.setTurretRotate(0);
             return 0;
         }
@@ -104,7 +107,7 @@ public class LimelightHandler extends BaseHandler implements IButtonListener, IR
     public void setLimelight(boolean value)
     {
         if (value) pipeline.setNumber(0);
-        else pipeline.setNumber(5);
+        else pipeline.setNumber(0);
         shuffleboardHandler.displayBool(shuffleboardHandler.tab, "Limelight Activated", value);
     }
 

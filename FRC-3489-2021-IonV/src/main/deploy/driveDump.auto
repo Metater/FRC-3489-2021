@@ -1,6 +1,6 @@
 // Drive Dump v0
 print("Running Drive Dump!")
-delay(3.0)
+delay(1.5)
 move('FORWARD' 0.65 18100.0)
 dump(1.0 4.0)
 print("Autonomous Drive Dump Complete!")

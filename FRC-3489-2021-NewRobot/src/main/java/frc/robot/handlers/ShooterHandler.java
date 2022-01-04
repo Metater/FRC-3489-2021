@@ -72,6 +72,7 @@ public class ShooterHandler extends BaseHandler implements IButtonListener, ITel
     private void setTurretRotation()
     {
         double turretRotateSpeed = joystickHandler.getTurretRotateSpeed();
+        System.out.println(turretRotateSpeed);
         if ((turretRotateSpeed > 0 && deviceContainer.turretStopLeft.get()) || (turretRotateSpeed < 0 && deviceContainer.turretStopRight.get()))
             setTurretRotate(turretRotateSpeed);
         else setTurretRotate(0);

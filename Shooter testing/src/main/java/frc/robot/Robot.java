@@ -91,9 +91,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    double speed = -joystick.getY() * 0.02;
-    zoomieness += speed;
-
     if (joystick.getRawButton(1))
     {
       zoomieness = 0;
@@ -111,8 +108,11 @@ public class Robot extends TimedRobot {
       zoomieness = 0.75;
     }
 
+    double y = joystick.getY();
     motor1.set(zoomieness);
-    System.out.println(speed);
+    System.out.println("Speed: " + ((int)(zoomieness * 1000))/10d);
+    if (Math.abs(y) < 0.1) return;
+    zoomieness += y * -0.02;
   }
 
   @Override

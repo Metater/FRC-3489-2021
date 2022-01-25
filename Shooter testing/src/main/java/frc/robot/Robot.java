@@ -23,8 +23,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private WPI_TalonFX motor1 =new WPI_TalonFX(3);
+  private WPI_TalonFX leftFalcon = new WPI_TalonFX(15);
+  private WPI_TalonFX rightFalcon = new WPI_TalonFX(16);
+
   private Joystick joystick = new Joystick(2);
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -109,10 +112,17 @@ public class Robot extends TimedRobot {
     }
 
     double y = joystick.getY();
-    motor1.set(zoomieness);
+    setShooter(zoomieness);
     System.out.println("Speed: " + ((int)(zoomieness * 1000))/10d);
+    System.out.println(leftFalcon.getSelectedSensorVelocity());
     if (Math.abs(y) < 0.1) return;
     zoomieness += y * -0.02;
+  }
+
+  private void setShooter(double speed)
+  {
+    leftFalcon.set(-speed);
+    rightFalcon.set(speed);
   }
 
   @Override

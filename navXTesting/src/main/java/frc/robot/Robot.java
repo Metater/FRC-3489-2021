@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -20,13 +21,29 @@ public class Robot extends TimedRobot {
   private AHRS ahrs;
   private Joystick manipulator = new Joystick(2);
 
+  private int runs = 0;
+  private Timer timer = new Timer();
+
   @Override
   public void robotInit() {
-    ahrs = new AHRS(SPI.Port.kMXP);
+    ahrs = new AHRS(SPI.Port.kMXP, (byte)200);
+    addPeriodic(() -> {
+      runs++;
+    }, 0.01, 0);
+    timer.start();
   }
   @Override
   public void robotPeriodic() {
-
+    if (manipulator.getRawButton(1)) {
+      ahrs.reset();
+    }
+    //System.out.println(ahrs.getAngle());
+    if (timer.hasElapsed(1))
+    {
+      timer.reset();
+      timer.start();
+      System.out.println(runs);
+    }
   }
   @Override
   public void disabledInit() {
@@ -50,10 +67,6 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
-    if (manipulator.getRawButton(1)) {
-      ahrs.reset();
-    }
-    System.out.println(ahrs.getAngle());
   }
   @Override
   public void testInit() {

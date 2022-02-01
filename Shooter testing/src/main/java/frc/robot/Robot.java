@@ -84,11 +84,11 @@ public class Robot extends TimedRobot {
     {
       zoomieness = 0.2;
     }
-    if (joystick.getRawButton(5))
+    if (joystick.getRawButtonPressed(5))
     {
       zoomieness -= 0.05;
     }
-    if (joystick.getRawButton(6))
+    if (joystick.getRawButtonPressed(6))
     {
       zoomieness += 0.05;
     }

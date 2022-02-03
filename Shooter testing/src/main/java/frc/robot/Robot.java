@@ -52,6 +52,10 @@ public class Robot extends TimedRobot {
       left = !left;
     }
 
+    if (joystick.getRawButtonPressed(12)) {
+      zR = zL;
+    }
+
     if (joystick.getRawButtonPressed(3)) {
       setSelected(-0.025 + getSelected());
     }
@@ -76,6 +80,7 @@ public class Robot extends TimedRobot {
 
     double y = joystick.getY();
     setShooter();
+    System.out.println("Controlling motor A: " + left);
     System.out.println(((int)(zL * 1000))/10d + " : " + (int)(zR * 1000)/10d);
     System.out.println(leftFalcon.getSelectedSensorVelocity() / -2048d);
     System.out.println(rightFalcon.getSelectedSensorVelocity() / -2048d);
@@ -93,7 +98,7 @@ public class Robot extends TimedRobot {
   }
 
   private void setShooter() {
-    leftFalcon.set(zL);
-    rightFalcon.set(zR);
+    leftFalcon.set(-zL);
+    rightFalcon.set(-zR);
   }
 }

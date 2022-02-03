@@ -40,70 +40,60 @@ public class Robot extends TimedRobot {
 
   }
 
-  double zoomieness = 0;
+  double zL = 0;
+  double zR = 0;
+
+  boolean left = true;
 
   @Override
   public void teleopPeriodic() {
 
+    if (joystick.getRawButtonPressed(11)) {
+      left = !left;
+    }
+
     if (joystick.getRawButtonPressed(3)) {
-      zoomieness -= 0.025;
+      setSelected(-0.025 + getSelected());
     }
     if (joystick.getRawButtonPressed(4)) {
-      zoomieness += 0.025;
+      setSelected(0.025 + getSelected());
     }
 
     if (joystick.getRawButton(1))
     {
-      zoomieness = 0;
+      zL = 0;
+      zR = 0;
     }
-    if (joystick.getRawButton(7))
-    {
-      zoomieness = 0.4;
-    }
-    if (joystick.getRawButton(9))
-    {
-      zoomieness = 0.5;
-    }
-    if (joystick.getRawButton(11))
-    {
-      zoomieness = 0.6;
-    }
-    if (joystick.getRawButton(8))
-    {
-      zoomieness = 0.7;
-    }
-    if (joystick.getRawButton(10))
-    {
-      zoomieness = 0.8;
-    }
-    if (joystick.getRawButton(12))
-    {
-      zoomieness = 0.9;
-    }
-    if (joystick.getRawButton(2))
-    {
-      zoomieness = 0.2;
-    }
+
     if (joystick.getRawButtonPressed(5))
     {
-      zoomieness -= 0.05;
+      setSelected(-0.05 + getSelected());
     }
     if (joystick.getRawButtonPressed(6))
     {
-      zoomieness += 0.05;
+      setSelected(0.05 + getSelected());
     }
 
     double y = joystick.getY();
-    setShooter(zoomieness);
-    System.out.println("Speed: " + ((int)(zoomieness * 1000))/10d);
+    setShooter();
+    System.out.println(((int)(zL * 1000))/10d + " : " + (int)(zR * 1000)/10d);
     System.out.println(leftFalcon.getSelectedSensorVelocity() / -2048d);
+    System.out.println(rightFalcon.getSelectedSensorVelocity() / -2048d);
     if (Math.abs(y) < 0.1) return;
-    zoomieness += y * -0.02;
+    setSelected((y * -0.02) + getSelected());
   }
 
-  private void setShooter(double speed)
-  {
-    leftFalcon.set(-speed);
-    rightFalcon.set(speed);
+  private void setSelected(double speed) {
+    if (left) zL = speed;
+    else zR = speed;
+  }
+
+  private double getSelected() {
+    return left ? zL : zR;
+  }
+
+  private void setShooter() {
+    leftFalcon.set(zL);
+    rightFalcon.set(zR);
   }
 }

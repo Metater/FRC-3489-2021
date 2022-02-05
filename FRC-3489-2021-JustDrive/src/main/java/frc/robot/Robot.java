@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
   private boolean frontSwitched = false;
 
   private boolean shouldSwitchFront() {
-    return joystickDriveLeft.getRawButtonPressed(7) || joystickDriveRight.getRawButtonPressed(7);
+    return joystickDriveLeft.getRawButtonPressed(14) || joystickDriveRight.getRawButtonPressed(13);
   }
 
   @Override
